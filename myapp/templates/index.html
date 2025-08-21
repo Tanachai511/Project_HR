@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCENDER Co., Ltd</title>
+    <link href="style.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" >
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="logo.jpg" alt="ASCENDER Logo">
+                </div>
+                ASCENDER
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#about">เกี่ยวกับเรา</a></li>
+                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="#training">เที่ยวกับเรา</a></li>
+                    <li><a href="#contact">ติดต่อ</a></li>
+                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+      <!-- Hero Section with Slideshow -->
+    <section class="hero">
+        <div class="slideshow-container">
+            <!-- สไลด์ 1 - ใส่รูปภาพได้ที่ src="" -->
+            <div class="slide slide1 active">
+                <img src="Slide1.jpg" alt="สไลด์ที่ 1 width="70%" height="90%">
+            </div>
+            
+            <!-- สไลด์ 2 - ใส่รูปภาพได้ที่ src="" -->
+            <div class="slide slide2">
+                <img src="Slide2.jpg" alt="สไลด์ที่ 2 width="70%" height="90%">
+            </div>
+            
+            <!-- สไลด์ 3 - ใส่รูปภาพได้ที่ src="" -->
+            <div class="slide slide3">
+                <img src="Slide3.jpg" alt="สไลด์ที่ 3 width="70%" height="90%">
+            </div>
+        </div>
+        <!-- ปุ่มเลื่อนสไลด์ -->
+        <div class="slide-indicators">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Poster Section -->
+        <section class="poster-section">
+            <div class="section-tabs">
+                <button class="tab active">ประกาศข่าว/poster</button>
+                <button class="tab">กิจกรรมบริษัท</button>
+                <button class="tab">ข่าวสาร</button>
+                <button class="tab">อื่นๆ</button>
+            </div>
+            
+            <div class="poster-grid">
+                <!-- โปสเตอร์ 1 -->
+                <div class="poster-card">
+                    <div class="poster-image">
+                        <img src="Pos1.jpg" alt="พนักงานยอดเยี่ยมประจำปี 2025">
+                    </div>
+                    <div class="poster-content">
+                        <div class="poster-title">
+                            พนักงานยอดเยี่ยมประจำปี 2025<br>
+                            มีสิทธิรับรางวัลใหญ่!
+                        </div>
+                        <div class="poster-date">วันที่: 31 ธันวาคม 2025</div>
+                    </div>
+                </div>
+                
+                <!-- โปสเตอร์ 2 -->
+                <div class="poster-card">
+                    <div class="poster-image">
+                        <img src="Pos2.jpg" alt="พนักงานยอดเยี่ยมประจำปี 2025" width="50%" height="50%">
+                    </div>
+                    <div class="poster-content">
+                        <div class="poster-title">
+                            โบนัสพิเศษ คนละ 1,000 บาท<br>
+                            สำหรับพนักงานดีเด่น
+                        </div>
+                        <div class="poster-date">วันที่: 31 ธันวาคม 2025</div>
+                    </div>
+                </div>
+                
+                <!-- โปสเตอร์ 3 -->
+                <div class="poster-card">
+                    <div class="poster-image">
+                        <img src="Pos3.jpg" alt="พนักงานยอดเยี่ยมประจำปี 2025">
+                    </div>
+                    <div class="poster-content">
+                        <div class="poster-title">
+                            เชิญชวนพนักงานเข้าร่วมกิจกรรมวันแม่<br>
+                        </div>
+                        <div class="poster-date">วันที่: 12 สิงหาคม 2025</div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="All1.html" class="view-all-btn">ดูทั้งหมด</a>
+        </section>
+
+        <!-- TikTok Section -->
+        <section class="tiktok-section">
+            <h2 class="section-title">HR Ascender TikTok</h2>
+            
+            <div class="video-grid">
+                <!-- วิดีโอ TikTok 1 -->
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <!-- ใส่วิดีโอ TikTok หรือรูปภาพได้ที่นี่ -->
+                         <img src="Tiktok1.jpg" alt="TikTok Video 1"> 
+                    </div>
+                    <div class="play-button">▶</div>
+                    <div class="video-title">รับสมัครงาน Telesales</div>
+                </div>
+                
+                <!-- วิดีโอ TikTok 2 -->
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <!-- ใส่วิดีโอ TikTok หรือรูปภาพได้ที่นี่ -->
+                        <!-- <img src="tiktok-video2.jpg" alt="TikTok Video 2"> -->
+                         <img src="Tiktok2.jpg" alt="TikTok Video 1"> 
+                    </div>
+                    <div class="play-button">▶</div>
+                    <div class="video-title">รับสมัครงาน Telesales</div>
+                </div>
+                
+                <!-- วิดีโอ TikTok 3 -->
+                <div class="video-card">
+                    <div class="video-placeholder">
+                        <!-- ใส่วิดีโอ TikTok หรือรูปภาพได้ที่นี่ -->
+                        <!-- <img src="tiktok-video3.jpg" alt="TikTok Video 3"> -->
+                         <img src="Tiktok3.jpg" alt="TikTok Video 1"> 
+                    </div>
+                    <div class="play-button">▶</div>
+                    <div class="video-title">รับสมัครงาน Telesales</div>
+                </div>
+            </div>
+            
+            <a href="All2.html" class="view-all-btn">ดูทั้งหมด</a>
+        </section>
+    </main>
+
+    <!-- Footer 
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>ASCENDER Co., Ltd</h3>
+                <p>บริษัท แอสเซนเดอร์ จำกัด</p>
+                <p>ที่อยู่: [ใส่ที่อยู่บริษัท]</p>
+                <p>โทร: [ใส่เบอร์โทรศัพท์]</p>
+                <p>อีเมล: [ใส่อีเมล]</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ASCENDER Co., Ltd. สงวนลิขสิทธิ์ทั้งหมด</p>
+        </div>
+    </footer>
+     (เพิ่มเติม) -->
+
+    <!-- JavaScript -->
+    <script>
+        // Slideshow functionality
+        let slideIndex = 1;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlides(n) {
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[slideIndex-1].classList.add('active');
+            dots[slideIndex-1].classList.add('active');
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function nextSlide() {
+            showSlides(slideIndex += 1);
+        }
+
+        // Auto slide every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Tab functionality
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Video play simulation
+        const videoCards = document.querySelectorAll('.video-card');
+        videoCards.forEach(card => {
+            card.addEventListener('click', function() {
+                alert('เปิด TikTok Video - คุณสามารถเพิ่มลิงก์ TikTok จริงได้ที่นี่');
+            });
+        });
+    </script>
+</body>
+</html>
