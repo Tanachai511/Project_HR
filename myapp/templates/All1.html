@@ -4,10 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCENDER Co., Ltd</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+        <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="logo.jpg" alt="ASCENDER Logo">
+                </div>
+                ASCENDER
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#about">เกี่ยวกับเรา</a></li>
+                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="#training">เที่ยวกับเรา</a></li>
+                    <li><a href="#contact">ติดต่อ</a></li>
+                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main style="padding: 20px; max-width: 1200px; margin: 0 auto;">
+        <h1 style="color: #2c5530; font-size: 2.5rem; font-weight: bold; margin-bottom: 30px;">ข่าวประชาสัมพันธ์</h1>
 
+        <!-- Filter Buttons -->
+        <div style="margin-bottom: 30px;">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px;">
+                <button style="background: #2c5530; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">ประเภทข่าว/poster</button>
+                <button style="background: #e9ecef; color: #495057; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">กิจกรรมบริษัท/poster</button>
+                <button style="background: #e9ecef; color: #495057; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">สมัครงาน/poster</button>
+                <button style="background: #e9ecef; color: #495057; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">แจ้งเตือน/poster</button>
+                <button style="background: #e9ecef; color: #495057; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">อื่นๆ</button>
+            </div>
+
+
+        <!-- News Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            
+            <!-- Card 1: New Year 2025 -->
+            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
+                <div style="height: 200px; background: linear-gradient(45deg, #8B4513, #A0522D); display: flex; align-items: center; justify-content: center; color: gold; font-size: 18px; font-weight: bold;">
+                    <img src="Pos1.jpg" width="100%" height="100%" style="object-fit: cover;">
+                </div>
+                <div style="padding: 20px;">
+                    <div style="color: #666; margin-bottom: 10px;">📅 9 ส.ค. 68 เวลา 10.00 – 12.00 น.</div>
+                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">รายละเอียด →</div>
+                </div>
+            </div>
+
+            <!-- Card 2: Tutorial -->
+            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
+                <div style="height: 200px; background: linear-gradient(135deg, #20B2AA, #48D1CC); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold;">
+                    <img src="Pos2.jpg" alt="โบนัสพิเศษ คนละ 1,000 บาท สำหรับพนักงานดีเด่น" width="100%" height="100%" style="object-fit: cover;">
+                </div>
+                <div style="padding: 20px;">
+                    <div style="color: #666; margin-bottom: 10px;">📅 8 ส.ค. 68 เวลา 10.00 – 12.00 น.</div>
+                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">รายละเอียด →</div>
+                </div>
+            </div>
+
+            <!-- Card 3: Workshop -->
+            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
+                <div style="height: 200px; background: linear-gradient(135deg, #4169E1, #87CEEB); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: bold;">
+                    <img src="Pos3.jpg" alt="เชิญชวนพนักงานเข้าร่วมกิจกรรมวันแม่" width="100%" height="100%" style="object-fit: cover;">
+                </div>
+                <div style="padding: 20px;">
+                    <div style="color: #666; margin-bottom: 10px;">📅 7 ส.ค. 68 เวลา 10.00 – 12.00 น.</div>
+                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">รายละเอียด →</div>
+                </div>
+            </div>
+
+            <!-- Photo Card 1 -->
+            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
+                <div style="height: 200px; background: linear-gradient(45deg, #E6E6FA, #D8BFD8); display: flex; align-items: center; justify-content: center; color: #6A5ACD; font-size: 16px; font-weight: bold;">
+                     <img src="Pos4.jpg" alt="เชิญชวนพนักงานเข้าร่วมกิจกรรมวันแม่" width="100%" height="100%" style="object-fit: cover;">
+                </div>
+                <div style="padding: 15px;">
+                    <div style="color: #666; margin-bottom: 10px;">📅 16 ส.ค. 68 เวลา 10.00 – 12.00 น.</div>
+                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">รายละเอียด →</div>
+                </div>
+            </div>
+
+            <!-- Photo Card 2 -->
+            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
+                <div style="height: 200px; background: linear-gradient(45deg, #F0F8FF, #B0E0E6); display: flex; align-items: center; justify-content: center; color: #191970; font-size: 16px; font-weight: bold;">
+                     <img src="Pos5.jpg" alt="เชิญชวนพนักงานเข้าร่วมกิจกรรมวันแม่" width="100%" height="100%" style="object-fit: cover;">
+                </div>
+                <div style="padding: 15px;">
+                    <div style="color: #666; margin-bottom: 10px;">📅 16 ส.ค. 68 เวลา 10.00 – 12.00 น.</div>
+                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">รายละเอียด →</div>
+                </div>
+            </div>
+
+            <!-- Photo Card 3 -->
+            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
+                <div style="height: 200px; background: linear-gradient(45deg, #FFF8DC, #F5DEB3); display: flex; align-items: center; justify-content: center; color: #A0522D; font-size: 16px; font-weight: bold;">
+                     <img src="Pos6.jpg" alt="เชิญชวนพนักงานเข้าร่วมกิจกรรมวันแม่" width="100%" height="100%" style="object-fit: cover;">
+                </div>
+                <div style="padding: 15px;">
+                    <div style="color: #666; margin-bottom: 10px;">📅 16 ส.ค. 68 เวลา 10.00 – 12.00 น.</div>
+                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">รายละเอียด →</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
 
 </body>
 </html>
