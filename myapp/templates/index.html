@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -108,7 +109,7 @@
                 </div>
             </div>
             
-            <a href="All1.html" class="view-all-btn">ดูทั้งหมด</a>
+            <a href="{% url 'All1' %}" class="view-all-btn">ดูทั้งหมด</a>
         </section>
 
         <!-- TikTok Section -->
@@ -149,7 +150,7 @@
                 </div>
             </div>
             
-            <a href="All2.html" class="view-all-btn">ดูทั้งหมด</a>
+            <a href="{% url 'All2' %}" class="view-all-btn">ดูทั้งหมด</a>
         </section>
     </main>
 
