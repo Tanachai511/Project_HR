@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCENDER Co., Ltd</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="../static/logo.jpg" alt="ASCENDER Logo">
+                </div>
+                ASCENDER
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#about">สมัครงาน</a></li>
+                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+                    <li><a href="#contact">ติดต่อ</a></li>
+                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+                </ul>
+            </nav>
+        </div>
+
+    <main class="main-container">
+        <section class="search-section">
+            <input type="text" class="search-input" placeholder="ค้นหางาน...">
+            <button class="search-btn">ค้นหา</button>
+        </section>
+
+        <div class="section-header">
+            <h1 class="section-title">นักศึกษาฝึกงาน</h1>
+            <button class="post-job-btn">สมัคร</button>
+        </div>
+
+        <div class="job-categories">
+            <button class="category-btn active">Marketing</button>
+            <button class="category-btn">Video Editor</button>
+            <button class="category-btn">Graphic Designer</button>
+            <button class="category-btn">Human Resources</button>
+            <button class="category-btn">Account</button>
+            <button class="category-btn">MC Livestream</button>
+            <button class="category-btn">IT</button>
+        </div>
+
+        <div class="job-categories">
+            <button class="category-btn secondary">Tele Sale</button>
+            <button class="category-btn secondary">Translator [English to Thai]</button>
+            <button class="category-btn secondary">Content Writer</button>
+            <button class="category-btn secondary">Content Creator</button>
+            <button class="category-btn secondary">Creative</button>
+            <button class="category-btn secondary">UX/UI</button>
+            <button class="category-btn secondary">ช่างภาพ</button>
+        </div>
+
+        <div class="job-details">
+            <div class="job-section">
+                <h3>คุณสมบัติ</h3>
+                <ul>
+                    <li>กำลังศึกษาขั้นปริญญาตรี</li>
+                    <li>ไม่จำกัดเพศ</li>
+                    <li>มีทักษะที่ดีต่อเพื่อนร่วมงานและลูกค้า</li>
+                    <li>สามารถเข้าร่วมกิจกรรมของบริษัทฯได้</li>
+                    <li>ฝึกงานอย่างน้อย 4 เดือน</li>
+                </ul>
+            </div>
+
+            <div class="job-section">
+                <h3>สวัสดิการ</h3>
+                <ul>
+                    <li>กำหนดเวลา-สุกร์ 9:00-17:30 น.</li>
+                    <li>หยุดเสาร์-อาทิตย์ และวันหยุดนักขัตฤกษ์</li>
+                    <li><span class="highlight">ฟรี! ชา กาแฟ ขนม น้ำดื่ม เติบพลังตลอดวัน!</span></li>
+                    <li>มีผู้เลี้ยงสอดดูและช่วยเหลือดีต่อ</li>
+                    <li>มีทีม (สำหรับนักศึกษาชาย)</li>
+                    <li>บรรยากาศเต็นกันเอง</li>
+                </ul>
+            </div>
+
+            <div class="job-section">
+                <h3>รายละเอียดงาน</h3>
+                <div class="contact-info">
+                    <p><strong>สถานที่ฝึกงาน เลขที่ 399/91 ม.13 ถ.กิ่งแก้ว ช.25/1 ต.ราชาเทวะ อ.บางพลี จ.สมุทรปราการ 10540</strong></p>
+                    
+                    <p><strong>1. ร่วมบริหารจัดการร้องค้องทางการบริหายและบริหารกิจกรรมบรรพาทางการตลาดออนไลน์ (Lazada, Shopee, Facebook, TikTok Shop, Website etc.)</strong></p>
+                    
+                    <p><strong>2. วิเคราะห์วางแผนเชิงกลยุทธ์ ประสานงานแผนกมาตรการตลาด และดำเนินการตามกลยุทธ์ทางการตลาดออนไลน์-ออฟไลน์ของบริษัท เพื่อส่งเสริมการขาย</strong></p>
+                    
+                    <p><strong>3. จัดการค้นคว้าหาโอกาสในร้องออนไลน์ใหม่ๆ เพื่อประโยชน์กิจกรรมธุรกิจในแพลตฟอร์มออนไลน์</strong></p>
+                    
+                    <p><strong>4. สำรวจตู้เบื้องและพฤติกรรมบริการทางการตลาดออนไลน์-ออฟไลน์</strong></p>
+                    
+                    <p><strong>5. ประสานงานกับทีมเพื่อพัฒนาแคมเปญและโปรโมชั่นสื่อออนไลน์ เข้าใจ Tools ต่างๆ และสามารถ Support ทีมได้</strong></p>
+                    
+                    <p><strong>6. รับผิดชอบด้านงานต่างๆ ที่ได้รับมอบหมายเพิ่มเติม</strong></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category button interactions
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons in the same row
+                    const sameRow = this.parentNode.querySelectorAll('.category-btn');
+                    sameRow.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const searchBtn = document.querySelector('.search-btn');
+            
+            searchBtn.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm) {
+                    alert(`ค้นหา: ${searchTerm}`);
+                }
+            });
+
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBtn.click();
+                }
+            });
+
+            // Apply button functionality
+            const applyBtn = document.querySelector('.post-job-btn');
+            applyBtn.addEventListener('click', function() {
+                alert('เปิดหน้าสมัครงาน...');
+            });
+        });
+    </script>
+</body>
+</html>

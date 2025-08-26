@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCENDER Co., Ltd</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="../static/logo.jpg" alt="ASCENDER Logo">
+                </div>
+                ASCENDER
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#about">สมัครงาน</a></li>
+                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+                    <li><a href="#contact">ติดต่อ</a></li>
+                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+                </ul>
+            </nav>
+        </div>
+
+    <div class="container">
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="ค้นหางานที่สนใจ...">
+                <button class="search-btn">ค้นหา</button>
+            </div>
+        </div>
+
+        <div class="jobs-grid">
+            <div class="job-card">
+                <h3 class="job-title">Telesales WFH</h3>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📞</div>
+                    <div class="job-detail-text">งานขายทางโทรศัพท์</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📅</div>
+                    <div class="job-detail-text">งานเต็มเวลา</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">💰</div>
+                    <div class="job-detail-text salary">เงินเดือน 20,000 - 50,000 บาท ต่อเดือน</div>
+                </div>
+                <div class="job-footer">
+                    30 วัน+ ที่ผ่านมา
+                    <button class="apply-btn">สมัครงาน</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <h3 class="job-title">Telesales Office</h3>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📞</div>
+                    <div class="job-detail-text">งานขายทางโทรศัพท์</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📅</div>
+                    <div class="job-detail-text">งานเต็มเวลา</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">💰</div>
+                    <div class="job-detail-text salary">เงินเดือน 20,000 - 50,000 บาท ต่อเดือน</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">🏢</div>
+                    <div class="job-detail-text">สถานที่ปฏิบัติงาน เลขที่ 399/91 ม.13 ถ.กิ่งแก้ว...</div>
+                </div>
+                <div class="job-footer">
+                    30 วัน+ ที่ผ่านมา
+                    <button class="apply-btn">สมัครงาน</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <h3 class="job-title">Trainer</h3>
+                <div class="job-detail">
+                    <div class="job-detail-icon">🎓</div>
+                    <div class="job-detail-text">งานฝึกอบรม</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📅</div>
+                    <div class="job-detail-text">งานเต็มเวลา</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">💰</div>
+                    <div class="job-detail-text salary">เงินเดือน 25,000 - 30,000 บาท ต่อเดือน</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">🏢</div>
+                    <div class="job-detail-text">สถานที่ปฏิบัติงาน เลขที่ 399/91 ม.13 ถ.กิ่ง...</div>
+                </div>
+                <div class="job-footer">
+                    30 วัน+ ที่ผ่านมา
+                    <button class="apply-btn">สมัครงาน</button>
+                </div>
+            </div>
+
+            <div class="job-card">
+                <h3 class="job-title">Manager Marketing</h3>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📊</div>
+                    <div class="job-detail-text">วางแผน กลยุทธ์ และควบคุมการดำเนินงาน...</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">📅</div>
+                    <div class="job-detail-text">งานเต็มเวลา</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">💰</div>
+                    <div class="job-detail-text salary">เงินเดือน 30,000-35,000 บาท ต่อเดือน</div>
+                </div>
+                <div class="job-detail">
+                    <div class="job-detail-icon">🏢</div>
+                    <div class="job-detail-text">สถานที่ปฏิบัติงาน เลขที่ 399/91 ม.13 ถ.กิ่งแก้ว...</div>
+                </div>
+                <div class="job-footer">
+                    30 วัน+ ที่ผ่านมา
+                    <button class="apply-btn">สมัครงาน</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-input').value;
+            if (searchTerm) {
+                console.log('Searching for:', searchTerm);
+                // Add search logic here
+            }
+        });
+
+        // Enter key search
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-btn').click();
+            }
+        });
+
+        // Job card interactions
+        document.querySelectorAll('.job-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Prevent card click when clicking apply button
+                if (!e.target.classList.contains('apply-btn')) {
+                    console.log('Job card clicked:', this.querySelector('.job-title').textContent);
+                    // Add job detail view logic here
+                }
+            });
+        });
+
+        // Apply button functionality
+        document.querySelectorAll('.apply-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const jobTitle = this.closest('.job-card').querySelector('.job-title').textContent;
+                this.textContent = 'กำลังสมัคร...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.textContent = 'สมัครแล้ว ✓';
+                    this.style.background = '#4CAF50';
+                }, 1500);
+            });
+        });
+
+        // Smooth animations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.job-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCENDER Co., Ltd</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="../static/logo.jpg" alt="ASCENDER Logo">
+                </div>
+                ASCENDER
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#about">สมัครงาน</a></li>
+                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+                    <li><a href="#contact">ติดต่อ</a></li>
+                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+                </ul>
+            </nav>
+        </div>
+    
+
+<main>
+    <section class="hero-section">
+        <div class="hero-image">
+            <h2 class="hero-title"></h2>
+            <div class="team-illustration">
+                <img src="../static/AboutMe.jpg" alt="Team Illustration" style="display: block; margin: 40px auto 0 auto; border-radius: 30px;" width="60%" height="40%">
+            </div>
+        </div>
+    </section>
+</main>
+
+
+        <section class="content-section">
+            <p class="content-text" style="text-align: center; font-size: 1em; margin-top: 0px;">
+                "บริษัท แอสเซนเดอร์ จำกัดเราเป็นผู้นำในด้านการส่งเสริมสำหรับผู้รักสุขภาพและเป็นทางเลือกสำหรับผู้สรรหาผลิตภัณฑ์คุณภาพระดับสากล ตลอดระยะเวลา 7 ปีที่ผ่านมา<br>
+                 แอสเซนเดอร์ได้ส่งมอบประสบการณ์ด้านสุขภาพอันยอดเยี่ยมให้แก่ลูกค้าผู้มีอุปการะคุณทุกท่าน ทางเรามีความมุ่งมั่นที่จะช่วยเหลือผู้คนในทุกช่วงวัย หากคุณเป็นหนึ่งในคนที่ใส่ใจสุขภาพ<br>
+                  อยากมีร่างกายที่แข็งแรง เยาว์วัย และเป็นมังสวิรัติ เปิดโอกาสให้แอสเซนเดอร์ ได้เป็นหนึ่งในทางเลือกด้านสุขภาพของคุณ<br>
+                    คำขวัญของบริษัทเราคือ ""ความมั่นคง ความน่าเชื่อถือ และประสิทธิภาพ""ขณะนี้เรากำลังเปิดรับสมาชิกใหม่เข้าร่วมเป็นครอบครัวแอสเซนเดอร์"<br>
+            </p>
+        
+        </section>
+    </main>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (3 + Math.random() * 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Add hover effect to team members
+        document.querySelectorAll('.member').forEach(member => {
+            member.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            member.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Initialize particles when page loads
+        window.addEventListener('load', createParticles);
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const heroImage = document.querySelector('.hero-image');
+            const translateY = scrolled * 0.3;
+            heroImage.style.transform = `translateY(${translateY}px)`;
+        });
+        <button class="scroll-btn" onclick="scrollToTop()">เลื่อนขึ้น</button>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }                                                       
+    </script>
+    </body>
+</html>
