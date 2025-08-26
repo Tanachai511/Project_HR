@@ -84,11 +84,11 @@ class repair(models.Model):
         return f"Repair #{self.pk} - {self.repair_status} - {self.repair_date.strftime('%Y-%m-%d %H:%M:%S')} - {self.employee.emp_name} - {self.repair_type} - {self.repair_cause} - {self.repair_img.url if self.repair_img else 'No image'}"
     
 
-class news (models.Model):
+class new (models.Model):
     news_head = models.CharField(max_length=255)
     news_subhead = models.CharField(max_length=255)
     news_date = models.DateField(auto_now_add=True)
-    news_img = models.ImageField(upload_to='myapp/media/news_images/', blank=True, null=True)
+    news_img = models.ImageField(upload_to='myapp/media/new_images/', blank=True, null=True)
     news_description = models.TextField()
 
     def __str__(self):
