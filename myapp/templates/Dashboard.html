@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ดาวน์โหลดเอกสาร</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="../static/style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #0b3d2e;
+      color: #0b3d2e;
+      text-align: center;
+    }
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 900px;
+    margin: 120px auto 50px auto; /* ขยับลงมาให้ไม่ซ้อน header */
+    }
+    h2 {
+      color: #0b3d2e;
+      margin: 40px 0 20px;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    img:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        </div>
+        ASCENDER
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#about">สมัครงาน</a></li>
+          <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+          <li><a href="#contact">ติดต่อ</a></li>
+          <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>โครงสร้างองค์กร</h2>
+    <a href="org-chart.pdf" target="_blank">
+      <img src="org-chart-thumbnail.png" alt="โครงสร้างองค์กร">
+    </a>
+
+    <h2>ระเบียบข้อบังคับ</h2>
+    <a href="regulation.pdf" target="_blank">
+      <img src="regulation-thumbnail.png" alt="ระเบียบข้อบังคับ">
+    </a>
+
+    <h2>คู่มือนักศึกษาฝึกงาน</h2>
+    <a href="student-guide.pdf" target="_blank">
+      <img src="student-guide-thumbnail.png" alt="คู่มือนักศึกษาฝึกงาน">
+    </a>
+  </div>
+</body>
+</html>

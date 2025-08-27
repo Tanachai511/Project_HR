@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ดาวน์โหลดเอกสาร</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0b3d2e 0%, #1a5f47 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      background: white;
+      border-radius: 25px;
+      padding: 50px;
+      max-width: 1000px;
+      margin: 150px auto 50px auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .section-title {
+      color: #0b3d2e;
+      font-size: 32px;
+      font-weight: bold;
+      text-align: left;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #e8f5f1;
+    }
+
+    .document-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .document-item {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background: #f8fdfc;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      border-left: 5px solid #0b3d2e;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .document-item:hover {
+      background: #e8f5f1;
+      transform: translateX(10px);
+      box-shadow: 0 5px 20px rgba(11, 61, 46, 0.1);
+    }
+
+    .document-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b3d2e;
+      border-radius: 8px;
+      color: white;
+      font-size: 18px;
+    }
+
+    .document-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .download-icon {
+      margin-left: auto;
+      color: #0b3d2e;
+      font-size: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .document-item:hover .download-icon {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .container {
+        margin: 120px 20px 50px;
+        padding: 30px 20px;
+      }
+      
+      .section-title {
+        font-size: 24px;
+      }
+      
+      .document-title {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        </div>
+        ASCENDER
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#about">สมัครงาน</a></li>
+          <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+          <li><a href="#contact">ติดต่อ</a></li>
+          <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="section-title">ดาวน์โหลดเอกสาร</h1>
+    
+    <div class="document-list">
+      <a href="ACD_HR_001_ใบสมัครงาน_บริษัท_แอสเซนเดอร์_จำกัด.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_001_ใบสมัครงาน_บริษัท_แอสเซนเดอร์_จำกัด</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_004_เอกสารรักษาความลับของบริษัท_แอสเซนเดอร์_จำกัด.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_004_เอกสารรักษาความลับของบริษัท_แอสเซนเดอร์_จำกัด</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_006_เอกสารการจ้างการเสียหาในบองพนักงานแก้ไขเพิ่มเติมลงวันที่.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_006_เอกสารการจ้างการเสียหาในบองพนักงานแก้ไขเพิ่มเติมลงวันที่</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_007_เอกสารข้อกำหนดในการกำจนายองพนักงาน_Call_center_ผักประกันสังคม.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_007_เอกสารข้อกำหนดในการกำจนายองพนักงาน_Call_center_ผักประกันสังคม</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_0071_เอกสารข้อกำหนดในการกำจนายองพนักงาน_Call_center_เหมาจ่ายคิด3%.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_0071_เอกสารข้อกำหนดในการกำจนายองพนักงาน_Call_center_เหมาจ่ายคิด3%</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_014_แบบฟอร์มใบเบิกเงินเดือนล่วงหน้า.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_014_แบบฟอร์มใบเบิกเงินเดือนล่วงหน้า</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_016_แบบฟอร์มเบิก_ยืมทรัพย์สิน_อุปกรณ์บริษัทฯ.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_016_แบบฟอร์มเบิก_ยืมทรัพย์สิน_อุปกรณ์บริษัทฯ</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_017_หนังสือยืนยัน_เรื่องข้องค้นที่อยู่กับการกำจนายและยื่อ.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_017_หนังสือยืนยัน_เรื่องข้องค้นที่อยู่กับการกำจนายและยื่อ</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="ACD_HR_018_หนังสือยืนยัน_เรื่องข้องค้นที่อยู่กับการกำจนายและยื่อ.pdf" class="document-item" target="_blank">
+        <div class="document-icon">📄</div>
+        <div class="document-title">ACD_HR_018_หนังสือยืนยัน_เรื่องข้องค้นที่อยู่กับการกำจนายและยื่อ</div>
+        <div class="download-icon">⬇️</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

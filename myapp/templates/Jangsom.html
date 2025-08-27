@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCENDER</title>
+    <link rel="stylesheet" href="../static/style.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
+            min-height: 100vh;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 120px auto 40px auto; /* ขยับลงมาให้ไม่ซ้อน header */
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #f8f5e4 0%, #f0ebdd 100%);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .card-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2d6a4f;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .card-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            text-align: justify;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .nav-menu {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .main-content {
+                margin: 30px auto;
+                padding: 0 15px;
+            }
+            
+            .card {
+                padding: 30px 25px;
+            }
+            
+            .card-number {
+                font-size: 36px;
+            }
+            
+            .card-title {
+                font-size: 20px;
+            }
+            
+            .card-description {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        </div>
+        ASCENDER
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#about">สมัครงาน</a></li>
+          <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+          <li><a href="#contact">ติดต่อ</a></li>
+          <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+    
+    <main class="main-content">
+        <div class="card" onclick="handleCardClick('general')">
+            <div class="card-number">01</div>
+            <h2 class="card-title">แจ้งซ่อมทั่วไปของรีสอร์ท</h2>
+            <p class="card-description">
+                กรุณาเลือกประเภทของปัญหาที่กำหนดต้องการแจ้งซ่อมและครุภัณฑ์ระเอียดที่เกี่ยวข้องให้ครบถ้วนเพื่อให้เจ้าหน้าที่ดำเนินการได้อย่างมีประสิทธิภาพ
+                แก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
+            </p>
+        </div>
+        
+        <div class="card" onclick="handleCardClick('system')">
+            <div class="card-number">02</div>
+            <h2 class="card-title">แจ้งซ่อมระบบ</h2>
+            <p class="card-description">
+                กรุณาเลือกประเภทของปัญหาที่กำหนดต้องการแจ้งซ่อมและครุภัณฑ์ระเอียดที่เกี่ยวข้องให้ครบถ้วนเพื่อให้เจ้าหน้าที่ดำเนินการได้อย่างมีประสิทธิภาพ
+                ระแก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
+            </p>
+        </div>
+    </main>
+    
+    <script>
+        function handleCardClick(type) {
+            if (type === 'general') {
+                alert('เปิดหน้าแจ้งซ่อมทั่วไป');
+                // window.location.href = '/general-repair';
+            } else if (type === 'system') {
+                alert('เปิดหน้าแจ้งซ่อมระบบ');
+                // window.location.href = '/system-repair';
+            }
+        }
+        
+        // Add smooth scroll behavior
+        document.querySelectorAll('.nav-menu a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Add loading animation for cards
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
