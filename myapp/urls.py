@@ -3,6 +3,9 @@ from myapp import views
 
 urlpatterns = [
     path('', views.index),
+    path('aboutme', views.aboutme, name='aboutme'),
     path('All1', views.All1, name='All1'),
-    path('All2', views.All2, name='All2')
+    path('Applywork', views.Applywork, name='Applywork'),
+    path('intern', views.intern, name='Applywork'),
+    path('Jobber', views.Jobber, name='Jobber')
 ]

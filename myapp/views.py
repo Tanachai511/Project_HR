@@ -7,5 +7,14 @@ def index(request):
 def All1(request):
     return render(request,"All1.html")
 
-def All2(request):
-    return render(request,"All2.html")
+def aboutme(request):
+    return render(request,"aboutme.html")
+
+def Applywork(request):
+    return render(request,"Applywork.html")
+
+def intern(request):
+    return render(request,"intern.html")
+
+def Jobber(request):
+    return render(request,"Jobber.html")

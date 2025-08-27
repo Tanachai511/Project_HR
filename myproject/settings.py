@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp'
 ]
+
+JAZZMIN_SETTINGS = {
+    "site_title": "HR Admin",
+    "site_header": "HR Management",
+    "welcome_sign": "ยินดีต้อนรับเข้าสู่ระบบ HR",
+    "copyright": "HR System © 2025",
+    "theme": "cyborg",  # bootstrap theme เช่น 'lux', 'minty', 'cyborg'
+    "dark_mode_theme": "cyborg",  # theme ตอน dark mode
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
