@@ -66,48 +66,30 @@
                 <button class="tab">อื่นๆ</button>
             </div>
             
-            <div class="poster-grid">
-                <!-- โปสเตอร์ 1 -->
+        <!-- Poster -->    
+        <div class="poster-grid">
+            {% for item in new %}
                 <div class="poster-card">
                     <div class="poster-image">
-                        <img src="../static/Pos1.jpg" alt="พนักงานยอดเยี่ยมประจำปี 2025">
+                        {% if item.news_img %}
+                            <img src="{{ item.news_img.url }}" alt="{{ item.news_head }}">
+                        {% else %}
+                            <img src="{% static 'default.jpg' %}" alt="no image">
+                        {% endif %}
                     </div>
                     <div class="poster-content">
                         <div class="poster-title">
-                            พนักงานยอดเยี่ยมประจำปี 2025<br>
-                            มีสิทธิรับรางวัลใหญ่!
+                            {{ item.news_head }}<br>
                         </div>
-                        <div class="poster-date">วันที่: 31 ธันวาคม 2025</div>
+                        <div class="poster-date">
+                            วันที่: {{ item.news_date|date:"d M Y H:i:s" }}
+                        </div>
                     </div>
                 </div>
-                
-                <!-- โปสเตอร์ 2 -->
-                <div class="poster-card">
-                    <div class="poster-image">
-                        <img src="../static/Pos2.jpg" alt="พนักงานยอดเยี่ยมประจำปี 2025" width="50%" height="50%">
-                    </div>
-                    <div class="poster-content">
-                        <div class="poster-title">
-                            โบนัสพิเศษ คนละ 1,000 บาท<br>
-                            สำหรับพนักงานดีเด่น
-                        </div>
-                        <div class="poster-date">วันที่: 31 ธันวาคม 2025</div>
-                    </div>
-                </div>
-                
-                <!-- โปสเตอร์ 3 -->
-                <div class="poster-card">
-                    <div class="poster-image">
-                        <img src="../static/Pos3.jpg" alt="พนักงานยอดเยี่ยมประจำปี 2025">
-                    </div>
-                    <div class="poster-content">
-                        <div class="poster-title">
-                            เชิญชวนพนักงานเข้าร่วมกิจกรรมวันแม่<br>
-                        </div>
-                        <div class="poster-date">วันที่: 12 สิงหาคม 2025</div>
-                    </div>
-                </div>
-            </div>
+            {% empty %}
+                <p>ยังไม่มีข่าว</p>
+            {% endfor %}
+        </div>
             
             <a href="{% url 'All1' %}" class="view-all-btn">ดูทั้งหมด</a>
         </section>
