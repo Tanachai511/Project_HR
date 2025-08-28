@@ -87,9 +87,15 @@ class repair(models.Model):
 class new (models.Model):
     news_head = models.CharField(max_length=255)
     news_subhead = models.CharField(max_length=255)
-    news_date = models.DateField(auto_now_add=True)
-    news_img = models.ImageField(upload_to='myapp/media/new_images/', blank=True, null=True)
+    news_date = models.DateTimeField(auto_now_add=True)
+    news_img = models.ImageField(upload_to='new_images/', blank=True, null=True)
     news_description = models.TextField()
 
     def __str__(self):
-        return f"{self.news_head} -  {self.news_subhead} - {self.news_date.strftime('%Y-%m-%d %H:%M:%S')} - {self.news_description} - {self.news_img.url if self.news_img else 'No image'}"
+        if self.news_date:
+            date_str = self.news_date.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            date_str = 'No date'
+
+        image_url = self.news_img.url if self.news_img else 'No image'
+        return f"{self.news_head} - {self.news_subhead} - {date_str} - {self.news_description} - {image_url}"
