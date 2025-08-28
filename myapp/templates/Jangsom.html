@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCENDER</title>
+        <title>ASCENDER Co., Ltd</title>
     <link rel="stylesheet" href="../static/style.css">
     
     <style>
@@ -111,11 +111,10 @@
       </div>
       <nav>
         <ul class="nav-menu">
-          <li><a href="#about">สมัครงาน</a></li>
-          <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
-          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-          <li><a href="#contact">ติดต่อ</a></li>
-          <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+          <li><a href="index.html">ประชาสัมพันธ์</a></li>
+          <li><a href="document.html">ดาวน์โหลดเอกสาร</a></li>
+          <li><a href="Jangsom.html">แจ้งซ่อม</a></li>
+          <li><a href=".html" class="nav-btn">สำหรับพนักงานประจำ</a></li>
         </ul>
       </nav>
     </div>
@@ -124,10 +123,10 @@
     <main class="main-content">
         <div class="card" onclick="handleCardClick('general')">
             <div class="card-number">01</div>
-            <h2 class="card-title">แจ้งซ่อมทั่วไปของรีสอร์ท</h2>
+            <h2 class="card-title">แจ้งซ่อมทั่วไปของบริษัท</h2>
             <p class="card-description">
-                กรุณาเลือกประเภทของปัญหาที่กำหนดต้องการแจ้งซ่อมและครุภัณฑ์ระเอียดที่เกี่ยวข้องให้ครบถ้วนเพื่อให้เจ้าหน้าที่ดำเนินการได้อย่างมีประสิทธิภาพ
-                แก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
+                กรุณาเลือกประเภทของปัญหาที่ท่านต้องการแจ้งซ่อมและกรอกรายละเอียดที่เกี่ยวข้องให้ครบถ้วน
+            เพื่อให้เราสามารถตรวจสอบและดำเนินการแก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
             </p>
         </div>
         
@@ -135,8 +134,8 @@
             <div class="card-number">02</div>
             <h2 class="card-title">แจ้งซ่อมระบบ</h2>
             <p class="card-description">
-                กรุณาเลือกประเภทของปัญหาที่กำหนดต้องการแจ้งซ่อมและครุภัณฑ์ระเอียดที่เกี่ยวข้องให้ครบถ้วนเพื่อให้เจ้าหน้าที่ดำเนินการได้อย่างมีประสิทธิภาพ
-                ระแก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
+                กรุณาเลือกประเภทของปัญหาที่ท่านต้องการแจ้งซ่อมและกรอกรายละเอียดที่เกี่ยวข้องให้ครบถ้วน  
+            เพื่อให้เราสามารถตรวจสอบและดำเนินการแก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
             </p>
         </div>
     </main>
@@ -144,11 +143,9 @@
     <script>
         function handleCardClick(type) {
             if (type === 'general') {
-                alert('เปิดหน้าแจ้งซ่อมทั่วไป');
-                // window.location.href = '/general-repair';
+                window.location.href = 'Jangsom2.html';
             } else if (type === 'system') {
-                alert('เปิดหน้าแจ้งซ่อมระบบ');
-                // window.location.href = '/system-repair';
+                window.location.href = 'Jangsom3.html';
             }
         }
         
