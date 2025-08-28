@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCENDER Co., Ltd</title>
     <link rel="stylesheet" href="../static/style.css">
-    <link rel="stylesheet" href="../static/components.css">
+    
 </head>
 <body>
     <!-- Header -->
@@ -16,13 +16,13 @@
                 <div class="logo-icon">
                     <img src="../static/logo.jpg" alt="ASCENDER Logo">
                 </div>
-                ASCENDER
+               <a style="text-decoration: none; color: black;" href="index.html">ASCENDER</a>
             </div>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#about">สมัครงาน</a></li>
-                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+                    <li><a href="Applywork.html">สมัครงาน</a></li>
+                    <li><a href="All1.html">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="aboutme.html">เกี่ยวกับเรา</a></li>
                     <li><a href="#contact">ติดต่อ</a></li>
                     <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
                 </ul>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <button class="view-more-btn">ดูเพิ่มเติม</button><a href="Jobber.html"></a>
+            <a href="Jobber.html" class="view-more-btn">ดูเพิ่มเติม</a>
         </section>
 
         <!-- Second Section: Student/Education Jobs -->
@@ -101,27 +101,27 @@
                     <div class="job-image">
                         <div class="job-overlay technical-support">
                             <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
-                            <p class="job-subtitle">สายเทคนิค</p>
-                            <div class="job-salary">ค่าตอบแทน</div>
+                            <p class="job-subtitle">Intern</p>
+                            <div class="job-salary">ตำแหน่ง: นี้ </div>
                         </div>
                     </div>
                     <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">นักศึกษาฝึกงาน สายเทคนิค</p>
+                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
+                        <p class="job-location">Intern </p>
                     </div>
                 </div>
 
                 <div class="job-card">
                     <div class="job-image">
                         <div class="job-overlay intern">
-                            <h3 class="job-title">Intern</h3>
-                            <p class="job-subtitle">ฝึกงานขายอาหารเสริม</p>
-                            <div class="job-salary">รายได้ดี</div>
+                            <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
+                            <p class="job-subtitle">Intern</p>
+                            <div class="job-salary"></div>
                         </div>
                     </div>
                     <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Intern ฝึกงานขายอาหารเสริม</p>
+                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
+                        <p class="job-location">Intern </p>
                     </div>
                 </div>
 
@@ -129,31 +129,31 @@
                     <div class="job-image">
                         <div class="job-overlay education-admin">
                             <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
-                            <p class="job-subtitle">ฝ่ายดูแลสวัสดิการ</p>
-                            <div class="job-salary">ค่าตอบแทนดี</div>
+                            <p class="job-subtitle">Intern</p>
+                            <div class="job-salary"></div>
                         </div>
                     </div>
                     <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">นักศึกษาฝึกงาน ฝ่ายดูแลสวัสดิการ</p>
+                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
+                        <p class="job-location">Intern </p>
                     </div>
                 </div>
 
                 <div class="job-card">
                     <div class="job-image">
                         <div class="job-overlay sales-consultant">
-                            <h3 class="job-title">จำหน่ายเฮอร์บ ฝึกงาน</h3>
-                            <p class="job-subtitle">ที่ปรึกษาด้านสุขภาพ</p>
-                            <div class="job-salary">รายได้ดี</div>
+                            <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน </h3>
+                            <p class="job-subtitle">Intern</p>
+                            <div class="job-salary"></div>
                         </div>
                     </div>
                     <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">จำหน่ายอาหารเสริม ฝึกงาน</p>
+                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
+                        <p class="job-location">Intern </p>
                     </div>
                 </div>
             </div>
-            <button class="view-more-btn">ดูเพิ่มเติม</button>
+            <a href="intern.html" class="view-more-btn">ดูเพิ่มเติม</a>
         </section>
     </div>
 
@@ -180,15 +180,6 @@
             });
         });
 
-        // View more button functionality
-        document.querySelectorAll('.view-more-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.innerHTML = 'กำลังโหลด...';
-                setTimeout(() => {
-                    this.innerHTML = 'ดูเพิ่มเติม';
-                }, 1000);
-            });
-        });
 
         // Add ripple animation CSS
         const style = document.createElement('style');
