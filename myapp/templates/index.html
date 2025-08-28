@@ -19,9 +19,9 @@
             </div>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#about">เกี่ยวกับเรา</a></li>
-                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="#training">เที่ยวกับเรา</a></li>
+                    <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
+                    <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
                     <li><a href="#contact">ติดต่อ</a></li>
                     <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
                 </ul>
@@ -68,10 +68,9 @@
                 <button class="tab">ข่าวสาร</button>
                 <button class="tab">อื่นๆ</button>
             </div>
-            
         <!-- Poster -->    
         <div class="poster-grid">
-            {% for item in new %}
+            {% for item in news %}
                 <div class="poster-card">
                     <div class="poster-image">
                         {% if item.news_img %}

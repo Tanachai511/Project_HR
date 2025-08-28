@@ -31,7 +31,7 @@ class candidate(models.Model):
     cdd_position = models.CharField(choices=Position_cdd.choices, max_length=64)
 
     cdd_tel = models.CharField(max_length=10)
-    cdd_resume = models.FileField(upload_to='myapp/media/resumes/', blank=True, null=True)
+    cdd_resume = models.FileField(upload_to='resumes/', blank=True, null=True)
 
     def __str__(self):
         resume_name = self.cdd_resume.name if self.cdd_resume else "No resume uploaded"
@@ -68,7 +68,7 @@ class repair(models.Model):
         third_floor = "ชั้น 3"
     repair_location = models.CharField(choices=repair.choices, max_length=64)
 
-    repair_img = models.ImageField(upload_to='myapp/media/repair_report/', blank=True, null=True)
+    repair_img = models.ImageField(upload_to='repair_report/', blank=True, null=True)
     
     class repairstatus (models.TextChoices):
         in_progress = "กำลังดำเนินการ"

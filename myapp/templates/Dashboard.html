@@ -46,10 +46,11 @@
       </div>
       <nav>
         <ul class="nav-menu">
-          <li><a href="index.html">ประชาสัมพันธ์</a></li>
-          <li><a href="document.html">ดาวน์โหลดเอกสาร</a></li>
-          <li><a href="Jangsom.html">แจ้งซ่อม</a></li>
-          <li><a href=".html" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+            <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
+            <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
+            <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+            <li><a href="#contact">ติดต่อ</a></li>
+            <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
         </ul>
       </nav>
     </div>
