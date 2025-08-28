@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แจ้งซ่อมทั่วไปของบริษัท</title>
+        <title>ASCENDER Co., Ltd</title>
     <link rel="stylesheet" href="../static/style.css">
     <style>
         * {
@@ -272,11 +272,10 @@
       </div>
       <nav>
         <ul class="nav-menu">
-          <li><a href="#about">สมัครงาน</a></li>
-          <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
-          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-          <li><a href="#contact">ติดต่อ</a></li>
-          <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+          <li><a href="index.html">ประชาสัมพันธ์</a></li>
+          <li><a href="document.html">ดาวน์โหลดเอกสาร</a></li>
+          <li><a href="Jangsom.html">แจ้งซ่อม</a></li>
+          <li><a href=".html" class="nav-btn">สำหรับพนักงานประจำ</a></li>
         </ul>
       </nav>
     </div>
@@ -301,29 +300,21 @@
                     
                     <div class="form-group">
                         <label for="repairType">ประเภทงานซ่อม</label>
-                        <select id="repairType" name="repairType" required>
-                            <option value="general" selected>งานแจ้งซ่อมทั่วไปของบริษัท</option>
-                            <option value="electrical">งานไฟฟ้า</option>
-                            <option value="plumbing">งานประปา</option>
-                            <option value="aircon">งานแอร์</option>
-                            <option value="carpentry">งานไม้</option>
-                            <option value="painting">งานทาสี</option>
-                            <option value="other">อื่นๆ</option>
-                        </select>
+                        <input type="text" id="repairType" name="repairType" value="งานแจ้งซ่อมทั่วไปของบริษัท" readonly disabled style="background:#fafbfa; color:#333;">
                     </div>
                     
                     <div class="form-group">
                         <label for="category">ประเภทปัญหา</label>
                         <select id="category" name="category" required>
                             <option value="">เลือกประเภทปัญหา</option>
-                            <option value="urgent">เร่งด่วน</option>
-                            <option value="normal">ปกติ</option>
-                            <option value="maintenance">บำรุงรักษา</option>
+                            <option value="urgent">1</option>
+                            <option value="normal">2</option>
+                            <option value="maintenance">3</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="floor">ชั้น/สาขา</label>
+                        <label for="floor">ชั้น/</label>
                         <input type="text" id="floor" name="floor" placeholder="ระบุชั้นหรือสาขา">
                     </div>
                     
@@ -334,8 +325,6 @@
                             <option value="floor1">ชั้น 1</option>
                             <option value="floor2">ชั้น 2</option>
                             <option value="floor3">ชั้น 3</option>
-                            <option value="floor4">ชั้น 4</option>
-                            <option value="basement">ชั้นใต้ดิน</option>
                         </select>
                     </div>
                     
