@@ -20,15 +20,9 @@
             </div>
             <nav>
                 <ul class="nav-menu">
-<<<<<<< Updated upstream
                     <li><a href="Applywork.html">สมัครงาน</a></li>
                     <li><a href="All1.html">ข่าวประชาสัมพันธ์</a></li>
                     <li><a href="aboutme.html">เกี่ยวกับเรา</a></li>
-=======
-                    <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-                    <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
->>>>>>> Stashed changes
                     <li><a href="#contact">ติดต่อ</a></li>
                     <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
                 </ul>
@@ -42,32 +36,32 @@
             <button class="search-btn">ค้นหา</button>
         </section>
 
-        <div class="section-header">
-            <h1 class="section-title">นักศึกษาฝึกงาน</h1>
-            <button class="post-job-btn">สมัคร</button>
-        </div>
-
-        <div class="job-categories">
-            <button class="category-btn active">Marketing</button>
-            <button class="category-btn">Video Editor</button>
-            <button class="category-btn">Graphic Designer</button>
-            <button class="category-btn">Human Resources</button>
-            <button class="category-btn">Account</button>
-            <button class="category-btn">MC Livestream</button>
-            <button class="category-btn">IT</button>
-        </div>
-
-        <div class="job-categories">
-            <button class="category-btn secondary">Tele Sale</button>
-            <button class="category-btn secondary">Translator [English to Thai]</button>
-            <button class="category-btn secondary">Content Writer</button>
-            <button class="category-btn secondary">Content Creator</button>
-            <button class="category-btn secondary">Creative</button>
-            <button class="category-btn secondary">UX/UI</button>
-            <button class="category-btn secondary">ช่างภาพ</button>
-        </div>
-
         <div class="job-details">
+            <div class="section-header">
+                <h1 class="section-title">นักศึกษาฝึกงาน</h1>
+                <button class="post-job-btn">สมัคร</button>
+            </div>
+
+            <div class="job-categories">
+                <button class="category-btn active">Marketing</button>
+                <button class="category-btn">Video Editor</button>
+                <button class="category-btn">Graphic Designer</button>
+                <button class="category-btn">Human Resources</button>
+                <button class="category-btn">Account</button>
+                <button class="category-btn">MC Livestream</button>
+                <button class="category-btn">IT</button>
+            </div>
+
+            <div class="job-categories">
+                <button class="category-btn secondary">Tele Sale</button>
+                <button class="category-btn secondary">Translator [English to Thai]</button>
+                <button class="category-btn secondary">Content Writer</button>
+                <button class="category-btn secondary">Content Creator</button>
+                <button class="category-btn secondary">Creative</button>
+                <button class="category-btn secondary">UX/UI</button>
+                <button class="category-btn secondary">ช่างภาพ</button>
+            </div>
+
             <div class="job-section">
                 <h3>คุณสมบัติ</h3>
                 <ul>
@@ -124,12 +118,12 @@
                     const sameRow = this.parentNode.querySelectorAll('.category-btn');
                     sameRow.forEach(b => b.classList.remove('active'));
                     
-                    // Add active class to clicked button
+
                     this.classList.add('active');
                 });
             });
 
-            // Search functionality
+
             const searchInput = document.querySelector('.search-input');
             const searchBtn = document.querySelector('.search-btn');
             
@@ -146,7 +140,7 @@
                 }
             });
 
-            // Apply button functionality
+
             const applyBtn = document.querySelector('.post-job-btn');
             applyBtn.addEventListener('click', function() {
                 alert('เปิดหน้าสมัครงาน...');

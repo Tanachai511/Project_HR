@@ -33,64 +33,23 @@
         <!-- First Section: Part-time Jobs -->
         <section>
             <h2 class="section-title">สำหรับสมัครงานพนักงานประจำ</h2>
-            <div class="job-grid">
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay telesales-home">
-                            <h3 class="job-title">รับสมัคร Telesales</h3>
-                            <p class="job-subtitle">Work from home 100%</p>
-                            <div class="job-salary">รายได้ 20,000 - 50,000 บาท</div>
+                <div class="job-grid">
+                    {% for job in jobs %}
+                    <div class="job-card">
+                        <div class="job-image">
+                            <div class="job-overlay telesales-home">
+                                <h3 class="job-title">{{ job.job_name }}</h3>
+                                <p class="job-subtitle">{{ job.job_subhead }}</p>
+                                <div class="job-salary">รายได้ 20,000 - 50,000 บาท</div>  <!-- เปลี่ยนเป็น dynamic ได้ถ้ามี field -->
+                            </div>
+                        </div>
+                        <div class="job-details">
+                            <p class="job-company">ASCENDER</p> <!-- เปลี่ยนให้ dynamic ได้เช่นกัน ถ้ามี field -->
+                            <p class="job-location">{{ job.job_subhead }}</p>
                         </div>
                     </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Telesales Work from home 100%</p>
-                    </div>
-                </div>
+                    {% endfor %}
 
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay telesales-office">
-                            <h3 class="job-title">เปิดรับ Telesales</h3>
-                            <p class="job-subtitle">ทำงานที่ออฟฟิศ</p>
-                            <div class="job-salary">รายได้ดี</div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Telesales office</p>
-                    </div>
-                </div>
-
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay trainer">
-                            <h3 class="job-title">เปิดรับสมัคร Trainer</h3>
-                            <p class="job-subtitle">พนักงานขายอาหารเสริม</p>
-                            <div class="job-salary">รายได้ 25,000-30,000 บาท</div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Trainer พนักงานขายอาหารเสริม</p>
-                    </div>
-                </div>
-
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay marketing-manager">
-                            <h3 class="job-title">เปิดรับสมัคร MANAGER MARKETING</h3>
-                            <p class="job-subtitle">รายได้ดี</p>
-                            <div class="job-salary">รายได้ 30,000 - 35,000 บาท</div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Manager Marketing</p>
-                    </div>
-                </div>
-            </div>
-            <a href="Jobber.html" class="view-more-btn">ดูเพิ่มเติม</a>
         </section>
 
         <!-- Second Section: Student/Education Jobs -->

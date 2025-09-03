@@ -1,9 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     emp_id = models.CharField(max_length=64)
-    emp_username = models.CharField(max_length=64)
-    emp_password = models.CharField(max_length=64)
     emp_name = models.CharField(max_length=255)
 
     class Position_emp (models.TextChoices):
@@ -41,13 +41,21 @@ class candidate(models.Model):
 class job(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True ,serialize=False)
     job_name = models.CharField(max_length=255)
-    job_subhead = models.CharField(max_length=255)
+
+    class jobtype (models.TextChoices):
+        Nesws_poster = "ข่าวประชาสัมพันธ์"
+        Company_Activity = "กิจกรรมบริษัท"
+        News = "ข่าวสาร"
+        Other = "อื่น ๆ "
+    job_type = models.CharField(choices=jobtype.choices, max_length=64)   
+     
+    job_subhead = models.TextField()
     job_qualification = models.TextField()
     job_benefit = models.TextField()
-    job_descriotion = models.TextField()
+    job_description = models.TextField()
 
     def __str__(self):
-        return f"{self.job_name} - {self.job_subhead} - {self.job_qualification} - {self.job_benefit} - {self.job_descriotion}"
+        return f"{self.job_name} - {self.job_subhead} - {self.job_type} - {self.job_qualification} - {self.job_benefit} - {self.job_description}"
 
 
 class repair(models.Model):

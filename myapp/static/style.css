@@ -95,9 +95,8 @@ body {
 /* Hero Section with Slideshow */
 .hero {
     position: relative;
-    height: 50vh;
     overflow: hidden;
-    margin-top: 80px;
+    margin-top: 1%;
 }
 
 .slide-container {
@@ -1350,3 +1349,169 @@ body {
     overflow-y: scroll;
 }
 
+
+/* Hero Section: Adding gradient background and glow effect */
+.hero-section {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);  /* Bright Gradient */
+    color: white;
+    text-align: center;
+    padding: 3rem 1rem;
+    border-radius: 10px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); }
+    100% { text-shadow: 0 0 15px rgba(255, 255, 255, 1); }
+}
+
+/* Job Cards: Gradient backgrounds for job categories */
+.job-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.job-overlay.telesales-home {
+    background: linear-gradient(135deg, #4CAF50, #2d5a4d); /* Green */
+}
+
+.job-overlay.technical-support {
+    background: linear-gradient(135deg, #FF9800, #E65100); /* Orange */
+}
+
+.job-overlay.intern {
+    background: linear-gradient(135deg, #2196F3, #1565C0); /* Blue */
+}
+
+/* Interactive Ripple Effect for Job Cards */
+.job-card {
+    position: relative;
+    cursor: pointer;
+}
+
+.job-card:active::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(20);
+        opacity: 0;
+    }
+}
+
+/* Footer: Light background with a fresh touch */
+.footer {
+    background-color: #f5f5f5;  /* Light gray background */
+    color: #333;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #4CAF50;  /* Green */
+}
+/* เพิ่ม margin-top ให้ main-container เพื่อไม่ให้ติด header */
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    margin-top: 100px; /* เพิ่ม margin-top เพื่อไม่ให้ติดกับ header */
+}
+
+/* ปรับ job-details ให้สามารถใส่ section-header ข้างใน */
+.job-details {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+/* ปรับ section-header ให้อยู่ใน job-details */
+.job-details .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* ปรับ section-title ให้ไม่ repeat กับ CSS หลัก */
+.job-details .section-title {
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 0; /* เอา margin-bottom ออกเพราะจะใช้ margin-bottom ของ section-header แทน */
+}
+
+/* ปรับ post-job-btn ให้อยู่ในตำแหน่งเดิม */
+.job-details .post-job-btn {
+    background: #2d5016;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.job-details .post-job-btn:hover {
+    background: #1f3a0f;
+}
+
+/* ปรับ job-categories ให้อยู่ใน job-details */
+.job-details .job-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Responsive สำหรับหน้าจอเล็ก */
+@media (max-width: 768px) {
+    .main-container {
+        margin-top: 120px; /* เพิ่ม margin-top สำหรับหน้าจอเล็ก */
+        padding: 20px 15px;
+    }
+    
+    .job-details .section-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .job-details .section-title {
+        font-size: 24px;
+    }
+}
