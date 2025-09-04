@@ -4,7 +4,6 @@ from myapp.models import candidate
 from myapp.models import new
 from myapp.models import repair
 from myapp.models import job
-from django.db.models import Count
 
 # Register your models here.
 admin.site.register(employee)

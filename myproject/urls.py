@@ -18,12 +18,10 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
-from myapp.admin import overview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("myapp.urls")),
-    path("admin/overview/", admin.site.admin_view(overview), name="admin-overview")
 ]
 
 if settings.DEBUG:
