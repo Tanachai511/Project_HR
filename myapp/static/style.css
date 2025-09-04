@@ -1949,3 +1949,45 @@ body::after {
   box-shadow: 0 0 10px rgba(0,0,0,0.3); /* เพิ่มเงา */
 }
 
+.content-box {
+  max-width: 900px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.content-title {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+.content-box p {
+  font-size: 1.3em;
+  font-weight: 500;
+  color: #444;
+  line-height: 1.9;
+  margin-bottom: 25px;
+}
+
+.content-slogan {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #19c019f1;
+  margin: 30px 0;
+}
+
+.content-highlight {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #000000;
+  background: #08ff84;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+
