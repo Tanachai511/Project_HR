@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    "jazzmin",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,14 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'myapp',
 ]
-    
+
+# settings.py
 JAZZMIN_SETTINGS = {
-    "site_title": "HR Admin",
-    "site_header": "HR Management",
-    "welcome_sign": "ยินดีต้อนรับเข้าสู่ระบบ HR",
-    "copyright": "HR System © 2025",
-    "theme": "cyborg",  # bootstrap theme เช่น 'lux', 'minty', 'cyborg'
-    "dark_mode_theme": "cyborg",  # theme ตอน dark mode
+    "site_title": "บริษัท Ascender",
+    "site_header": "Admin Portal",
+    "site_brand": "Admin",
+    "welcome_sign": "ยินดีต้อนรับ",
+    "changeform_format": "horizontal_tabs",   # หน้า Add/Edit ดูเป็นระเบียบ
+    "icons": {
+        "myapp.employee": "fas fa-user-tie",
+        "myapp.candidate": "fas fa-user-plus",
+        "myapp.job": "fas fa-briefcase",
+        "myapp.repair": "fas fa-tools",
+        "myapp.new": "fas fa-newspaper",
+        "auth.user": "fas fa-user",
+    },
 }
 
 MIDDLEWARE = [

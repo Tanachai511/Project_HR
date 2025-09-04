@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib import admin
 
 class employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -7,10 +8,10 @@ class employee(models.Model):
     emp_name = models.CharField(max_length=255)
 
     class Position_emp (models.TextChoices):
-        Telesales_wfh = "Telesales work from home"
-        Telesales_office = "Telesales office"
-        Trainer = "Trainer"
-        Manager_Marketing = "Manager Marketing"
+        WFH = "WFH", "Telesales work from home"
+        OFFICE = "OFFICE", "Telesales office"
+        TRAINER = "TRAINER", "Trainer"
+        MKT = "MKT", "Manager Marketing"
     emp_position = models.CharField(choices=Position_emp.choices, max_length=64)
 
     emp_tel = models.CharField(max_length=10)
@@ -24,10 +25,10 @@ class candidate(models.Model):
     cdd_name = models.CharField(max_length=255)
 
     class Position_cdd (models.TextChoices):
-        Telesales_wfh = "Telesales work from home"
-        Telesales_office = "Telesales office"
-        Trainer = "Trainer"
-        Manager_Marketing = "Manager Marketing"
+        WFH = "WFH", "Telesales work from home"
+        OFFICE = "OFFICE", "Telesales office"
+        TRAINER = "TRAINER", "Trainer"
+        MKT = "MKT", "Manager Marketing"
     cdd_position = models.CharField(choices=Position_cdd.choices, max_length=64)
 
     cdd_tel = models.CharField(max_length=10)
