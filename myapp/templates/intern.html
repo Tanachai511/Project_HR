@@ -39,7 +39,7 @@
         <div class="job-details">
             <div class="section-header">
                 <h1 class="section-title">นักศึกษาฝึกงาน</h1>
-                <button class="post-job-btn">สมัคร</button>
+                <button class="post-job-btn" a href = "jobform.html">สมัคร</button>
             </div>
 
             <div class="job-categories">
@@ -50,16 +50,13 @@
                 <button class="category-btn">Account</button>
                 <button class="category-btn">MC Livestream</button>
                 <button class="category-btn">IT</button>
-            </div>
-
-            <div class="job-categories">
-                <button class="category-btn secondary">Tele Sale</button>
-                <button class="category-btn secondary">Translator [English to Thai]</button>
-                <button class="category-btn secondary">Content Writer</button>
-                <button class="category-btn secondary">Content Creator</button>
-                <button class="category-btn secondary">Creative</button>
-                <button class="category-btn secondary">UX/UI</button>
-                <button class="category-btn secondary">ช่างภาพ</button>
+                <button class="category-btn ">Tele Sale</button>
+                <button class="category-btn ">Translator [English to Thai]</button>
+                <button class="category-btn ">Content Writer</button>
+                <button class="category-btn ">Content Creator</button>
+                <button class="category-btn ">Creative</button>
+                <button class="category-btn ">UX/UI</button>
+                <button class="category-btn ">ช่างภาพ</button>
             </div>
 
             <div class="job-section">
@@ -141,11 +138,63 @@
             });
 
 
-            const applyBtn = document.querySelector('.post-job-btn');
-            applyBtn.addEventListener('click', function() {
-                alert('เปิดหน้าสมัครงาน...');
-            });
+           
         });
+
+
+        categoryBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        // รีเซ็ตปุ่มทั้งหมดให้เป็นขาว
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        
+        // อันที่เลือกเปลี่ยนเป็นเขียว+ขยาย
+        this.classList.add('active');
+    });
+});
+
     </script>
+    <footer class="footer">
+  <div class="footer-container">
+    <!-- โลโก้ + ข้อมูลติดต่อ -->
+    <div class="footer-left">
+      <div class="footer-logo">
+        <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        <span>ASCENDER</span>
+      </div>
+      <p>
+        388 อาคาร เอ็กซ์เชนจ์ ทาวเวอร์ ชั้น 29 ยูนิต 2901-2904<br>
+        ถนน สุขุมวิท แขวงคลองเตย จังหวัด กรุงเทพมหานคร<br>
+        รหัสไปรษณี 10110
+      </p>
+      <p>โทรศัพท์ : 062-732-5912</p>
+      <p>email : hrherbolood@gmail.com</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+    <!-- Company -->
+    <div class="footer-column">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Our Class -->
+    <div class="footer-column">
+      <h4>Our Class</h4>
+      <ul>
+        <li><a href="#">Beginner Class</a></li>
+        <li><a href="#">Intermediate Class</a></li>
+        <li><a href="#">Expert Class</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
