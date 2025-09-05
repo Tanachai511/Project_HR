@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -20,22 +21,69 @@ class employee(models.Model):
     
 
 class candidate(models.Model):
-    id = models.BigAutoField(auto_created=True, primary_key=True ,serialize=False)
-    cdd_name = models.CharField(max_length=255)
+    class Title(models.TextChoices):
+        MR = "MR", "นาย"
+        MRS = "MRS", "นาง"
+        MS = "MS", "นางสาว"
 
-    class Position_cdd (models.TextChoices):
+    class Gender(models.TextChoices):
+        MALE = "MALE", "ชาย"
+        FEMALE = "FEMALE", "หญิง"
+
+    class Position(models.TextChoices):
         WFH = "WFH", "Telesales work from home"
         OFFICE = "OFFICE", "Telesales office"
         TRAINER = "TRAINER", "Trainer"
         MKT = "MKT", "Manager Marketing"
-    cdd_position = models.CharField(choices=Position_cdd.choices, max_length=64)
 
-    cdd_tel = models.CharField(max_length=10)
-    cdd_resume = models.FileField(upload_to='resumes/', blank=True, null=True)
+    id = models.BigAutoField(primary_key=True)
+
+    # === ข้อมูลผู้สมัคร ===
+    cdd_title = models.CharField("คำนำหน้า", max_length=8, choices=Title.choices)
+    cdd_first_name = models.CharField("ชื่อจริง", max_length=128)
+    cdd_last_name = models.CharField("นามสกุล", max_length=128)
+    cdd_nickname = models.CharField("ชื่อเล่น", max_length=64, blank=True)
+
+    cdd_gender = models.CharField("เพศ", max_length=8, choices=Gender.choices)
+    cdd_age = models.PositiveIntegerField("อายุ", null=True, blank=True) 
+
+    cdd_position = models.CharField("ตำแหน่งที่สนใจสมัคร", max_length=32, choices=Position.choices)
+    work_exp = models.TextField("ประสบการณ์ทำงาน (ระบุคร่าว ๆ)", blank=True)
+    education = models.CharField("วุฒิการศึกษา", max_length=255, blank=True)
+    start_date_available = models.DateField("วันที่สามารถเริ่มงานได้", null=True, blank=True)
+
+    # === ข้อมูลการติดต่อ ===
+    cdd_tel = models.CharField("เบอร์โทรศัพท์", max_length=20)
+    cdd_email = models.EmailField("อีเมล", blank=True)
+    cdd_province = models.CharField("จังหวัด", max_length=100, blank=True)
+
+    # === เอกสาร ===
+    cdd_resume = models.FileField("Resume / CV", upload_to="resumes/", blank=True, null=True)
+
+    # === อุปกรณ์ (checkbox) ===
+    has_pc = models.BooleanField("คอมพิวเตอร์ (Windows 10+)", default=False)
+    has_laptop = models.BooleanField("โน้ตบุ้ค (Windows 10+)", default=False)
+    has_wifi = models.BooleanField("Wi-Fi", default=False)
+    has_headphone = models.BooleanField("Headphone", default=False)
+    has_anydesk = models.BooleanField("Anydesk", default=False)
+
+    class Status(models.TextChoices):
+        APPROVED = "approved", "อ่านแล้ว"
+        PENDING  = "pending",  "ยังไม่ได้อ่าน"
+
+    cdd_status = models.CharField("สถานะ", max_length=20, choices=Status.choices, default=Status.PENDING)
+
+    class Meta:
+        verbose_name = "ผู้สมัคร"
+        verbose_name_plural = "ผู้สมัคร"
+        ordering = ["cdd_first_name", "cdd_last_name"]
+
+    @property
+    def full_name(self):
+        return f"{self.get_cdd_title_display()}{self.cdd_first_name} {self.cdd_last_name}"
 
     def __str__(self):
-        resume_name = self.cdd_resume.name if self.cdd_resume else "No resume uploaded"
-        return f"{self.cdd_name} - {self.cdd_position} - {self.cdd_tel} - {resume_name}"
+        return f"{self.full_name} - {self.get_cdd_position_display()}"
     
 
 class job(models.Model):

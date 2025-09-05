@@ -1,0 +1,24 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+  <h1 class="text-white text-xl font-semibold">{{ page_title }}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="row" style="gap:10px 0; margin-bottom:8px;">
+    {% for c in summary_cards %}
+      <div class="col-md-3">
+        <div class="small-box" style="background:#e6f3f7;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.06);">
+          <div class="inner" style="padding:14px 16px;">
+            <h3 style="margin:0;font-weight:800;color:#0f172a;">{{ c.total }} คน</h3>
+            <p style="margin:2px 0 0;color:#334155;">{{ c.label }}</p>
+          </div>
+          <a href="{{ c.url }}" class="small-box-footer">ดูทั้งหมด <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {{ block.super }}  {# ← ไม่ต้องครอบการ์ดเพิ่ม #}
+{% endblock %}

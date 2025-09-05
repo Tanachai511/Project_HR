@@ -31,13 +31,15 @@ def dashboard(request):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)  # ทำการเข้าสู่ระบบ
-            return redirect('dashboard')  # เปลี่ยนเส้นทางไปที่หน้า dashboard
+            login(request, user)
+            return redirect('dashboard')   # หลัง login จะไปหน้า dashboard
         else:
             messages.error(request, 'Invalid username or password')
+
     return render(request, 'login.html')
