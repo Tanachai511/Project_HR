@@ -1,413 +1,462 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Forgot Password</title>
+    <title>Welcome to ASCENDER Co.,Ltd</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #2d2d2d 100%);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #aaffe5 0%, #aaffca 50%, #8fff94 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            padding: 20px;
         }
-        
-        /* Animated background particles */
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 6s infinite linear;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
+
         .login-container {
-            position: relative;
-            z-index: 10;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 3rem 3.5rem;
-            box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
-            min-width: 480px;
-            max-width: 500px;
-            transform: translateY(0);
-            animation: slideIn 0.8s ease-out;
-        }
-        
-        @keyframes slideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .mode-toggle {
-            display: flex;
-            background: #f5f6fa;
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-        
-        .mode-btn {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #74b9ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .mode-btn.active {
-            color: #ffffff;
-        }
-        
-        .mode-slider {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            width: calc(50% - 4px);
-            height: calc(100% - 8px);
-            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-            z-index: 1;
-        }
-        
-        .mode-slider.forgot {
-            transform: translateX(100%);
-        }
-        
-        .form-title {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2d3436;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .form-subtitle {
-            text-align: center;
-            color: #636e72;
-            font-size: 0.9rem;
-            margin-bottom: 2.5rem;
-            font-weight: 400;
-        }
-        
-        .form-group {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-input {
+            background: rgb(207, 255, 253);
+            border-radius: 20px;
+            padding: 40px;
             width: 100%;
-            padding: 1rem 1.25rem;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            color: #2d3436;
-            font-size: 1rem;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            outline: none;
+            max-width: 1200px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
-        
-        .form-input::placeholder {
-            color: #74b9ff;
-            font-weight: 400;
+
+        .welcome-section {
+            color: rgb(0, 0, 0);
         }
-        
-        .form-input:focus {
-            border-color: #2d3436;
-            background: #ffffff;
-            box-shadow: 
-                0 0 0 3px rgba(45, 52, 54, 0.1),
-                0 8px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            line-height: 1.2;
         }
-        
-        .submit-button {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+
+        .welcome-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .contact-btn {
+            background: linear-gradient(45deg, #f59e0b, #fbbf24);
+            color: white;
+            padding: 12px 25px;
             border: none;
-            border-radius: 12px;
-            color: #ffffff;
+            border-radius: 25px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .contact-btn::before {
+            content: "✈️";
+            font-size: 1.1rem;
+        }
+
+        .character-image {
+            position: relative;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .character img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+        
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .login-form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
-            margin-top: 1rem;
         }
-        
-        .submit-button::before {
+
+        .login-form::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-        
-        .submit-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 
-                0 15px 35px rgba(45, 52, 54, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.2);
-            background: linear-gradient(135deg, #636e72 0%, #2d3436 100%);
-        }
-        
-        .submit-button:hover::before {
-            left: 100%;
-        }
-        
-        .submit-button:active {
-            transform: translateY(-1px);
-        }
-        
-        .form-container {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .form-panel {
-            transition: all 0.5s ease;
-            transform: translateX(0);
-        }
-        
-        .form-panel.slide-left {
-            transform: translateX(-100%);
-            opacity: 0;
-            position: absolute;
-            top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff0000, #ffee00, #00ff0d);
         }
-        
-        .form-panel.slide-right {
-            transform: translateX(100%);
-            opacity: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-        }
-        
-        .back-link {
-            display: block;
+
+        .logo-section {
             text-align: center;
-            margin-top: 1.5rem;
-            color: #74b9ff;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        .logo {
+    width: 40px;
+    height: 40px;
+    }   
+
+        .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    }
+
+        .company-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 25px;
+        }
+
+        .forgot-password a {
+            color: #6b7280;
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #3b82f6;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00ffb3, #00f7ff);
+            color: rgb(0, 0, 0);
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .social-section {
+            text-align: center;
+        }
+
+        .social-title {
+            color: #6b7280;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
             transition: all 0.3s ease;
         }
-        
-        .back-link:hover {
-            color: #2d3436;
-            transform: translateY(-1px);
+ำท
+
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .decorative-line {
-            position: absolute;
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #2d3436, transparent);
-            top: -1.5px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
+       .social-link img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
         }
-        
-        @media (max-width: 600px) {
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
             .login-container {
-                min-width: 320px;
-                margin: 1rem;
-                padding: 2.5rem 2rem;
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 30px 20px;
             }
-            
-            .form-title {
-                font-size: 1.75rem;
+
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+
+            .character {
+                width: 200px;
+                height: 200px;
+            }
+
+            .login-form {
+                padding: 30px 25px;
             }
         }
+
+        /* Additional animations */
+        .login-form {
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        .welcome-section {
+            animation: slideInLeft 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
     </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
     <div class="login-container">
-        <div class="decorative-line"></div>
-        
-        <!-- Mode Toggle -->
-        <div class="mode-toggle">
-            <div class="mode-slider" id="modeSlider"></div>
-            <button class="mode-btn active" id="loginBtn" onclick="switchMode('login')">LOGIN</button>
-            <button class="mode-btn" id="forgotBtn" onclick="switchMode('forgot')">FORGOT PASSWORD</button>
+        <div class="welcome-section">
+            <h1>Welcome to ASCENDER Co.,Ltd</h1>
+            <p class="welcome-text">
+                ข้อมูลและประวัติหม่วงงาน<br><br>
+                บริษัท และสถานเศรษฐกิจ ประกอบกิจการงานหม่วยสินค้าและนำเสนอและสินค้า
+                และบริการกิจการบริษัทเพื่อและแบบออนไลน์, ผ่านทางเว็บไซต์ของบริษัท
+                ด้วยให้ดีระดับมายตรงและสถาตนในตัวเรา
+            </p>
+            <button class="contact-btn">สมัครงานได้ที่นี่</button>
+            <div class="character-image">
+                <div class="character">
+                    <img src="../static/Female.png" alt="Character" "> 
+                </div>
+            </div>
         </div>
-        
-        <div class="form-container">
-            <!-- Login Form -->
-            <div class="form-panel" id="loginPanel">
-                <h2 class="form-title">Welcome Back</h2>
-                <p class="form-subtitle">Sign in to your account</p>
-                
-                <form method="POST">
-                    <!-- Django CSRF token would go here -->
-                    <div class="form-group">
-                        <input type="text" name="username" class="form-input" placeholder="Username" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-input" placeholder="Password" required>
-                    </div>
-                    
-                    <button type="submit" class="submit-button">
-                        Sign In
-                    </button>
-                </form>
+
+        <div class="login-form">
+            <div class="logo-section">
+                <div class="logo">
+            <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        </div>
+                <h2 class="company-name">ASCENDER</h2>
             </div>
-            
-            <!-- Forgot Password Form -->
-            <div class="form-panel slide-right" id="forgotPanel">
-                <h2 class="form-title">Reset Password</h2>
-                <p class="form-subtitle">Enter your email to receive reset instructions</p>
-                
-                <form method="POST">
-                    <!-- Django CSRF token would go here -->
-                    <div class="form-group">
-                        <input type="email" name="email" class="form-input" placeholder="Email Address" required>
+
+            <form>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-input" placeholder="Enter Username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="form-input" placeholder="Enter Password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
                     </div>
-                    
-                    <button type="submit" class="submit-button">
-                        Send Reset Link
-                    </button>
-                </form>
-                
-                <a href="#" class="back-link" onclick="switchMode('login')">← Back to Login</a>
-            </div>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="forgot.html">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" onclick="handleLogin(event)">Login</button>
+            </form>
+
+            <div class="social-section">
+    <p class="social-title">Follow Us!</p>
+    <div class="social-links">
+        <a href="https://www.facebook.com/share/1ZLzRttViQ/" class="social-link facebook">
+    <img src="../static/facebook.png" alt="Facebook">
+</a>
+
+<a href="https://www.instagram.com/ascender_co?igsh=YzBrbGViNGVya3Nl" class="social-link instagram">
+    <img src="../static/instagram.png" alt="Instagram">
+</a>
+
+<a href="https://youtube.com/@ascender_co?si=0fmLXmS3B8kgXQRU" class="social-link youtube">
+    <img src="../static/youtube.png" alt="YouTube">
+</a>
+
+<a href="https://www.tiktok.com/@hr.ascender?_t=ZS-8zSzsxC6Klp&_r=1" class="social-link tiktok">
+    <img src="../static/tik-tok.png" alt="TikTok">
+</a>
+
+    </div>
+</div>
         </div>
     </div>
 
     <script>
-        let currentMode = 'login';
-        
-        function switchMode(mode) {
-            if (currentMode === mode) return;
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle');
             
-            const loginBtn = document.getElementById('loginBtn');
-            const forgotBtn = document.getElementById('forgotBtn');
-            const modeSlider = document.getElementById('modeSlider');
-            const loginPanel = document.getElementById('loginPanel');
-            const forgotPanel = document.getElementById('forgotPanel');
-            
-            if (mode === 'login') {
-                // Switch to login mode
-                loginBtn.classList.add('active');
-                forgotBtn.classList.remove('active');
-                modeSlider.classList.remove('forgot');
-                
-                forgotPanel.classList.add('slide-right');
-                forgotPanel.classList.remove('slide-left');
-                loginPanel.classList.remove('slide-left', 'slide-right');
-                
-                currentMode = 'login';
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
             } else {
-                // Switch to forgot password mode
-                forgotBtn.classList.add('active');
-                loginBtn.classList.remove('active');
-                modeSlider.classList.add('forgot');
-                
-                loginPanel.classList.add('slide-left');
-                loginPanel.classList.remove('slide-right');
-                forgotPanel.classList.remove('slide-left', 'slide-right');
-                
-                currentMode = 'forgot';
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
             }
         }
-        
-        // Create floating particles
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
             
-            const size = Math.random() * 4 + 1;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            particle.style.left = Math.random() * window.innerWidth + 'px';
-            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            particle.style.animationDelay = Math.random() * 2 + 's';
-            
-            document.getElementById('particles').appendChild(particle);
-            
-            // Remove particle after animation
-            setTimeout(() => {
-                particle.remove();
-            }, 8000);
+            if (username && password) {
+                alert('ระบบล็อกอินสำเร็จ! ยินดีต้อนรับเข้าสู่ ASCENDER');
+            } else {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            }
         }
-        
-        // Generate particles continuously
-        setInterval(createParticle, 300);
-        
-        // Initial particles
-        for(let i = 0; i < 15; i++) {
-            setTimeout(createParticle, i * 200);
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                alert('ระบบล็อกอินสำเร็จ! ยินดีต้อนรับเข้าสู่ ASCENDER');
+            } else {
+                alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            }
         }
+
+        // Add floating animation to inputs
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Smooth scroll effect for social links
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
     </script>
 </body>
 </html>
