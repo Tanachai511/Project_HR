@@ -45,7 +45,8 @@ class candidate(models.Model):
     cdd_nickname = models.CharField("ชื่อเล่น", max_length=64, blank=True)
 
     cdd_gender = models.CharField("เพศ", max_length=8, choices=Gender.choices)
-    cdd_age = models.PositiveIntegerField("อายุ", null=True, blank=True) 
+    cdd_age = models.PositiveIntegerField("อายุ", null=True, blank=True)
+    birth_date = models.DateField(null=True, blank=True, verbose_name="วันเดือนปีเกิด") 
 
     cdd_position = models.CharField("ตำแหน่งที่สนใจสมัคร", max_length=32, choices=Position.choices)
     work_exp = models.TextField("ประสบการณ์ทำงาน (ระบุคร่าว ๆ)", blank=True)
