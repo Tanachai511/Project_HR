@@ -1,0 +1,33 @@
+# Django Project 
+# Django database
+db.sqlite3
+
+# Media uploads
+/media/
+/resumes/
+/uploads/
+
+# Static files (ถ้าสร้างเองด้วย collectstatic)
+staticfiles/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# Virtual environment
+venv/
+.env
+*.env
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
