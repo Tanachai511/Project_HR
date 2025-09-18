@@ -1,21 +1,18 @@
 # myapp/admin.py
+from pathlib import Path
 from django.contrib import admin, messages
 from django.db.models import Count
 from django.utils.html import format_html, format_html_join
 from django.urls import NoReverseMatch, path, reverse
 from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponseRedirect, HttpResponseNotAllowed
+from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.exceptions import PermissionDenied
 from django.middleware.csrf import get_token
+from reportlab.lib.pagesizes import A4
+from django.template.loader import render_to_string
+from playwright.sync_api import sync_playwright
 
 from myapp.models import employee, candidate, new, repair, job
-
-
-# ========== ลงทะเบียนโมเดลพื้นฐาน ==========
-admin.site.register(new)
-admin.site.register(repair)
-admin.site.register(job)
-
 
 # ========== Employee Admin ==========
 @admin.register(employee)
@@ -28,7 +25,6 @@ class EmployeeAdmin(admin.ModelAdmin):
     ordering = ("emp_name",)
     list_per_page = 25
     list_select_related = ("user",)
-    # ปรับ path ให้ตรงกับ app/model ของคุณ
     change_list_template = "admin/myapp/employee/change_list.html"
 
     # ----- columns -----
@@ -47,17 +43,18 @@ class EmployeeAdmin(admin.ModelAdmin):
     def username(self, obj): return obj.user.username
     username.short_description = "บัญชีผู้ใช้"
 
-    # ----- summary cards (ยอดรวมทั้งหมด) + ชื่อหัวข้อจากตัวกรองปัจจุบัน -----
+    class Meta:
+        verbose_name = "พนักงาน"
+        verbose_name_plural = "พนักงานทั้งหมด" 
+
+
     def changelist_view(self, request, extra_context=None):
-        # ให้ Django สร้าง ChangeList + context ปกติก่อน
         response = super().changelist_view(request, extra_context=extra_context)
         try:
-            # queryset ที่ถูก search/filter แล้ว (ถ้าต้องใช้)
             _ = response.context_data["cl"].queryset
         except (AttributeError, KeyError):
             return response
 
-        # การ์ดสรุปจากข้อมูลทั้งหมด (ไม่ขึ้นกับตัวกรอง)
         raw_all = employee.objects.values("emp_position").annotate(total=Count("id"))
         by_pos_all = {r["emp_position"]: r["total"] for r in raw_all}
 
@@ -77,11 +74,9 @@ class EmployeeAdmin(admin.ModelAdmin):
             for key, label in order
         ]
 
-        # ชื่อหัวข้อหลัก สะท้อนตัวกรองปัจจุบัน
         current = request.GET.get("emp_position__exact")
         page_title = dict(order).get(current, "พนักงาน")
 
-        # ส่งค่าให้เทมเพลต
         response.context_data.update({
             "summary_cards": summary_cards,
             "page_title": page_title,
@@ -96,6 +91,8 @@ class CandidateAdmin(admin.ModelAdmin):
     list_display = (
         "full_name_display",
         "cdd_nickname",
+        "age_display",
+        "birth_date_display",         
         "cdd_position_display",
         "cdd_tel",
         "cdd_email",
@@ -103,8 +100,6 @@ class CandidateAdmin(admin.ModelAdmin):
         "resume_link",
         "equipment_badges",
         "start_date_display",
-        "age_display",
-        "birth_date_display",   # 👈 เพิ่มคอลัมน์วันเกิด
         "status_badge",
         "pdf_button",
     )
@@ -120,9 +115,6 @@ class CandidateAdmin(admin.ModelAdmin):
     )
     list_per_page = 25
     ordering = ("cdd_first_name", "cdd_last_name")
-
-    # ✅ เอา date_hierarchy ออก เหลือเฉพาะ list_filter
-    list_filter = ("birth_date",)
 
     # ---------- เก็บ request ไว้ให้ status_badge ใช้สร้าง CSRF ----------
     def changelist_view(self, request, extra_context=None):
@@ -272,6 +264,157 @@ class CandidateAdmin(admin.ModelAdmin):
     def age_display(self, obj):
         return f"{obj.cdd_age} ปี" if obj.cdd_age is not None else "-"
 
-    @admin.display(description="วันเกิด")
+    @admin.display(description="วันเดือนปีเกิด")
     def birth_date_display(self, obj):
         return obj.birth_date
+    
+
+@admin.register(repair)
+class RepairAdmin(admin.ModelAdmin):
+    # … (ของเดิม list_display, fields, changelist_view ฯลฯ เหมือนที่คุณมี)
+    list_display = (
+        "id", "repair_date", "employee_name", "repair_type_badge",
+        "repair_location", "repair_status", "thumb", "pdf_button"
+    )
+    list_display_links = ("id", "employee_name")
+    list_editable = ("repair_status",)
+
+    # ---------- ปุ่ม PDF ----------
+    def pdf_button(self, obj):
+        url = reverse("admin:myapp_repair_pdf", args=[obj.pk])
+        return format_html('<a class="btn btn-sm btn-secondary" href="{}" target="_blank">PDF</a>', url)
+    pdf_button.short_description = "ดาวน์โหลด PDF"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom = [
+            path("<int:pk>/pdf/", self.admin_site.admin_view(self.repair_pdf_view), name="myapp_repair_pdf"),
+        ]
+        return custom + urls
+
+    def repair_pdf_view(self, request, pk):
+        obj = self.get_object(request, pk)
+        if not obj:
+            return HttpResponse("ไม่พบข้อมูล", status=404)
+
+        html = render_to_string("repair_pdf_template.html", {"obj": obj})
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page()
+            page.set_content(html)   # ✅ ไม่ต้องใส่ base_url
+            pdf_bytes = page.pdf(format="A4")
+            browser.close()
+
+        response = HttpResponse(pdf_bytes, content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="repair_{obj.id}.pdf"'
+        return response
+
+    # -------- helper columns ----------
+    def employee_name(self, obj):
+        return obj.employee.emp_name
+    employee_name.short_description = "ผู้แจ้ง"
+
+    def repair_type_badge(self, obj):
+        # ดึง label ของ choices จาก field
+        choices_map = dict(self.model._meta.get_field("repair_type").choices)
+        label = choices_map.get(obj.repair_type, obj.repair_type or "-")
+        color = "info" if "general" in (obj.repair_type or "").lower() else "warning"
+        return format_html('<span class="badge bg-{}">{}</span>', color, label)
+    repair_type_badge.short_description = "ประเภทงาน"
+
+    def thumb(self, obj):
+        """Thumbnail ใน list view + คลิกรูปได้"""
+        if obj.repair_img:
+            url = obj.repair_img.url
+            return format_html(
+                '<a href="{0}" target="_blank" rel="noopener">'
+                '<img src="{0}" style="height:36px;border-radius:6px"/></a>',
+                url
+            )
+        return "-"
+    thumb.short_description = "รูป"
+
+    def image_preview_link(self, obj):
+        """พรีวิวในหน้า detail (ใหญ่ + คลิกได้)"""
+        if obj.repair_img:
+            url = obj.repair_img.url
+            return format_html(
+                '<a href="{0}" target="_blank" rel="noopener">'
+                '<img src="{0}" style="max-height:240px;border-radius:8px"/></a>',
+                url
+            )
+        return "—"
+    image_preview_link.short_description = "พรีวิวรูป (คลิกเพื่อเปิด)"
+
+    # -------- ใส่สรุปให้ template ----------
+    def changelist_view(self, request, extra_context=None):
+        qs = self.get_queryset(request)
+
+        # --- เฉพาะ 2 ประเภท (System / General) ---
+        type_summary = []
+        for value, label in self.model.RepairType.choices:
+            total = qs.filter(repair_type=value).count()
+            type_summary.append({"value": value, "label": label, "total": total})
+
+        # --- สถานะยังคงนับปกติ ---
+        status_qs = qs.values("repair_status").annotate(total=Count("id")).order_by()
+        status_map = dict(self.model._meta.get_field("repair_status").choices)
+        status_summary = [
+            {"value": r["repair_status"], "label": status_map.get(r["repair_status"], r["repair_status"]), "total": r["total"]}
+            for r in status_qs
+        ]
+
+        ctx = extra_context or {}
+        ctx.update({
+            "type_summary": type_summary,
+            "status_summary": status_summary,
+        })
+        return super().changelist_view(request, extra_context=ctx)
+
+
+### JOB
+@admin.register(job)
+class JobAdmin(admin.ModelAdmin):
+    # ชี้ไปยังเทมเพลต changelist เฉพาะของโมเดล job
+    change_list_template = f"admin/{job._meta.app_label}/{job._meta.model_name}/change_list.html"
+
+    list_display = ("job_name", "job_type", "job_salary")
+    search_fields = ("job_name", "job_subhead")
+    list_filter = ("job_type",)
+
+@admin.register(new)
+class NewsAdmin(admin.ModelAdmin):
+    # ใช้เทมเพลต changelist แบบการ์ด
+    change_list_template = f"admin/{new._meta.app_label}/{new._meta.model_name}/change_list.html"
+
+    # ตาราง/การ์ด ใช้ข้อมูลจาก list_display นี้
+    list_display = ("news_head", "news_subhead", "news_date", "thumb")
+    search_fields = ("news_head", "news_subhead", "news_description")
+    date_hierarchy = "news_date"
+    list_filter = ("news_date",)
+
+    readonly_fields = ("image_preview_link",)
+    fields = ("news_head", "news_subhead", "news_img", "image_preview_link", "news_description")
+
+    def thumb(self, obj):
+        if obj.news_img:
+            url = obj.news_img.url
+            return format_html(
+                '<a href="{0}" target="_blank" rel="noopener">'
+                '<img src="{0}" style="height:36px;border-radius:6px"/></a>',
+                url
+            )
+        return "-"
+    thumb.short_description = "รูป"
+
+    def image_preview_link(self, obj):
+        if obj.news_img:
+            url = obj.news_img.url
+            return format_html(
+                '<a href="{0}" target="_blank" rel="noopener">'
+                '<img src="{0}" style="max-height:240px;border-radius:8px"/></a>',
+                url
+            )
+        return "—"
+    image_preview_link.short_description = "พรีวิวรูป (คลิกเพื่อเปิด)"

@@ -1,0 +1,52 @@
+{% extends "admin/change_list.html" %}
+
+{% block result_list %}
+  <style>
+    .news-card { transition: transform .15s ease, box-shadow .15s ease; }
+    .news-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .thumb {
+      width: 100%; height: 160px; border-radius: 10px; object-fit: cover; background:#f3f6f8;
+    }
+  </style>
+
+  <div class="row g-3">
+    {% for obj in cl.result_list %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card news-card h-100 shadow-sm">
+          {% if obj.news_img %}
+            <a href="{{ obj.news_img.url }}" target="_blank" rel="noopener">
+              <img class="thumb" src="{{ obj.news_img.url }}" alt="{{ obj.news_head }}">
+            </a>
+          {% else %}
+            <div class="thumb d-flex align-items-center justify-content-center text-muted">ไม่มีรูปภาพ</div>
+          {% endif %}
+
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title mb-1">{{ obj.news_head }}</h5>
+            <div class="text-muted small mb-2">
+              {{ obj.news_date|date:"Y-m-d H:i" }}
+            </div>
+            <p class="card-text line-clamp-3 mb-3">{{ obj.news_subhead }}</p>
+
+            <div class="mt-auto d-flex gap-2">
+              <a href="{% url 'admin:myapp_new_change' obj.pk %}" class="btn btn-sm btn-primary">แก้ไข</a>
+              <a href="{% url 'admin:myapp_new_delete' obj.pk %}" class="btn btn-sm btn-outline-danger">ลบ</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info mb-0">ยังไม่มีข่าวประชาสัมพันธ์</div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {# ใช้ pagination เดิมของแอดมิน #}
+  {% include "admin/pagination.html" %}
+{% endblock %}

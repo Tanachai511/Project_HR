@@ -1,5 +1,5 @@
 from django import forms
-from myapp.models import candidate
+from myapp.models import candidate,repair
 
 class CandidateForm(forms.ModelForm):
     class Meta:
@@ -16,3 +16,20 @@ class CandidateForm(forms.ModelForm):
             "birth_date": forms.DateInput(attrs={"type": "date"}), 
             "start_date_available": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
         }
+
+class RepairForm(forms.ModelForm):
+    class Meta:
+        model = repair
+        fields = [
+            "repair_date",
+            "repair_type",
+            "repair_problem",
+            "repair_cause",
+            "repair_location",
+            "repair_img",
+        ]
+        widgets = {
+            "repair_date": forms.DateInput(attrs={"type": "date"}),
+            "repair_problem": forms.Textarea(attrs={"rows": 4}),
+            "repair_cause": forms.Textarea(attrs={"rows": 3}),
+        }   

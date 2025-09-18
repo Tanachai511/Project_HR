@@ -1,163 +1,96 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCENDER Co., Ltd</title>
-    <link rel="stylesheet" href="../static/style.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ASCENDER Co., Ltd</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="../static/logo.jpg" alt="ASCENDER Logo">
-                </div>
-               <a style="text-decoration: none; color: black;" href="index.html">ASCENDER</a>
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-                    <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-                    <li><a href="#contact">ติดต่อ</a></li>
-                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-                </ul>
-            </nav>
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
         </div>
-    </header>
-    <div class="container">
-        <!-- First Section: Part-time Jobs -->
-        <section>
-            <h2 class="section-title">สำหรับสมัครงานพนักงานประจำ</h2>
-                <div class="job-grid">
-                    {% for job in jobs %}
-                    <div class="job-card">
-                        <div class="job-image">
-                            <div class="job-overlay telesales-home">
-                                <h3 class="job-title">{{ job.job_name }}</h3>
-                                <p class="job-subtitle">{{ job.job_subhead }}</p>
-                                <div class="job-salary">รายได้ 20,000 - 50,000 บาท</div>  <!-- เปลี่ยนเป็น dynamic ได้ถ้ามี field -->
-                            </div>
-                        </div>
-                        <div class="job-details">
-                            <p class="job-company">ASCENDER</p> <!-- เปลี่ยนให้ dynamic ได้เช่นกัน ถ้ามี field -->
-                            <p class="job-location">{{ job.job_subhead }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-        </section>
-
-        <!-- Second Section: Student/Education Jobs -->
-        <section>
-            <h2 class="section-title">สมัครฝึกงานสำหรับนักศึกษา</h2>
-            <div class="job-grid">
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay technical-support">
-                            <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
-                            <p class="job-subtitle">Intern</p>
-                            <div class="job-salary">ตำแหน่ง: นี้ </div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
-                        <p class="job-location">Intern </p>
-                    </div>
-                </div>
-
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay intern">
-                            <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
-                            <p class="job-subtitle">Intern</p>
-                            <div class="job-salary"></div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
-                        <p class="job-location">Intern </p>
-                    </div>
-                </div>
-
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay education-admin">
-                            <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
-                            <p class="job-subtitle">Intern</p>
-                            <div class="job-salary"></div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
-                        <p class="job-location">Intern </p>
-                    </div>
-                </div>
-
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay sales-consultant">
-                            <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน </h3>
-                            <p class="job-subtitle">Intern</p>
-                            <div class="job-salary"></div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">เปิดรับสมัคร นักศึกษาฝึกงาน</p>
-                        <p class="job-location">Intern </p>
-                    </div>
-                </div>
-            </div>
-            <a href="intern.html" class="view-more-btn">ดูเพิ่มเติม</a>
-        </section>
+        <a style="text-decoration:none;color:black;" href="">ASCENDER</a>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
+          <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+          <li><a href="#contact">ติดต่อ</a></li>
+          <li><a href="{% url 'admin:index' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        // Add click functionality to job cards
-        document.querySelectorAll('.job-card').forEach(card => {
-            card.addEventListener('click', function() {
-                // Add ripple effect
-                const ripple = document.createElement('div');
-                ripple.style.cssText = `
-                    position: absolute;
-                    background: rgba(255,255,255,0.6);
-                    border-radius: 50%;
-                    width: 20px;
-                    height: 20px;
-                    animation: ripple 0.6s ease-out;
-                    pointer-events: none;
-                `;
-                
-                this.style.position = 'relative';
-                this.appendChild(ripple);
-                
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
+  <div class="container">
+    <!-- First Section: Full-time Jobs -->
+    <section>
+      <h2 class="section-title">สำหรับสมัครงานพนักงานประจำ</h2>
+      <div class="job-grid">
+        {% for j in jobs %}
+          <div class="job-card">
+            <div class="job-image">
+              <div class="job-overlay telesales-home">
+                <h3 class="job-title">{{ j.job_name }}</h3>
+                <p class="job-subtitle">{{ j.job_subhead }}</p>
+                <div class="job-salary">เงินเดือน: {{ j.job_salary }} บาท</div>
+              </div>
+            </div>
+            <div class="job-details">
+              <p class="job-company">ASCENDER</p>
+              <p class="job-location">{{ j.job_subhead }}</p>
+            </div>
+          </div>
+        {% empty %}
+          <p>ยังไม่มีตำแหน่งงานเปิดรับ</p>
+        {% endfor %}
+      </div>
+    </section>
 
+    <!-- Second Section: Intern -->
+    <section>
+      <h2 class="section-title">สมัครฝึกงานสำหรับนักศึกษา</h2>
+      <div class="job-grid">
+        <div class="job-card">
+          <div class="job-image">
+            <div class="job-overlay technical-support">
+              <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
+              <p class="job-subtitle">Intern</p>
+              <div class="job-salary">ตำแหน่ง: —</div>
+            </div>
+          </div>
+          <div class="job-details">
+            <p class="job-company">ASCENDER</p>
+            <p class="job-location">Intern</p>
+          </div>
+        </div>
+        <!-- เพิ่มการ์ดอื่น ๆ ได้ตามต้องการ -->
+      </div>
+      <a href="{% url 'Applywork' %}" class="view-more-btn">ดูเพิ่มเติม</a>
+    </section>
+  </div>
 
-        // Add ripple animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                0% {
-                    transform: scale(0);
-                    opacity: 1;
-                }
-                100% {
-                    transform: scale(20);
-                    opacity: 0;
-                }
-            }
-        `;
-
-    </script>
+  <script>
+    // ripple effect เล็ก ๆ เวลา click
+    document.querySelectorAll('.job-card').forEach(card => {
+      card.addEventListener('click', function(e){
+        const ripple = document.createElement('div');
+        ripple.style.cssText = 'position:absolute;background:rgba(255,255,255,.6);border-radius:50%;width:20px;height:20px;animation:ripple .6s ease-out;pointer-events:none;';
+        this.style.position='relative';
+        this.appendChild(ripple);
+        setTimeout(()=>ripple.remove(),600);
+      });
+    });
+    const style=document.createElement('style');
+    style.textContent='@keyframes ripple{0%{transform:scale(0);opacity:1}100%{transform:scale(20);opacity:0}}';
+    document.head.appendChild(style);
+  </script>
 </body>
 </html>
-
-
-

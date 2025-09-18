@@ -1,0 +1,46 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <!-- การ์ดสรุปตามประเภทงาน -->
+  <div class="row">
+    {% for row in type_summary %}
+      <div class="col-md-3 col-6">
+        <div class="small-box {% if row.value and 'System' in row.value %}bg-warning{% else %}bg-info{% endif %}">
+          <div class="inner">
+            <h3>{{ row.total }}</h3>
+            <p>{{ row.label }}</p>
+          </div>
+          <a class="small-box-footer" href="?repair_type={{ row.value|urlencode }}">
+            ดูรายการนี้ <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- การ์ดสรุปตามสถานะ -->
+  <div class="row">
+    {% for row in status_summary %}
+      <div class="col-md-3 col-6">
+        <div class="small-box {% if row.value and 'เรียบร้อย' in row.label %}bg-success{% else %}bg-secondary{% endif %}">
+          <div class="inner">
+            <h3>{{ row.total }}</h3>
+            <p>{{ row.label }}</p>
+          </div>
+          <a class="small-box-footer" href="?repair_status={{ row.value|urlencode }}">
+            ดูรายการนี้ <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- ปุ่มล้างตัวกรอง -->
+  <div class="mb-3">
+    <a class="btn btn-outline-secondary" href="{% url 'admin:myapp_repair_changelist' %}">ดูทั้งหมด</a>
+  </div>
+</div>
+
+{{ block.super }}
+{% endblock %}

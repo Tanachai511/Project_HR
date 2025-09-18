@@ -1,6 +1,7 @@
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -18,6 +19,10 @@ class employee(models.Model):
 
     def __str__(self):
         return f"{self.emp_id} - {self.emp_name} - {self.emp_position} - {self.emp_tel}"
+
+    class Meta:
+        verbose_name = "พนักงาน"
+        verbose_name_plural = "พนักงาน"
     
 
 class candidate(models.Model):
@@ -90,12 +95,14 @@ class candidate(models.Model):
 class job(models.Model):
     id = models.BigAutoField(auto_created=True, primary_key=True ,serialize=False)
     job_name = models.CharField(max_length=255)
+    job_salary = models.IntegerField(blank=True, null=True) 
 
     class jobtype (models.TextChoices):
-        Nesws_poster = "ข่าวประชาสัมพันธ์"
-        Company_Activity = "กิจกรรมบริษัท"
-        News = "ข่าวสาร"
-        Other = "อื่น ๆ "
+        WFH = "WFH", "Telesales work from home"
+        OFFICE = "OFFICE", "Telesales office"
+        TRAINER = "TRAINER", "Trainer"
+        MKT = "MKT", "Manager Marketing"
+        INT = "INTERN", "Internship"
     job_type = models.CharField(choices=jobtype.choices, max_length=64)   
      
     job_subhead = models.TextField()
@@ -105,43 +112,55 @@ class job(models.Model):
 
     def __str__(self):
         return f"{self.job_name} - {self.job_subhead} - {self.job_type} - {self.job_qualification} - {self.job_benefit} - {self.job_description}"
+    
+    class Meta:
+        verbose_name = "รับสมัครงาน"
+        verbose_name_plural = "รับสมัครงาน"
 
 
 class repair(models.Model):
-    repair_date = models.DateField(auto_now_add=True)
+    class Meta:
+        verbose_name = "แจ้งซ่อม"
+        verbose_name_plural = "แจ้งซ่อม"
 
-    class repair (models.TextChoices):
-        system_repair = "System repair"
-        general_repair = "General repair"
-    repair_type = models.CharField(choices=repair.choices, max_length=64)
-    repair_date = models.DateTimeField(auto_now_add=True)
+    repair_date = models.DateField(default=timezone.now)
+
+    class RepairType(models.TextChoices):
+        system_repair = "System repair", "แจ้งซ่อมระบบ"
+        general_repair = "General repair", "แจ้งซ่อมทั่วไป"
+    repair_type = models.CharField(choices=RepairType.choices, max_length=64)
 
     repair_problem = models.TextField()
-    repair_cause = models.TextField()
+    repair_cause = models.TextField(blank=True)
 
-    class location (models.TextChoices):
-        first_floor = "ชั้น 1"
-        second_floor = "ชั้น 2"
-        third_floor = "ชั้น 3"
-    repair_location = models.CharField(choices=repair.choices, max_length=64)
+    class Location(models.TextChoices):
+        first_floor = "ชั้น 1", "ชั้น 1"
+        second_floor = "ชั้น 2", "ชั้น 2"
+        third_floor = "ชั้น 3", "ชั้น 3"
+    repair_location = models.CharField(choices=Location.choices, max_length=64)
 
-    repair_img = models.ImageField(upload_to='repair_report/', blank=True, null=True)
-    
-    class repairstatus (models.TextChoices):
-        in_progress = "กำลังดำเนินการ"
-        completed = "ดำเนินการเรียบร้อย"
-    repair_status = models.CharField(choices=repairstatus.choices , max_length=64 , default=repairstatus.in_progress)
+    repair_img = models.ImageField(upload_to="repair_report/", blank=True, null=True)
 
-    employee = models.ForeignKey(employee, on_delete=models.CASCADE, related_name="repairs")
-    
+    class RepairStatus(models.TextChoices):
+        in_progress = "กำลังดำเนินการ", "กำลังดำเนินการ"
+        completed = "ดำเนินการเรียบร้อย", "ดำเนินการเรียบร้อย"
+    repair_status = models.CharField(
+        choices=RepairStatus.choices, max_length=64, default=RepairStatus.in_progress
+    )
+
+    employee = models.ForeignKey("myapp.employee", on_delete=models.CASCADE, related_name="repairs")
+
+    created_at = models.DateTimeField(auto_now_add=True)  # สำหรับ track ภายใน
+
     def __str__(self):
-        return f"Repair #{self.pk} - {self.repair_status} - {self.repair_date.strftime('%Y-%m-%d %H:%M:%S')} - {self.employee.emp_name}"
-
-    def repair_details(self):
-        return f"Repair #{self.pk} - {self.repair_status} - {self.repair_date.strftime('%Y-%m-%d %H:%M:%S')} - {self.employee.emp_name} - {self.repair_type} - {self.repair_cause} - {self.repair_img.url if self.repair_img else 'No image'}"
+        return f"Repair #{self.pk} - {self.repair_status} - {self.repair_date} - {self.employee.emp_name}"
     
 
 class new (models.Model):
+    class Meta:
+        verbose_name = "ข่าวประชาสัมพันธ์"
+        verbose_name_plural = "ข่าวประชาสัมพันธ์"
+
     news_head = models.CharField(max_length=255)
     news_subhead = models.CharField(max_length=255)
     news_date = models.DateTimeField(auto_now_add=True)

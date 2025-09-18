@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import FileResponse, HttpResponse
+from django.http import FileResponse, Http404, HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from django.template.loader import get_template
 from io import BytesIO
 from django.template.loader import render_to_string
-from myapp.models import new, job, candidate
-from myapp.form import CandidateForm
+from myapp.models import new, job, candidate, repair
+from myapp.form import CandidateForm,RepairForm
+from django.contrib.auth.decorators import login_required
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
 
 
 def index(request):
@@ -127,3 +130,56 @@ def jobform_pdf(request, pk):
             as_attachment=True,
             filename=f"jobform_{obj.pk}.pdf",
         )
+    
+@login_required
+def repair_create(request):
+    if not hasattr(request.user, "employee"):
+        messages.error(request, "บัญชีนี้ยังไม่ได้ผูกข้อมูลพนักงาน")
+        return redirect("admin:index")
+
+    if request.method == "POST":
+        form = RepairForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.employee = request.user.employee
+            obj.save()
+            return redirect("repair_success")
+    else:
+        form = RepairForm()
+
+    return render(request, "repaircom.html", {"form": form, "employee": request.user.employee})
+
+def repair_success(request):
+    return render(request, "repair_success.html")
+
+def applywork(request):
+    jobs = job.objects.all().order_by("job_name")
+    return render(request, "Applywork.html", {"jobs": jobs})
+
+
+def repair_pdf(request, pk):
+    try:
+        obj = repair.objects.get(pk=pk)
+    except repair.DoesNotExist:
+        raise Http404("Repair not found")
+
+    # สร้าง response เป็น pdf
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="repair_{obj.id}.pdf"'
+
+    # เขียน PDF ด้วย reportlab
+    p = canvas.Canvas(response, pagesize=A4)
+    p.setFont("Helvetica", 14)
+    p.drawString(100, 800, f"Repair Report #{obj.id}")
+    p.setFont("Helvetica", 12)
+    p.drawString(100, 770, f"วันที่แจ้ง: {obj.repair_date.strftime('%Y-%m-%d %H:%M')}")
+    p.drawString(100, 750, f"ผู้แจ้ง: {obj.employee.emp_name}")
+    p.drawString(100, 730, f"ประเภทงาน: {obj.get_repair_type_display()}")
+    p.drawString(100, 710, f"สถานะ: {obj.get_repair_status_display()}")
+    p.drawString(100, 690, f"สถานที่: {obj.repair_location}")
+    p.drawString(100, 670, f"ปัญหา: {obj.repair_problem}")
+    p.drawString(100, 650, f"สาเหตุ: {obj.repair_cause}")
+
+    p.showPage()
+    p.save()
+    return response

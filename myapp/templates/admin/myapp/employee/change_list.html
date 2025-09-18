@@ -1,24 +1,67 @@
 {% extends "admin/change_list.html" %}
 
+{% block extrahead %}
+  {{ block.super }}
+  <style>
+    :root{
+      --sky:#cfe7eb; --card:#eaf6f8; --ink:#0f172a; --muted:#64748b;
+      --ok:#16a34a; --bad:#ef4444;
+    }
+    .breadcrumbs{ display:none; }
+
+    /* Banner + cards: เหมือนผู้สมัคร */
+    .banner{ background:var(--sky); border-radius:18px; padding:18px 22px; margin-bottom:16px; }
+    .banner h1{ margin:0; font-size:22px; font-weight:800; color:#fff; text-shadow:0 1px 0 rgba(0,0,0,.05); }
+
+    .stats{ display:flex; gap:14px; flex-wrap:wrap; }
+    .stat{
+      flex:1 1 220px;
+      background:var(--card);
+      border-radius:14px;
+      padding:14px 16px;
+      display:flex; gap:12px; align-items:center;
+      box-shadow:0 2px 6px rgba(0,0,0,.05);
+    }
+    .bubble{
+      width:42px; height:42px; border-radius:999px;
+      display:grid; place-items:center;
+      background:#fff; color:#60a5fa; font-size:18px;
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
+    }
+    .stat .big{ font-size:20px; font-weight:800; color:var(--ink); }
+    .stat .big .num{ color:#ef4444 !important; }  /* 🔴 ให้เฉพาะ ‘ตัวเลข’ เป็นสีแดง */
+    .stat .sub{ font-size:12px; color:var(--muted); }
+    .stat .more{ margin-left:auto; font-size:12px; font-weight:700; color:#0ea5e9; text-decoration:none; }
+
+    /* กล่องตาราง */
+    .sheet{
+      background:#fff; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,.06);
+      padding:10px 12px 2px; margin-top:14px;
+    }
+  </style>
+{% endblock %}
+
 {% block content_title %}
-  <h1 class="text-white text-xl font-semibold">{{ page_title }}</h1>
+  <div class="banner"><h1>{{ page_title|default:"พนักงาน" }}</h1></div>
 {% endblock %}
 
 {% block content %}
-  <div class="row" style="gap:10px 0; margin-bottom:8px;">
+  <!-- การ์ดสรุป (เหมือนผู้สมัคร) -->
+  <div class="stats">
     {% for c in summary_cards %}
-      <div class="col-md-3">
-        <div class="small-box" style="background:#e6f3f7;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.06);">
-          <div class="inner" style="padding:14px 16px;">
-            <h3 style="margin:0;font-weight:800;color:#0f172a;">{{ c.total }} คน</h3>
-            <p style="margin:2px 0 0;color:#334155;">{{ c.label }}</p>
-          </div>
-          <a href="{{ c.url }}" class="small-box-footer">ดูทั้งหมด <i class="fas fa-arrow-circle-right"></i>
-          </a>
+      <div class="stat">
+        <div class="bubble">👤</div>
+        <div>
+          <div class="big"><span class="num">{{ c.total }}</span> คน</div>  {# ← ตัวเลขแดงเท่านั้น #}
+          <div class="sub">{{ c.label }}</div>
         </div>
+        <a class="more" href="{{ c.url }}">ดูทั้งหมด →</a>
       </div>
     {% endfor %}
   </div>
 
-  {{ block.super }}  {# ← ไม่ต้องครอบการ์ดเพิ่ม #}
+  <!-- ตารางลิสต์มาตรฐาน -->
+  <div class="sheet">
+    {{ block.super }}
+  </div>
 {% endblock %}
