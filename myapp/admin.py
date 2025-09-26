@@ -97,6 +97,7 @@ class CandidateAdmin(admin.ModelAdmin):
         "cdd_tel",
         "cdd_email",
         "cdd_province",
+        "photo_thumb",
         "resume_link",
         "equipment_badges",
         "start_date_display",
@@ -197,6 +198,11 @@ class CandidateAdmin(admin.ModelAdmin):
         total = deleted[0]
         messages.success(request, f"ล้างข้อมูลทั้งหมดแล้ว ({total} แถว)")
         return redirect(reverse(f"admin:{self.model._meta.app_label}_{self.model._meta.model_name}_changelist"))
+    
+    def photo_thumb(self, obj):
+        if obj.cdd_photo:
+            return format_html('<img src="{}" style="height:48px;border-radius:6px;">', obj.cdd_photo.url)
+        return "-"
 
     def toggle_status(self, request, pk, *args, **kwargs):
         if request.method != "POST":
@@ -271,7 +277,6 @@ class CandidateAdmin(admin.ModelAdmin):
 
 @admin.register(repair)
 class RepairAdmin(admin.ModelAdmin):
-    # … (ของเดิม list_display, fields, changelist_view ฯลฯ เหมือนที่คุณมี)
     list_display = (
         "id", "repair_date", "employee_name", "repair_type_badge",
         "repair_location", "repair_status", "thumb", "pdf_button"
@@ -279,97 +284,40 @@ class RepairAdmin(admin.ModelAdmin):
     list_display_links = ("id", "employee_name")
     list_editable = ("repair_status",)
 
-    # ---------- ปุ่ม PDF ----------
+    @admin.display(description="ดาวน์โหลด PDF", ordering=False)
     def pdf_button(self, obj):
-        url = reverse("admin:myapp_repair_pdf", args=[obj.pk])
-        return format_html('<a class="btn btn-sm btn-secondary" href="{}" target="_blank">PDF</a>', url)
-    pdf_button.short_description = "ดาวน์โหลด PDF"
+        url = reverse("repair_pdf", args=[obj.pk])  # ← ใช้ view ปกติ
+        return format_html('<a class="button" href="{}" target="_blank" rel="noopener">PDF</a>', url)
 
-    def get_urls(self):
-        urls = super().get_urls()
-        custom = [
-            path("<int:pk>/pdf/", self.admin_site.admin_view(self.repair_pdf_view), name="myapp_repair_pdf"),
-        ]
-        return custom + urls
-
-    def repair_pdf_view(self, request, pk):
-        obj = self.get_object(request, pk)
-        if not obj:
-            return HttpResponse("ไม่พบข้อมูล", status=404)
-
-        html = render_to_string("repair_pdf_template.html", {"obj": obj})
-
-        with sync_playwright() as p:
-            browser = p.chromium.launch()
-            page = browser.new_page()
-            page.set_content(html)   # ✅ ไม่ต้องใส่ base_url
-            pdf_bytes = page.pdf(format="A4")
-            browser.close()
-
-        response = HttpResponse(pdf_bytes, content_type="application/pdf")
-        response["Content-Disposition"] = f'attachment; filename="repair_{obj.id}.pdf"'
-        return response
-
-    # -------- helper columns ----------
+    # ==== helper columns ====
     def employee_name(self, obj):
         return obj.employee.emp_name
     employee_name.short_description = "ผู้แจ้ง"
 
     def repair_type_badge(self, obj):
-        # ดึง label ของ choices จาก field
-        choices_map = dict(self.model._meta.get_field("repair_type").choices)
-        label = choices_map.get(obj.repair_type, obj.repair_type or "-")
-        color = "info" if "general" in (obj.repair_type or "").lower() else "warning"
+        label = obj.get_repair_type_display()
+        color = "warning" if "system" in (obj.repair_type or "").lower() else "info"
         return format_html('<span class="badge bg-{}">{}</span>', color, label)
     repair_type_badge.short_description = "ประเภทงาน"
 
     def thumb(self, obj):
-        """Thumbnail ใน list view + คลิกรูปได้"""
         if obj.repair_img:
             url = obj.repair_img.url
-            return format_html(
-                '<a href="{0}" target="_blank" rel="noopener">'
-                '<img src="{0}" style="height:36px;border-radius:6px"/></a>',
-                url
-            )
+            return format_html('<a href="{0}" target="_blank"><img src="{0}" style="height:36px;border-radius:6px"/></a>', url)
         return "-"
     thumb.short_description = "รูป"
 
-    def image_preview_link(self, obj):
-        """พรีวิวในหน้า detail (ใหญ่ + คลิกได้)"""
-        if obj.repair_img:
-            url = obj.repair_img.url
-            return format_html(
-                '<a href="{0}" target="_blank" rel="noopener">'
-                '<img src="{0}" style="max-height:240px;border-radius:8px"/></a>',
-                url
-            )
-        return "—"
-    image_preview_link.short_description = "พรีวิวรูป (คลิกเพื่อเปิด)"
-
-    # -------- ใส่สรุปให้ template ----------
+    # (ตัวอย่าง) ใส่สรุปให้ template ถ้าคุณมี change_list_template เอง
     def changelist_view(self, request, extra_context=None):
         qs = self.get_queryset(request)
-
-        # --- เฉพาะ 2 ประเภท (System / General) ---
-        type_summary = []
-        for value, label in self.model.RepairType.choices:
-            total = qs.filter(repair_type=value).count()
-            type_summary.append({"value": value, "label": label, "total": total})
-
-        # --- สถานะยังคงนับปกติ ---
-        status_qs = qs.values("repair_status").annotate(total=Count("id")).order_by()
         status_map = dict(self.model._meta.get_field("repair_status").choices)
+        status_qs = qs.values("repair_status").annotate(total=Count("id"))
         status_summary = [
             {"value": r["repair_status"], "label": status_map.get(r["repair_status"], r["repair_status"]), "total": r["total"]}
             for r in status_qs
         ]
-
         ctx = extra_context or {}
-        ctx.update({
-            "type_summary": type_summary,
-            "status_summary": status_summary,
-        })
+        ctx.update({"status_summary": status_summary})
         return super().changelist_view(request, extra_context=ctx)
 
 

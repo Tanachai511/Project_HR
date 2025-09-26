@@ -157,29 +157,46 @@ def applywork(request):
     return render(request, "Applywork.html", {"jobs": jobs})
 
 
+def repair_detail_pdfview(request, pk):
+    obj = get_object_or_404(repair, pk=pk)
+    return render(request, "repair_pdf.html", {"obj": obj, "pdf_mode": True})
+
 def repair_pdf(request, pk):
+    obj = get_object_or_404(repair, pk=pk)
+
+    # 1) Playwright (ถ้ามี)
     try:
-        obj = repair.objects.get(pk=pk)
-    except repair.DoesNotExist:
-        raise Http404("Repair not found")
+        from playwright.sync_api import sync_playwright
+        pdfview_url = request.build_absolute_uri(
+            reverse("repair_detail_pdfview", args=[obj.pk])
+        )
+        with sync_playwright() as p:
+            browser = p.chromium.launch(args=["--no-sandbox"])
+            page = browser.new_page()
+            page.goto(pdfview_url, wait_until="networkidle")
+            page.emulate_media(media="print")
+            pdf_bytes = page.pdf(
+                format="A4",
+                margin={"top":"16mm","right":"14mm","bottom":"18mm","left":"14mm"},
+                print_background=True
+            )
+            browser.close()
+        return FileResponse(BytesIO(pdf_bytes),
+                            as_attachment=True,
+                            filename=f"repair_{obj.pk}.pdf")
 
-    # สร้าง response เป็น pdf
-    response = HttpResponse(content_type="application/pdf")
-    response["Content-Disposition"] = f'attachment; filename="repair_{obj.id}.pdf"'
-
-    # เขียน PDF ด้วย reportlab
-    p = canvas.Canvas(response, pagesize=A4)
-    p.setFont("Helvetica", 14)
-    p.drawString(100, 800, f"Repair Report #{obj.id}")
-    p.setFont("Helvetica", 12)
-    p.drawString(100, 770, f"วันที่แจ้ง: {obj.repair_date.strftime('%Y-%m-%d %H:%M')}")
-    p.drawString(100, 750, f"ผู้แจ้ง: {obj.employee.emp_name}")
-    p.drawString(100, 730, f"ประเภทงาน: {obj.get_repair_type_display()}")
-    p.drawString(100, 710, f"สถานะ: {obj.get_repair_status_display()}")
-    p.drawString(100, 690, f"สถานที่: {obj.repair_location}")
-    p.drawString(100, 670, f"ปัญหา: {obj.repair_problem}")
-    p.drawString(100, 650, f"สาเหตุ: {obj.repair_cause}")
-
-    p.showPage()
-    p.save()
-    return response
+    except Exception:
+        # 2) Fallback: WeasyPrint
+        try:
+            from weasyprint import HTML
+        except Exception:
+            return HttpResponse(
+                "ต้องติดตั้ง Playwright หรือ WeasyPrint ก่อน",
+                status=500
+            )
+        html = render_to_string("repair_pdf.html", {"obj": obj, "pdf_mode": True})
+        base_url = request.build_absolute_uri("/")  # สำหรับโหลดรูป/สไตล์
+        pdf = HTML(string=html, base_url=base_url).write_pdf()
+        return FileResponse(BytesIO(pdf),
+                            as_attachment=True,
+                            filename=f"repair_{obj.pk}.pdf")

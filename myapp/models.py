@@ -65,6 +65,8 @@ class candidate(models.Model):
 
     # === เอกสาร ===
     cdd_resume = models.FileField("Resume / CV", upload_to="resumes/", blank=True, null=True)
+    cdd_photo = models.ImageField("รูปถ่ายผู้สมัคร", upload_to="candidate_photos/", blank=True, null=True)
+
 
     # === อุปกรณ์ (checkbox) ===
     has_pc = models.BooleanField("คอมพิวเตอร์ (Windows 10+)", default=False)

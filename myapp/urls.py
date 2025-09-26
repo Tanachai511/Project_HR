@@ -21,4 +21,6 @@ urlpatterns = [
     path("repaircom/success/", views.repair_success, name="repair_success"),
     path("logout/", LogoutView.as_view(next_page="login"), name="logout"),
     path("admin/repair/<int:pk>/pdf/", views.repair_pdf, name="repair-pdf"),
+    path("repair/<int:pk>/pdfview/", views.repair_detail_pdfview, name="repair_detail_pdfview"),
+    path("repair/<int:pk>/pdf/",      views.repair_pdf,           name="repair_pdf"),
 ]
