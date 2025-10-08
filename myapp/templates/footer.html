@@ -1,116 +1,68 @@
+{% load static %}
 <style>
 .footer {
-    background-color: #2f4f46; /* เขียวเข้ม */
-    color: white;
-    padding: 40px 80px;
-    display: flex;
-    justify-content: center;
+  background-color: #2f4f46;
+  color: white;
+  padding: 40px 80px;
+  display: flex;
+  justify-content: center;
 }
-
 .footer-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px;
-    gap: 40px;
+  display: flex; justify-content: space-between;
+  width: 100%; max-width: 1200px; gap: 40px;
 }
-
-.footer-left {
-    flex: 2;
-}
-
-.footer-logo {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.footer-logo img {
-    width: 50px;
-    margin-right: 10px;
-}
-
-.footer-logo span {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.footer-left p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.footer-social {
-    margin-top: 15px;
-}
-
-.footer-social a {
-    color: white;
-    margin-right: 15px;
-    font-size: 20px;
-    transition: color 0.3s;
-}
-
-.footer-column {
-    flex: 1;
-}
-
-
-.footer-column ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-column ul li {
-    margin: 8px 0;
-}
-
-.footer-column ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s;
-}
-
+.footer-left { flex: 2; }
+.footer-logo { display: flex; align-items: center; margin-bottom: 15px; }
+.footer-logo img { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; }
+.footer-logo span { font-size: 20px; font-weight: bold; }
+.footer-left p { margin: 5px 0; font-size: 14px; }
+.footer-social { margin-top: 15px; }
+.footer-social a { color: white; margin-right: 15px; font-size: 20px; transition: color 0.3s; }
+.footer-column { flex: 1; }
+.footer-column ul { list-style: none; padding: 0; margin: 0; }
+.footer-column ul li { margin: 8px 0; }
+.footer-column ul li a { color: white; text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.footer-column ul li a:hover, .footer-social a:hover { color: #a7f3d0; }
 </style>
+
 <footer class="footer">
   <div class="footer-container">
 
     <div class="footer-left">
       <div class="footer-logo">
-        <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        <!-- แก้แท็ก static ให้ถูก -->
+        <!-- ถ้าโลโก้อยู่ใน static/images ให้เปลี่ยนเป็น 'images/logo.jpg' -->
+        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
         <span>ASCENDER</span>
       </div>
       <p>
         388 อาคาร เอ็กซ์เชนจ์ทาวเวอร์ ชั้น 29 ยูนิต 2901-2904<br>
-        ถนน สุขุมวิท แขวงคลองเตย จังหวัด กรุงเทพมหานคร รหัสไปรษณี 10110<br>
+        ถนนสุขุมวิท แขวงคลองเตย กรุงเทพมหานคร 10110
       </p>
       <p>โทรศัพท์ : 062-732-5912</p>
-      <p>email : hrherboloid@gmail.com</p>
+      <p>Email : hrherboloid@gmail.com</p>
       <div class="footer-social">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
       </div>
     </div>
 
-    <!-- Company -->
     <div class="footer-column">
       <h4>Company</h4>
       <ul>
-        <li><a href="#">หน้าหลัก</a></li>
-        <li><a href="#">ข่าวประชาสัมพันธ์</a></li>
-        <li><a href="#">เกี่ยวกับเรา</a></li>
-        <li><a href="#">ติดต่อ</a></li>
+        <li><a href="{% url 'Home' %}">หน้าหลัก</a></li>
+        <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
+        <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+        <li><a href="#contact">ติดต่อ</a></li>
       </ul>
     </div>
 
-    <!-- Our Class -->
     <div class="footer-column">
       <h4>Our Class</h4>
       <ul>
-        <li><a href="#">สมัครงานสำหรับพนักงาน </a></li>
-        <li><a href="#">สมัครฝึกงานสำหรับนักศึกษา</a></li>
+        <li><a href="{% url 'Applywork' %}">สมัครงานสำหรับพนักงาน</a></li>
+        <li><a href="{% url 'Applywork' %}?type=intern">สมัครฝึกงานสำหรับนักศึกษา</a></li>
       </ul>
     </div>
   </div>

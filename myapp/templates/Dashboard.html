@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -322,28 +323,104 @@ body {
         transform: scale(1);
       }
     }
+
+
+
+    .user-menu { position: relative; }
+    .user-button{
+      display:flex; align-items:center; gap:.5rem;
+      background: transparent; border:0; cursor:pointer; padding:.35rem .5rem;
+      border-radius: 999px;
+    }
+    .user-button:hover{ background: rgba(0,0,0,.06); }
+    .avatar{
+      width:28px; height:28px; border-radius:50%;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, #4a7c59, #6b8e5a); color:#fff; font-weight:700;
+    }
+    .avatar.lg{ width:40px; height:40px; font-size:1rem; }
+    .user-name{ font-weight:600; color:#333; }
+    .chev{ opacity:.7; }
+    .dropdown{
+      position:absolute; right:0; top:110%;
+      width:280px; background:#fff; border-radius:14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.12);
+      overflow:hidden; z-index:9999;
+    }
+    .hidden{ display:none; }
+    .dropdown-header{
+      display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
+      background: linear-gradient(135deg, #f6faf8, #ffffff);
+      border-bottom:1px solid #eef2ef;
+    }
+    .dropdown-header .info .name{ font-weight:700; color:#1b2b21; line-height:1.2; }
+    .dropdown-header .info .email{ font-size:.9rem; color:#667; }
+    .dropdown-body{ padding:8px; }
+    .dropdown-body .item{
+      width:100%; display:flex; align-items:center; gap:.6rem;
+      padding:10px 10px; border-radius:10px; color:#233; text-decoration:none;
+      background:transparent; border:0;
+    }
+    .dropdown-body .item:hover{ background:#f3f7f5; }
+    .logout-btn{
+      width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
+      color:#b01d1d; font-weight:600;
+    }
+
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="nav-container">
-      <div class="logo">
-        <div class="logo-icon">
-          <img src="../static/logo.jpg" alt="ASCENDER Logo">
-        </div>
-        ASCENDER
+<header class="header">
+  <div class="nav-container">
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
       </div>
-      <nav>
-        <ul class="nav-menu">
-            <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-            <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-            <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-            <li><a href="#contact">ติดต่อ</a></li>
-            <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        </ul>
-      </nav>
+      ASCENDER
     </div>
-  </header>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
+        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
+        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
+
+        {% if user.is_authenticated %}
+          <li class="user-menu">
+            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
+              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
+              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
+              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+
+            <div id="userDropdown" class="dropdown hidden" role="menu">
+              <div class="dropdown-header">
+                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
+                <div class="info">
+                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
+                  <div class="email">{{ user.email }}</div>
+                </div>
+              </div>
+              <div class="dropdown-body">
+
+                <form action="{% url 'logout' %}" method="post" class="item">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
+                </form>
+              </div>
+            </div>
+          </li>
+        {% else %}
+          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
 
   <div class="container">
     <div class="section-header">
@@ -354,8 +431,8 @@ body {
       </h2>
     </div>
     <div class="image-container">
-      <a href="../static/Rule.pdf" target="_blank">
-        <img src="../static/Rule1.jpg" alt="โครงสร้างองค์กร">
+      <a href="{% static 'Rule.pdf' %}" target="_blank">
+        <img src="{% static 'RulePage.jpg' %}" alt="ระเบียบข้อบังคับ">
         <div class="click-hint">คลิกดู PDF</div>
       </a>
     </div>
@@ -368,8 +445,8 @@ body {
       </h2>
     </div>
     <div class="image-container">
-      <a href="../static/Organization.pdf" target="_blank">
-        <img src="../static/Kongsangongkorn.png" alt="ระเบียบข้อบังคับ">
+      <a href="{% static 'Organization.pdf' %}" target="_blank">
+        <img src="{% static 'Kongsangongkorn.jpg' %}" alt="โครงสร้างองค์กร">
         <div class="click-hint">คลิกดู PDF</div>
       </a>
     </div>
@@ -382,11 +459,40 @@ body {
       </h2>
     </div>
     <div class="image-container">
-      <a href="../static/intern.pdf" target="_blank">
-        <img src="../static/In1.png" alt="คู่มือนักศึกษาฝึกงาน">
+      <a href="{% static 'intern.pdf' %}" target="_blank">
+        <img src="{% static 'intern.jpg' %}" alt="คู่มือนักศึกษาฝึกงาน">
         <div class="click-hint">คลิกดู PDF</div>
       </a>
     </div>
   </div>
+  {% include 'footer.html' %}
+  <script>
+  (function(){
+    const btn = document.getElementById('userMenuBtn');
+    const dd  = document.getElementById('userDropdown');
+    if(!btn || !dd) return;
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const isHidden = dd.classList.contains('hidden');
+      dd.classList.toggle('hidden', !isHidden);
+      this.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', function(){
+      if(!dd.classList.contains('hidden')){
+        dd.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !dd.classList.contains('hidden')){
+        dd.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+  </script>
 </body>
 </html>

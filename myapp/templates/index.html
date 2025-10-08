@@ -1,60 +1,175 @@
 {% load static %}
+{% load tz %}
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCENDER Co., Ltd</title>
-    <link rel="stylesheet" href="../static/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCENDER Co., Ltd</title>
+  <!-- ใช้ static -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <style>
+/* แก้ header ให้วางทับสไลด์อย่างพอดี */
+.header {
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 1rem 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+/* ทำให้ hero เริ่มชิด header */
+.hero {
+  margin-top: 85px;
+  padding-top: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* กล่องสไลด์ */
+.slideshow-container {
+  width: 100%;
+  height: 65vh; /* ปรับตามความสูงที่ต้องการ */
+  position: relative;
+  margin-top: 0;
+}
+
+/* รูปภาพในสไลด์ */
+.slideshow-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ครอบเต็มจอโดยไม่บิดภาพ */
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* ป้องกันขอบสีขาว */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+.footer {
+    background-color: #2f4f46; /* เขียวเข้ม */
+    color: white;
+    padding: 40px 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 40px;
+}
+
+.footer-left {
+    flex: 2;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.footer-logo img {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.footer-logo span {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.footer-left p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.footer-social {
+    margin-top: 15px;
+}
+
+.footer-social a {
+    color: white;
+    margin-right: 15px;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.footer-column {
+    flex: 1;
+}
+
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin: 8px 0;
+}
+
+.footer-column ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="../static/logo.jpg" alt="ASCENDER Logo">
-                </div>
-                ASCENDER
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-                    <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-                    <li><a href="#contact">ติดต่อ</a></li>
-                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-                </ul>
-            </nav>
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <!-- ใช้ static -->
+          <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
         </div>
-    </header>
+        ASCENDER
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
+          <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
+          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
+          <li><a href="#contact">ติดต่อ</a></li>
+          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Hero Section with Slideshow -->
-    <section class="hero">
-        <div class="slideshow-container">
-            <!-- สไลด์ 1 - ใส่รูปภาพได้ที่ src="" -->
-            <div class="slide slide1 active">
-                <img src="../static/test1.jpg" alt="สไลด์ที่ 1">
-            </div>
-                
-            <!-- สไลด์ 2 - ใส่รูปภาพได้ที่ src="" -->
-            <div class="slide slide2">
-                <img src="../static/Slide2.jpg" alt="สไลด์ที่ 2 ">
-            </div>
-                
-            <!-- สไลด์ 3 - ใส่รูปภาพได้ที่ src="" -->
-            <div class="slide slide3">
-                <img src="../static/Slide3.jpg" alt="สไลด์ที่ 3 ">
-            </div>
-            </div>
-        </section>
-        <!-- ปุ่มเลื่อนสไลด์ -->
-        <div class="slide-indicators">
-            <span class="dot active" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-        </div>
-    </section>
+  <!-- Hero Section with Slideshow -->
+  <section class="hero">
+    <div class="slideshow-container">
+      <div class="slide slide1 active">
+        <img src="{% static 'SlidePage1.png' %}" alt="สไลด์ที่ 1">
+      </div>
+      <div class="slide slide2">
+        <img src="{% static 'SlidePage2.png' %}" alt="สไลด์ที่ 2">
+      </div>
+      <div class="slide slide3">
+        <img src="{% static 'SlidePage3.png' %}" alt="สไลด์ที่ 3">
+      </div>
+    </div>
+    <!-- indicators วางใน hero ได้เลย ไม่ต้องปิด/เปิด section ซ้ำ -->
+    <div class="slide-indicators">
+      <span class="dot active" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+  </section>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -82,7 +197,7 @@
                             {{ item.news_head }}<br>
                         </div>
                         <div class="poster-date">
-                            วันที่: {{ item.news_date|date:"d M Y H:i:s" }}
+                            วันที่: {{ item.news_date|localtime|date:"j F Y เวลา H:i น." }}
                         </div>
                     </div>
                 </div>
@@ -135,69 +250,66 @@
             <a href="" class="view-all-btn">ดูทั้งหมด</a>
         </section>
     </main>
-
-    <!-- Footer 
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3>ASCENDER Co., Ltd</h3>
-                <p>บริษัท แอสเซนเดอร์ จำกัด</p>
-                <p>ที่อยู่: [ใส่ที่อยู่บริษัท]</p>
-                <p>โทร: [ใส่เบอร์โทรศัพท์]</p>
-                <p>อีเมล: [ใส่อีเมล]</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 ASCENDER Co., Ltd. สงวนลิขสิทธิ์ทั้งหมด</p>
-        </div>
-    </footer>
-     (เพิ่มเติม) -->
+  <div class="footer-container">
 
-    <!-- JavaScript -->
-    <script>
-        // Slideshow functionality
-        let slideIndex = 1;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.dot');
+    <div class="footer-left">
+      <div class="footer-logo">
+        <img src="../static/logo.jpg" alt="ASCENDER Logo">
+        <span>ASCENDER</span>
+      </div>
+      <p>
+        388 อาคาร เอ็กซ์เชนจ์ทาวเวอร์ ชั้น 29 ยูนิต 2901-2904<br>
+        ถนน สุขุมวิท แขวงคลองเตย จังหวัด กรุงเทพมหานคร รหัสไปรษณี 10110<br>
+      </p>
+      <p>โทรศัพท์ : 062-732-5912</p>
+      <p>email : hrherboloid@gmail.com</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
 
-        function showSlides(n) {
-            if (n > slides.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = slides.length}
-            
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            slides[slideIndex-1].classList.add('active');
-            dots[slideIndex-1].classList.add('active');
-        }
+    <!-- Company -->
+    <div class="footer-column">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">หน้าหลัก</a></li>
+        <li><a href="#">ข่าวประชาสัมพันธ์</a></li>
+        <li><a href="#">เกี่ยวกับเรา</a></li>
+        <li><a href="#">ติดต่อ</a></li>
+      </ul>
+    </div>
 
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
+    <!-- Our Class -->
+    <div class="footer-column">
+      <h4>Our Class</h4>
+      <ul>
+        <li><a href="#">สมัครงานสำหรับพนักงาน </a></li>
+        <li><a href="#">สมัครฝึกงานสำหรับนักศึกษา</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
-        function nextSlide() {
-            showSlides(slideIndex += 1);
-        }
+  <script>
+    let slideIndex = 1;
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
 
-        // Auto slide every 5 seconds
-        setInterval(nextSlide, 5000);
+    function showSlides(n){
+      if(n > slides.length) slideIndex = 1;
+      if(n < 1) slideIndex = slides.length;
+      slides.forEach(s=>s.classList.remove('active'));
+      dots.forEach(d=>d.classList.remove('active'));
+      slides[slideIndex-1].classList.add('active');
+      dots[slideIndex-1].classList.add('active');
+    }
+    function currentSlide(n){ slideIndex = n; showSlides(slideIndex); }
+    function nextSlide(){ slideIndex++; showSlides(slideIndex); }
+    setInterval(nextSlide, 5000);
 
-        // Tab functionality
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Video play simulation
-        const videoCards = document.querySelectorAll('.video-card');
-        videoCards.forEach(card => {
-            card.addEventListener('click', function() {
-                alert('เปิด TikTok Video - คุณสามารถเพิ่มลิงก์ TikTok จริงได้ที่นี่');
-            });
-        });
-    </script>
+  </script>
 </body>
 </html>

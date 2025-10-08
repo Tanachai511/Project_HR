@@ -1,0 +1,498 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ASCENDER — สถานะแจ้งซ่อม</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family:"Prompt",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans Thai",sans-serif;
+  color:#14231e;
+}
+
+:root{ --nav-h: 64px; }   /* ปรับตามความจริงของ navbar */
+
+.header{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  z-index: 1000;
+
+  display:flex; align-items:center; 
+  padding: 0;                        
+}
+
+.header + .container{ margin-top: calc(var(--nav-h) + 12px); }
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, #4a7c59, #6b8e5a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    color: #4a7c59;
+}
+
+.nav-btn {
+    background-color: #6b8e5a !important;
+    color: white !important;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 25px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-btn:hover {
+    background-color: #4a7c59 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* ——— layout ——— */
+.container{ max-width:1120px; margin:0 auto; padding:24px; position:relative; z-index:1; }
+.header{
+  height:64px; display:flex; align-items:center; justify-content:space-between;
+  color:#fff;
+}
+.brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px; }
+.brand svg{ width:34px; height:34px; }
+.nav{ display:flex; align-items:center; gap:24px; }
+.nav a{ color:#dff7ef; text-decoration:none; font-weight:500; font-size:15px; opacity:.92; }
+.nav a:hover{ opacity:1; text-decoration:underline; }
+.user{ display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#0a3e31; border:1px solid rgba(255,255,255,.15);}
+
+/* ——— summary strip ——— */
+.summary-strip{
+  background:linear-gradient(180deg,#0f4d3a,#0f4636);
+  padding:18px; border-radius:20px; margin-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:18px; box-shadow:var(--shadow);
+}
+.stat{
+  display:flex; align-items:center; gap:16px; background:#114e3b; border:1px solid rgba(255,255,255,.06);
+  color:#e9fff7; border-radius:16px; padding:16px 18px;
+}
+.stat .icon{ width:48px; height:48px; border-radius:50%; background:#eafff7; display:grid; place-items:center; }
+.stat .icon svg{ width:26px; height:26px; fill:#0f4d3a; }
+.stat h4{ margin:0 0 4px; font-size:14px; font-weight:500; color:#d6fff5;}
+.stat .num{ font-weight:700; font-size:18px; }
+
+/* ——— card (table wrapper) ——— */
+.card{
+  margin-top:20px; background:var(--card); border-radius:18px; box-shadow:var(--shadow);
+  overflow:hidden; border:1px solid #e6f1ed;
+}
+.card-header{
+  padding:16px 18px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line);
+}
+.card-title{ font-weight:600; color:#1a2e27; }
+.tools{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.search{ position:relative; }
+.search input{
+  width:260px; height:36px; padding:0 36px 0 34px; border-radius:10px; border:1px solid var(--line);
+  background:var(--mint-100);
+  outline:none; font-size:14px;
+}
+.search .glass{ position:absolute; left:10px; top:8px; width:20px; height:20px; opacity:.6; }
+.select{
+  display:flex; align-items:center; gap:8px; font-size:13px; color:#3a5a52; background:#f7fbfa; border:1px solid var(--line);
+  padding:8px 12px; border-radius:10px;
+}
+.select select{
+  border:0; background:transparent; outline:none; font-size:13px; color:#21443a;
+}
+
+/* ——— table ——— */
+.table{ width:100%; border-collapse:separate; border-spacing:0; }
+.table thead th{
+  background:#f7fbfa; color:#2b4a43; font-weight:600; font-size:13px; padding:12px 14px; border-bottom:1px solid var(--line);
+}
+.table tbody td{
+  padding:12px 14px; border-bottom:1px solid var(--line); font-size:14px; color:#1f2f2a;
+}
+.table tbody tr:hover{ background:#f9fffd; }
+.table .left{ display:flex; align-items:center; gap:6px; }
+.row-toggle{
+  width:22px; height:22px; display:grid; place-items:center; border-radius:6px; border:1px solid #e2efe9; cursor:pointer; user-select:none; background:#fff;
+}
+.row-toggle span{ transition:.2s; display:inline-block; transform:rotate(0deg)}
+.row-toggle.active span{ transform:rotate(90deg); }
+.subrow{ display:none; background:#fcfffd;}
+.subrow td{ padding:16px 18px; color:#3a554e; font-size:13.5px; }
+
+/* ——— badges ——— */
+.badge{
+  display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600; letter-spacing:.2px;
+}
+.badge.success{ background:#e7fbef; color:#0d7a4f; border:1px solid #b7efcf;}
+.badge.warn{ background:#fff7e6; color:#a45a00; border:1px solid #ffe2a9;}
+.badge.danger{ background:#ffe9e9; color:#b71e1e; border:1px solid #ffc4c4;}
+.badge .dot{ width:8px; height:8px; border-radius:50%; }
+.success .dot{ background:#14b86f;}
+.warn .dot{ background:#ff9800;}
+.danger .dot{ background:#ff3b30;}
+
+/* ——— pagination (dummy) ——— */
+.pager{
+  display:flex; justify-content:center; align-items:center; gap:8px; padding:14px 18px;
+}
+.pager button{
+  min-width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:13px;
+}
+.pager button.active{ background:#0f4d3a; color:#fff; border-color:#0f4d3a; }
+.pager button:hover{ filter:brightness(.97); }
+
+/* ——— footer ——— */
+.footer{
+  margin-top:24px; background:#0e3f31; color:#eafff6; border-radius:18px; box-shadow:var(--shadow);
+}
+.footer-inner{ display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:24px; padding:22px 24px; }
+.footer .brand{ color:#eafff6; }
+.footer small, .footer p{ color:#d5fff0; opacity:.9; }
+.ft-col h5{ margin:0 0 10px; font-size:14px; opacity:.95; }
+.ft-col a{ display:block; color:#dff7ef; text-decoration:none; font-size:14px; margin:6px 0; opacity:.92; }
+.ft-col a:hover{ opacity:1; text-decoration:underline; }
+.footer .meta{ display:flex; gap:10px; align-items:center; margin-top:8px; opacity:.85; font-size:13px; }
+
+/* responsive */
+@media (max-width: 900px){
+  .summary-strip{ grid-template-columns:1fr; }
+  .tools{ flex-wrap:wrap; }
+  .search input{ width:220px; }
+  .footer-inner{ grid-template-columns:1fr; }
+}
+
+    .user-menu { position: relative; }
+    .user-button{
+      display:flex; align-items:center; gap:.5rem;
+      background: transparent; border:0; cursor:pointer; padding:.35rem .5rem;
+      border-radius: 999px;
+    }
+    .user-button:hover{ background: rgba(0,0,0,.06); }
+    .avatar{
+      width:28px; height:28px; border-radius:50%;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, #4a7c59, #6b8e5a); color:#fff; font-weight:700;
+    }
+    .avatar.lg{ width:40px; height:40px; font-size:1rem; }
+    .user-name{ font-weight:600; color:#333; }
+    .chev{ opacity:.7; }
+    .dropdown{
+      position:absolute; right:0; top:110%;
+      width:280px; background:#fff; border-radius:14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.12);
+      overflow:hidden; z-index:9999;
+    }
+    .hidden{ display:none; }
+    .dropdown-header{
+      display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
+      background: linear-gradient(135deg, #f6faf8, #ffffff);
+      border-bottom:1px solid #eef2ef;
+    }
+    .dropdown-header .info .name{ font-weight:700; color:#1b2b21; line-height:1.2; }
+    .dropdown-header .info .email{ font-size:.9rem; color:#667; }
+    .dropdown-body{ padding:8px; }
+    .dropdown-body .item{
+      width:100%; display:flex; align-items:center; gap:.6rem;
+      padding:10px 10px; border-radius:10px; color:#233; text-decoration:none;
+      background:transparent; border:0;
+    }
+    .dropdown-body .item:hover{ background:#f3f7f5; }
+    .logout-btn{
+      width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
+      color:#b01d1d; font-weight:600;
+    }
+
+</style>
+</head>
+
+<body>
+<div class="bg-shapes"></div>
+<header class="header">
+  <div class="nav-container">
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
+      </div>
+      ASCENDER
+    </div>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
+        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
+        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
+
+        {% if user.is_authenticated %}
+          <li class="user-menu">
+            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
+              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
+              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
+              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+
+            <div id="userDropdown" class="dropdown hidden" role="menu">
+              <div class="dropdown-header">
+                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
+                <div class="info">
+                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
+                  <div class="email">{{ user.email }}</div>
+                </div>
+              </div>
+              <div class="dropdown-body">
+
+                <form action="{% url 'logout' %}" method="post" class="item">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
+                </form>
+              </div>
+            </div>
+          </li>
+        {% else %}
+          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="container">
+
+
+  <!-- Summary strip -->
+  <section class="summary-strip">
+    <div class="stat">
+      <div class="icon">
+        <!-- wrench -->
+        <svg viewBox="0 0 24 24"><path d="M22 19.6 14.4 12A7 7 0 0 1 9 2a7 7 0 0 0 0 10l7.6 7.6a2 2 0 0 0 2.8 0l2.6-2.6a2 2 0 0 0 0-2.8zM5 22a3 3 0 1 1 4.24-4.24A3 3 0 0 1 5 22z"/></svg>
+      </div>
+      <div>
+        <h4>งานแจ้งซ่อมทั่วไปของบริษัท</h4>
+        <div class="num">รอดำเนินการ {{ general_pending_count }}</div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><path d="M22 19.6 14.4 12A7 7 0 0 1 9 2a7 7 0 0 0 0 10l7.6 7.6a2 2 0 0 0 2.8 0l2.6-2.6a2 2 0 0 0 0-2.8zM5 22a3 3 0 1 1 4.24-4.24A3 3 0 0 1 5 22z"/></svg>
+      </div>
+      <div>
+        <h4>งานแจ้งซ่อมระบบ</h4>
+        <div class="num">รอดำเนินการ {{ system_pending_count }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table card -->
+  <section class="card">
+    <div class="card-header">
+      <div class="card-title">รายการแจ้งซ่อม (ดูอย่างเดียว)</div>
+      <div class="tools">
+        <div class="search">
+          <input id="searchBox" type="search" placeholder="ค้นหา: เลขที่, วัน, เบอร์, ประเภท, สถานะ, รายละเอียด..." oninput="filterRows(this.value)" />
+          <svg class="glass" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20 15.5 14Zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14Z"/></svg>
+        </div>
+
+        <!-- ฟิลเตอร์หน้าเดียว (JS) -->
+        <div class="select">
+          <span>สถานะ:</span>
+          <select id="statusFilter" onchange="applyFilters()">
+            <option value="">ทั้งหมด</option>
+            <option value="ดำเนินการเรียบร้อย">ดำเนินการเรียบร้อย</option>
+            <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
+          </select>
+        </div>
+
+        <div class="select">
+          <span>ประเภท:</span>
+          <select id="typeFilter" onchange="applyFilters()">
+            <option value="">ทั้งหมด</option>
+            <option value="แจ้งซ่อมทั่วไป">แจ้งซ่อมทั่วไป</option>
+            <option value="แจ้งซ่อมระบบ">แจ้งซ่อมระบบ</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table" id="tickets">
+        <thead>
+          <tr>
+            <th style="width:56px;"></th>
+            <th style="width:90px;">เลขที่</th>
+            <th style="width:140px;">วันที่แจ้งซ่อม</th>
+            <th style="width:140px;">ผู้แจ้ง</th>
+            <th style="width:140px;">เบอร์</th>
+            <th>ประเภทงาน</th>
+            <th style="width:190px;">สถานะ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if tickets %}
+            {% for t in tickets %}
+              {% with status=t.get_repair_status_display type_label=t.get_repair_type_display %}
+                {% if "เรียบร้อย" in status %}
+                  {% with badge="success" %}{% endwith %}
+                {% elif "กำลัง" in status or "ตรวจสอบ" in status %}
+                  {% with badge="danger" %}{% endwith %}
+                {% else %}
+                  {% with badge="warn" %}{% endwith %}
+                {% endif %}
+              {% endwith %}
+
+              <tr
+                data-status="{{ t.get_repair_status_display }}"
+                data-type="{{ t.get_repair_type_display }}"
+                data-keywords="{{ t.id }} {{ t.repair_date|date:'d/m/Y' }} {{ t.employee.emp_name }} {{ t.employee.emp_tel }} {{ t.get_repair_type_display }} {{ t.get_repair_status_display }} {{ t.repair_problem|default_if_none:'' }} {{ t.repair_cause|default_if_none:'' }}">
+                <td>
+                  <div class="row-toggle" onclick="toggleSub(this)"><span>▶</span></div>
+                </td>
+                <td>{{ t.id|stringformat:"04d" }}</td>
+                <td>{{ t.repair_date|date:"d/m/Y" }}</td>
+                <td>{{ t.employee.emp_name }}</td>
+                <td>{{ t.employee.emp_tel }}</td>
+                <td>{{ t.get_repair_type_display }}</td>
+                <td>
+                  {% with label=t.get_repair_status_display %}
+                    {% if "เรียบร้อย" in label %}
+                      <span class="badge success"><span class="dot"></span> {{ label }}</span>
+                    {% elif "กำลัง" in label or "ตรวจสอบ" in label %}
+                      <span class="badge danger"><span class="dot"></span> {{ label }}</span>
+                    {% else %}
+                      <span class="badge warn"><span class="dot"></span> {{ label }}</span>
+                    {% endif %}
+                  {% endwith %}
+                </td>
+              </tr>
+              <tr class="subrow">
+                <td colspan="7">
+                  <strong>รายละเอียด:</strong> {{ t.repair_problem|default:"—" }}
+                  {% if t.repair_cause %}<br><strong>สาเหตุ:</strong> {{ t.repair_cause }}{% endif %}
+                  <br><strong>สถานที่:</strong> {{ t.repair_location }}
+                  {% if t.repair_img %}
+                    <br><strong>รูปแนบ:</strong> <a href="{{ t.repair_img.url }}" target="_blank" rel="noopener">เปิดรูป</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr><td colspan="7" style="text-align:center;color:#6b7;">ยังไม่มีรายการแจ้งซ่อม</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- (optional) ตัวอย่างเพจเจอร์ dummy -->
+    <!--
+    <div class="pager">
+      <button>&laquo;</button>
+      <button class="active">1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>&raquo;</button>
+    </div>
+    -->
+  </section>
+
+</div>
+{% include 'footer.html' %}
+
+<script>
+function toggleSub(el){
+  el.classList.toggle('active');
+  const tr = el.closest('tr');
+  const next = tr.nextElementSibling;
+  if(next && next.classList.contains('subrow')){
+    next.style.display = next.style.display === 'table-row' ? 'none' : 'table-row';
+  }
+}
+
+function filterRows(q){
+  q = (q||'').toLowerCase().trim();
+  document.querySelectorAll('#tickets tbody tr').forEach(tr=>{
+    if(tr.classList.contains('subrow')) return;
+    const kw = (tr.getAttribute('data-keywords')||'').toLowerCase();
+    const statusFilter = (document.getElementById('statusFilter').value||'').toLowerCase();
+    const typeFilter = (document.getElementById('typeFilter').value||'').toLowerCase();
+    const rowStatus = (tr.getAttribute('data-status')||'').toLowerCase();
+    const rowType = (tr.getAttribute('data-type')||'').toLowerCase();
+
+    const matchSearch = kw.includes(q);
+    const matchStatus = !statusFilter || rowStatus.includes(statusFilter);
+    const matchType = !typeFilter || rowType.includes(typeFilter);
+
+    const show = matchSearch && matchStatus && matchType;
+    tr.style.display = show ? '' : 'none';
+    const sub = tr.nextElementSibling;
+    if(sub && sub.classList.contains('subrow') && !show){
+      sub.style.display='none';
+      tr.querySelector('.row-toggle')?.classList.remove('active');
+    }
+  });
+}
+
+function applyFilters(){
+  const q = document.getElementById('searchBox').value;
+  filterRows(q);
+}
+</script>
+</body>
+</html>

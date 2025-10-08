@@ -5,7 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASCENDER Co., Ltd</title>
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <style>
+        /* ===== NAVBAR BASE ===== */
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Prompt,Arial,sans-serif;}
+
+.header{
+  position:fixed; top:0; left:0; right:0;
+  background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08);
+  z-index:1000;
+}
+.nav-container{
+  max-width:1200px; margin:0 auto; padding:10px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+.logo{display:flex; align-items:center; gap:10px; font-weight:600; color:#1f2937;}
+.logo-icon{display:flex; align-items:center;}
+.logo-icon img{width:44px; height:44px; object-fit:contain; display:block;}
+
+.nav-menu{
+  list-style:none; margin:0; padding:0;
+  display:flex; align-items:center; gap:20px;
+}
+.nav-menu a{
+  text-decoration:none; color:#374151; font-weight:500;
+}
+.nav-btn{
+  padding:8px 14px; border:1px solid #10b981; border-radius:10px;
+  color:#065f46; font-weight:600;
+}
+
+/* ดันคอนเทนต์ลงให้ไม่โดนทับ */
+:root{ --nav-h:72px; }
+body{ padding-top:var(--nav-h); }
+
+/* ===== HERO / SLIDES ===== */
+.hero{ position:relative; overflow:hidden; height:420px; }
+.slideshow-container{ position:relative; width:100%; height:100%; }
+.slide{ position:absolute; inset:0; opacity:0; transition:opacity 1.2s; }
+.slide.active{ opacity:1; }
+.slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* จุดบอกสไลด์ */
+.slide-indicators{
+  position:absolute; left:0; right:0; bottom:14px; display:flex; gap:8px; justify-content:center;
+}
+.dot{ width:10px; height:10px; border-radius:50%; background:#e5e7eb; cursor:pointer; }
+.dot.active{ background:#10b981; }
+    </style>
 </head>
 <body>
         <!-- Header -->
@@ -19,11 +68,11 @@
             </div>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="#about">เกี่ยวกับเรา</a></li>
-                    <li><a href="#services">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="#training">เที่ยวกับเรา</a></li>
+                    <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
+                    <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
+                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
                     <li><a href="#contact">ติดต่อ</a></li>
-                    <li><a href="#apply" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+                    <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
                 </ul>
             </nav>
         </div>
@@ -31,37 +80,29 @@
     
 
     <!-- Main Content -->
-    <main style="padding: 20px; max-width: 1200px; margin: 0 auto;">
-        <h1 style="color: #2c5530; font-size: 2.5rem; font-weight: bold; margin-bottom: 30px;">ข่าวประชาสัมพันธ์</h1>
+  <main style="padding:20px;max-width:1200px;margin:0 auto;">
+    <h1 style="color:#2c5530;font-size:2.5rem;font-weight:bold;margin-bottom:30px;">ข่าวประชาสัมพันธ์</h1>
 
-        <!-- News Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-
-            {% for item in news %}
-            <div style="background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer;">
-                <div style="height: 200px; display: flex; align-items: center; justify-content: center;">
-                    {% if item.news_img %}
-                        <img src="{{ item.news_img.url }}" alt="{{ item.news_head }}" width="100%" height="100%" style="object-fit: cover;">
-                    {% else %}
-                        <div style="color: gray;">ไม่มีรูป</div>
-                    {% endif %}
-                </div>
-                <div style="padding: 20px;">
-                    <div style="color: #666; margin-bottom: 10px;">
-                        📅 วันที่: {{ item.news_date|date:"d M Y H:i:s" }}
-                    </div>
-                    <div style="color: #2c5530; font-weight: bold; cursor: pointer;">
-                        {{ item.news_head }} → 
-                    </div>
-                </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+      {% for item in news %}
+        <a href="{% url 'news_detail' item.pk %}" style="text-decoration:none;color:inherit;">
+          <div style="background:white;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.1);overflow:hidden;">
+            <div style="height:200px;display:flex;align-items:center;justify-content:center;">
+              {% if item.news_img %}
+                <img src="{{ item.news_img.url }}" alt="{{ item.news_head }}" width="100%" height="100%" style="object-fit:cover;">
+              {% else %}
+                <img src="{% static 'default.jpg' %}" alt="no image" width="100%" height="100%" style="object-fit:cover;">
+              {% endif %}
             </div>
-            {% endfor %}
-
-        </div>
-    </main>
-
-</body>
-</html>
-
+            <div style="padding:20px;">
+              <div style="color:#666;margin-bottom:10px;">📅 วันที่: {{ item.news_date|date:"d M Y H:i:s" }}</div>
+              <div style="color:#2c5530;font-weight:bold;">{{ item.news_head }} →</div>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </main>
+  {% include 'footer.html' %}
 </body>
 </html>

@@ -5,12 +5,11 @@ from django.db.models import Count
 from django.utils.html import format_html, format_html_join
 from django.urls import NoReverseMatch, path, reverse
 from django.shortcuts import get_object_or_404, redirect
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.exceptions import PermissionDenied
 from django.middleware.csrf import get_token
 from reportlab.lib.pagesizes import A4
-from django.template.loader import render_to_string
-from playwright.sync_api import sync_playwright
+
 
 from myapp.models import employee, candidate, new, repair, job
 
@@ -99,6 +98,7 @@ class CandidateAdmin(admin.ModelAdmin):
         "cdd_province",
         "photo_thumb",
         "resume_link",
+        "row_more",
         "equipment_badges",
         "start_date_display",
         "status_badge",
@@ -117,16 +117,64 @@ class CandidateAdmin(admin.ModelAdmin):
     list_per_page = 25
     ordering = ("cdd_first_name", "cdd_last_name")
 
-    # ---------- เก็บ request ไว้ให้ status_badge ใช้สร้าง CSRF ----------
+    @admin.display(description="เพิ่มเติม", ordering=False)
+    def row_more(self, obj):
+        # สิ่งที่อยากซ่อนไปไว้ในแผง "ดูเพิ่ม"
+        chips = []
+        if obj.has_pc: chips.append("คอมพิวเตอร์")
+        if obj.has_laptop: chips.append("โน้ตบุ๊ค")
+        if obj.has_wifi: chips.append("Wi-Fi")
+        if obj.has_headphone: chips.append("Headphone")
+        if obj.has_anydesk: chips.append("AnyDesk")
+
+        equip_html = "-"
+        if chips:
+            equip_html = format_html_join(
+                "", '<span class="chip chip-soft">{}</span>', ((c,) for c in chips)
+            )
+
+        resume_html = format_html('<a href="{}" target="_blank">ไฟล์แนบ</a>', obj.cdd_resume.url) if obj.cdd_resume else "-"
+
+        pdf_html = "-"
+        try:
+            from django.urls import reverse
+            pdf_url = reverse("jobform_pdf", args=[obj.pk])
+            pdf_html = format_html('<a href="{}" target="_blank" rel="noopener">ดาวน์โหลด PDF</a>', pdf_url)
+        except Exception:
+            pass
+
+        return format_html(
+            '''
+            <details class="row-more">
+            <summary>ดูเพิ่ม</summary>
+            <div class="more-body">
+                <div><b>โทร:</b> {tel}</div>
+                <div><b>อีเมล:</b> {email}</div>
+                <div><b>จังหวัด:</b> {prov}</div>
+                <div><b>อุปกรณ์:</b> {equip}</div>
+                <div><b>เรซูเม่:</b> {resume}</div>
+                <div><b>ฟอร์ม:</b> {pdf}</div>
+            </div>
+            </details>
+            ''',
+            tel=obj.cdd_tel or "-",
+            email=obj.cdd_email or "-",
+            prov=obj.cdd_province or "-",
+            equip=equip_html,
+            resume=resume_html,
+            pdf=pdf_html
+        )
+
+    # ---------- เก็บ request ไว้ใช้ใน badge ----------
     def changelist_view(self, request, extra_context=None):
         self._request = request
         response = super().changelist_view(request, extra_context=extra_context)
-
         try:
             _ = response.context_data["cl"].queryset
         except (AttributeError, KeyError):
             return response
 
+        # สรุปการ์ด
         raw_all = candidate.objects.values("cdd_position").annotate(total=Count("id"))
         by_pos = {r["cdd_position"]: r["total"] for r in raw_all}
         order = [
@@ -150,27 +198,18 @@ class CandidateAdmin(admin.ModelAdmin):
     def status_badge(self, obj):
         label = obj.get_cdd_status_display()
         if obj.cdd_status == obj.Status.APPROVED:
-            style = "padding:2px 8px;border-radius:8px;background:#e6ffed;color:#0a7d29;border:1px solid #b7f7c7;"
+            css = "status-badge badge-ok"
             next_title = "สลับเป็น: ยังไม่ได้อ่าน"
         else:
-            style = "padding:2px 8px;border-radius:8px;background:#fff7ed;color:#b45309;border:1px solid #fde1bf;"
+            css = "status-badge badge-no"
             next_title = "สลับเป็น: อ่านแล้ว"
 
-        request = getattr(self, "_request", None)
-        csrf = get_token(request) if request else ""
-        filters = request.GET.urlencode() if request else ""
+        # ใช้ลิงก์ GET แทน form POST
         action_url = reverse("admin:candidate_toggle_status", args=[obj.pk])
-
         return format_html(
-            (
-                '<form method="post" action="{}" style="display:inline">'
-                '<input type="hidden" name="csrfmiddlewaretoken" value="{}" />'
-                '<input type="hidden" name="_changelist_filters" value="{}" />'
-                '<button type="submit" title="{}" style="all:unset;cursor:pointer;">'
-                '<span style="{}">{}</span>'
-                "</button></form>"
-            ),
-            action_url, csrf, filters, next_title, style, label
+            '<a href="{}" title="{}" '
+            'style="text-decoration:none;"><span class="{}">{}</span></a>',
+            action_url, next_title, css, label
         )
 
     @admin.display(description="วันเริ่มงาน")
@@ -183,8 +222,10 @@ class CandidateAdmin(admin.ModelAdmin):
 
         my_urls = [
             path("clear-data/", self.admin_site.admin_view(self.clear_data), name=clear_name),
-            path("<int:pk>/toggle-status/", self.admin_site.admin_view(self.toggle_status),
-                 name="candidate_toggle_status"),
+            path("<int:pk>/toggle-status/",
+                self.admin_site.admin_view(self.toggle_status),
+                name="candidate_toggle_status",
+            ),
         ]
         return my_urls + urls
 
@@ -199,14 +240,16 @@ class CandidateAdmin(admin.ModelAdmin):
         messages.success(request, f"ล้างข้อมูลทั้งหมดแล้ว ({total} แถว)")
         return redirect(reverse(f"admin:{self.model._meta.app_label}_{self.model._meta.model_name}_changelist"))
     
+    @admin.display(description="รูปภาพผู้สมัคร")
     def photo_thumb(self, obj):
         if obj.cdd_photo:
             return format_html('<img src="{}" style="height:48px;border-radius:6px;">', obj.cdd_photo.url)
         return "-"
 
+    # ---------- Toggle สถานะ ----------
     def toggle_status(self, request, pk, *args, **kwargs):
-        if request.method != "POST":
-            return HttpResponseNotAllowed(["POST"])
+        if request.method not in ["POST", "GET"]:  # ✅ รับ GET ได้
+            return HttpResponseNotAllowed(["POST", "GET"])
 
         obj = get_object_or_404(candidate, pk=pk)
         if not self.has_change_permission(request, obj):
@@ -220,9 +263,9 @@ class CandidateAdmin(admin.ModelAdmin):
         obj.save(update_fields=["cdd_status"])
         messages.success(request, f"อัปเดตสถานะเป็น “{obj.get_cdd_status_display()}” แล้ว")
 
-        changelist_url = reverse(f"admin:{obj._meta.app_label}_{obj._meta.model_name}_changelist")
-        cl_filters = request.POST.get("_changelist_filters", "")
-        return HttpResponseRedirect(f"{changelist_url}?{cl_filters}" if cl_filters else changelist_url)
+        return redirect(reverse(
+            f"admin:{obj._meta.app_label}_{obj._meta.model_name}_changelist"
+        ))
 
     @admin.display(description="ฟอร์ม PDF", ordering=False)
     def pdf_button(self, obj):
@@ -240,7 +283,7 @@ class CandidateAdmin(admin.ModelAdmin):
     def cdd_position_display(self, obj):
         return obj.get_cdd_position_display()
 
-    @admin.display(description="Resume")
+    @admin.display(description="เรซูเม่")
     def resume_link(self, obj):
         if obj.cdd_resume:
             return format_html('<a href="{}" target="_blank">ไฟล์แนบ</a>', obj.cdd_resume.url)

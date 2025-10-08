@@ -4,18 +4,18 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    emp_id = models.CharField(max_length=64)
-    emp_name = models.CharField(max_length=255)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,verbose_name="ผู้ใช้")
+    emp_id = models.CharField(max_length=64,verbose_name="รหัสพนักงาน")
+    emp_name = models.CharField(max_length=255,verbose_name="ชื่อ-นามสกุล")
 
     class Position_emp (models.TextChoices):
         WFH = "WFH", "Telesales work from home"
         OFFICE = "OFFICE", "Telesales office"
         TRAINER = "TRAINER", "Trainer"
         MKT = "MKT", "Manager Marketing"
-    emp_position = models.CharField(choices=Position_emp.choices, max_length=64)
+    emp_position = models.CharField(choices=Position_emp.choices, max_length=64,verbose_name="ตำแหน่งงาน")
 
-    emp_tel = models.CharField(max_length=10)
+    emp_tel = models.CharField(max_length=10,verbose_name="เบอร์โทรศัพท์")
 
     def __str__(self):
         return f"{self.emp_id} - {self.emp_name} - {self.emp_position} - {self.emp_tel}"
@@ -43,7 +43,7 @@ class candidate(models.Model):
 
     id = models.BigAutoField(primary_key=True)
 
-    # === ข้อมูลผู้สมัคร ===
+    # ข้อมูลผู้สมัคร
     cdd_title = models.CharField("คำนำหน้า", max_length=8, choices=Title.choices)
     cdd_first_name = models.CharField("ชื่อจริง", max_length=128)
     cdd_last_name = models.CharField("นามสกุล", max_length=128)
@@ -64,7 +64,7 @@ class candidate(models.Model):
     cdd_province = models.CharField("จังหวัด", max_length=100, blank=True)
 
     # === เอกสาร ===
-    cdd_resume = models.FileField("Resume / CV", upload_to="resumes/", blank=True, null=True)
+    cdd_resume = models.FileField("Resume / CV", upload_to="resumes/", blank=True, null=True )
     cdd_photo = models.ImageField("รูปถ่ายผู้สมัคร", upload_to="candidate_photos/", blank=True, null=True)
 
 

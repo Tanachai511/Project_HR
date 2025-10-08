@@ -31,11 +31,20 @@ def Applywork(request):
 def intern(request):
     return render(request, "intern.html")
 
+def contact(request):
+    return render(request, "contact.html")
+
 def Jobber(request):
     return render(request, "Jobber.html")
 
 def dashboard(request):
     return render(request, 'Dashboard.html')
+
+def document(request):
+    return render(request, 'document.html')
+
+def jangsom(request):
+    return render(request, 'Jangsom.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -149,6 +158,24 @@ def repair_create(request):
 
     return render(request, "repaircom.html", {"form": form, "employee": request.user.employee})
 
+@login_required
+def repair_create1(request):
+    if not hasattr(request.user, "employee"):
+        messages.error(request, "บัญชีนี้ยังไม่ได้ผูกข้อมูลพนักงาน")
+        return redirect("admin:index")
+
+    if request.method == "POST":
+        form = RepairForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.employee = request.user.employee
+            obj.save()
+            return redirect("repair_success")
+    else:
+        form = RepairForm()
+
+    return render(request, "repairsystem.html", {"form": form, "employee": request.user.employee})
+
 def repair_success(request):
     return render(request, "repair_success.html")
 
@@ -200,3 +227,23 @@ def repair_pdf(request, pk):
         return FileResponse(BytesIO(pdf),
                             as_attachment=True,
                             filename=f"repair_{obj.pk}.pdf")
+    
+@login_required
+def waiting_repair(request):
+    qs = repair.objects.select_related("employee").all().order_by("-repair_date", "-created_at")
+
+    pending = qs.filter(repair_status=repair.RepairStatus.in_progress)
+    general_pending_count = pending.filter(repair_type=repair.RepairType.general_repair).count()
+    system_pending_count  = pending.filter(repair_type=repair.RepairType.system_repair).count()
+
+    return render(request, "Waitingrepair.html", {
+        "tickets": qs,
+        "general_pending_count": general_pending_count,
+        "system_pending_count": system_pending_count,
+    })
+
+def news_detail(request, pk):
+    post = get_object_or_404(new, pk=pk)
+    # ข่าวอื่น ๆ ไว้โชว์ด้านล่าง (ยกเว้นตัวเอง)
+    others = new.objects.exclude(pk=pk).order_by("-news_date")[:3]
+    return render(request, "news/detail.html", {"post": post, "others": others})

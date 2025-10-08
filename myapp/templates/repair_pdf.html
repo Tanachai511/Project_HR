@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <title>ใบแจ้งซ่อม #{{ obj.id }}</title>
   <style>
-    /* ---------- Theme & Print ---------- */
+
     :root{
       --ink:#0f172a; --muted:#64748b; --line:#e5e7eb; --chip:#f3f4f6;
       --brand:#2d5a4b; --ok:#16a34a; --warn:#eab308; --bad:#ef4444;
@@ -123,5 +123,33 @@
     </section>
     {% endif %}
   </div>
+  <script>
+      (function(){
+    const btn = document.getElementById('userMenuBtn');
+    const dd  = document.getElementById('userDropdown');
+    if(!btn || !dd) return;
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const isHidden = dd.classList.contains('hidden');
+      dd.classList.toggle('hidden', !isHidden);
+      this.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', function(){
+      if(!dd.classList.contains('hidden')){
+        dd.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !dd.classList.contains('hidden')){
+        dd.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+  </script>
 </body>
 </html>

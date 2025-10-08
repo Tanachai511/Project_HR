@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ASCENDER Co., Ltd — แจ้งซ่อม</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#2d5a4b 0%,#1e4037 100%);min-height:100vh;padding:20px;color:#333}
+    .header{position:fixed;top:0;left:0;right:0;background:#10352d;box-shadow:0 8px 16px rgba(0,0,0,.15);z-index:50}
+    .nav-container{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;color:#fff}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.5px}
+    .logo-icon img{width:32px;height:32px;border-radius:8px;object-fit:cover}
+    .nav-menu{display:flex;gap:18px;list-style:none}
+    .nav-menu a{color:#e5f7f1;text-decoration:none;padding:8px 12px;border-radius:10px}
+    .nav-menu a:hover{background:#1d4f42}
+    .container{max-width:900px;margin:120px auto 24px auto;background:#fff;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.15);overflow:hidden;animation:slideIn .6s ease-out}
+    @keyframes slideIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .form-header{background:linear-gradient(135deg,#34a07a 0%,#2d5a4b 100%);color:#fff;text-align:center;padding:36px 28px;position:relative;overflow:hidden}
+    .form-header h1{font-size:2rem;font-weight:600;margin:0}
+    .form-body{padding:32px 28px}
+    .alerts{margin-bottom:16px}
+    .alert{padding:12px 14px;border-radius:12px;margin-bottom:10px;font-size:.95rem}
+    .alert-success{background:#e8fff6;color:#056b42;border:1px solid #b9f0d7}
+    .alert-error{background:#fff1f0;color:#a31212;border:1px solid #f4c7c6}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:10px}
+    .form-group{display:flex;flex-direction:column;gap:8px}
+    .form-group.full-width{grid-column:1/-1}
+    label{font-weight:600;color:#2d5a4b}
+    input, select, textarea{width:100%;padding:14px 16px;border:2px solid #e1e8e6;border-radius:12px;background:#fafbfa;font-size:1rem;transition:all .25s ease;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:#34a07a;background:#fff;box-shadow:0 0 0 4px rgba(52,160,122,.1);transform:translateY(-2px)}
+    textarea{min-height:120px;resize:vertical}
+    .readonly{background:#f5f7f7;color:#333}
+    .submit-section{text-align:center;padding-top:16px;border-top:1px solid #e9eff0;margin-top:12px}
+    .submit-btn{background:linear-gradient(135deg,#34a07a 0%,#2d5a4b 100%);color:#fff;border:none;padding:16px 34px;border-radius:999px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .25s ease;box-shadow:0 8px 20px rgba(52,160,122,.3)}
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(52,160,122,.4)}
+    .errorlist{margin:6px 0 0 0;padding:0;list-style:none;color:#b42318;font-size:.9rem}
+    @media(max-width:768px){.form-grid{grid-template-columns:1fr}.container{margin:100px 12px}}
+
+
+        .user-menu { position: relative; }
+    .user-button{
+      display:flex; align-items:center; gap:.5rem;
+      background: transparent; border:0; cursor:pointer; padding:.35rem .5rem;
+      border-radius: 999px;
+    }
+    .user-button:hover{ background: rgba(0,0,0,.06); }
+    .avatar{
+      width:28px; height:28px; border-radius:50%;
+      display:inline-flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, #4a7c59, #6b8e5a); color:#fff; font-weight:700;
+    }
+    .avatar.lg{ width:40px; height:40px; font-size:1rem; }
+    .user-name{ font-weight:600; color:#333; }
+    .chev{ opacity:.7; }
+    .dropdown{
+      position:absolute; right:0; top:110%;
+      width:280px; background:#fff; border-radius:14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.12);
+      overflow:hidden; z-index:9999;
+    }
+    .hidden{ display:none; }
+    .dropdown-header{
+      display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
+      background: linear-gradient(135deg, #f6faf8, #ffffff);
+      border-bottom:1px solid #eef2ef;
+    }
+    .dropdown-header .info .name{ font-weight:700; color:#1b2b21; line-height:1.2; }
+    .dropdown-header .info .email{ font-size:.9rem; color:#667; }
+    .dropdown-body{ padding:8px; }
+    .dropdown-body .item{
+      width:100%; display:flex; align-items:center; gap:.6rem;
+      padding:10px 10px; border-radius:10px; color:#233; text-decoration:none;
+      background:transparent; border:0;
+    }
+    .dropdown-body .item:hover{ background:#f3f7f5; }
+    .logout-btn{
+      width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
+      color:#b01d1d; font-weight:600;
+    }
+    /* ===== NAVBAR BASE ===== */
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Prompt,Arial,sans-serif;}
+
+.header{
+  position:fixed; top:0; left:0; right:0;
+  background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08);
+  z-index:1000;
+}
+.nav-container{
+  max-width:1200px; margin:0 auto; padding:10px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+
+.logo{display:flex; align-items:center; gap:10px; font-weight:600; color:#1f2937;}
+.logo-icon{display:flex; align-items:center;}
+.logo-icon img{width:44px; height:44px; object-fit:contain; display:block;}
+
+.nav-menu{
+  list-style:none; margin:0; padding:0;
+  display:flex; align-items:center; gap:20px;
+}
+.nav-menu a{
+  text-decoration:none; color:#374151; font-weight:500;
+}
+.nav-btn{
+  padding:8px 14px; border:1px solid #10b981; border-radius:10px;
+  color:#065f46; font-weight:600;
+}
+
+/* ดันคอนเทนต์ลงให้ไม่โดนทับ */
+:root{ --nav-h:72px; }
+body{ padding-top:var(--nav-h); }
+
+/* ===== HERO / SLIDES ===== */
+.hero{ position:relative; overflow:hidden; height:420px; }
+.slideshow-container{ position:relative; width:100%; height:100%; }
+.slide{ position:absolute; inset:0; opacity:0; transition:opacity 1.2s; }
+.slide.active{ opacity:1; }
+.slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* จุดบอกสไลด์ */
+.slide-indicators{
+  position:absolute; left:0; right:0; bottom:14px; display:flex; gap:8px; justify-content:center;
+}
+.dot{ width:10px; height:10px; border-radius:50%; background:#e5e7eb; cursor:pointer; }
+.dot.active{ background:#10b981; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+<header class="header">
+  <div class="nav-container">
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
+      </div>
+      ASCENDER
+    </div>
+
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
+        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
+        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
+
+        {% if user.is_authenticated %}
+          <li class="user-menu">
+            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
+              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
+              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
+              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+
+            <div id="userDropdown" class="dropdown hidden" role="menu">
+              <div class="dropdown-header">
+                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
+                <div class="info">
+                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
+                  <div class="email">{{ user.email }}</div>
+                </div>
+              </div>
+              <div class="dropdown-body">
+
+                <form action="{% url 'logout' %}" method="post" class="item">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.path }}">
+                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
+                </form>
+              </div>
+            </div>
+          </li>
+        {% else %}
+          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  <!-- Form Card -->
+  <div class="container">
+    <div class="form-header">
+      <h1>แจ้งซ่อมระบบ</h1>
+    </div>
+
+    <div class="form-body">
+      <!-- Messages -->
+      <div class="alerts">
+        {% if messages %}
+          {% for m in messages %}
+            <div class="alert {% if m.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">{{ m }}</div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- ฟอร์มแจ้งซ่อม -->
+      <form id="repairForm" method="post" action="{% url 'repair-create' %}" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+          <!-- ผู้แจ้ง (อ่านอย่างเดียว จาก request.user.employee) -->
+          <div class="form-group">
+            <label>ผู้แจ้ง</label>
+            <input type="text" class="readonly" value="{{ employee.emp_name }}" readonly>
+          </div>
+
+          <!-- วันที่แจ้งซ่อม -->
+          <div class="form-group">
+            <label for="{{ form.repair_date.id_for_label }}">วันที่แจ้งซ่อม</label>
+            {{ form.repair_date }}
+            {% if form.repair_date.errors %}<ul class="errorlist"><li>{{ form.repair_date.errors|join:", " }}</li></ul>{% endif %}
+          </div>
+
+          <!-- ประเภทงานซ่อม -->
+          <div class="form-group">
+            <label for="{{ form.repair_type.id_for_label }}">ประเภทงานซ่อม</label>
+            {{ form.repair_type }}
+            {% if form.repair_type.errors %}<ul class="errorlist"><li>{{ form.repair_type.errors|join:", " }}</li></ul>{% endif %}
+          </div>
+
+          <!-- สถานที่ -->
+          <div class="form-group">
+            <label for="{{ form.repair_location.id_for_label }}">สถานที่</label>
+            {{ form.repair_location }}
+            {% if form.repair_location.errors %}<ul class="errorlist"><li>{{ form.repair_location.errors|join:", " }}</li></ul>{% endif %}
+          </div>
+
+          <!-- อาการ/ปัญหา -->
+          <div class="form-group full-width">
+            <label for="{{ form.repair_problem.id_for_label }}">อาการ/ปัญหา</label>
+            {{ form.repair_problem }}
+            {% if form.repair_problem.errors %}<ul class="errorlist"><li>{{ form.repair_problem.errors|join:", " }}</li></ul>{% endif %}
+          </div>
+
+          <!-- สาเหตุ (ถ้ามี) -->
+          <div class="form-group full-width">
+            <label for="{{ form.repair_cause.id_for_label }}">สาเหตุ (ถ้ามี)</label>
+            {{ form.repair_cause }}
+            {% if form.repair_cause.errors %}<ul class="errorlist"><li>{{ form.repair_cause.errors|join:", " }}</li></ul>{% endif %}
+          </div>
+
+          <!-- แนบรูป -->
+          <div class="form-group full-width">
+            <label for="{{ form.repair_img.id_for_label }}">แนบรูป (ถ้ามี)</label>
+            {{ form.repair_img }}
+            {% if form.repair_img.errors %}<ul class="errorlist"><li>{{ form.repair_img.errors|join:", " }}</li></ul>{% endif %}
+          </div>
+
+        </div>
+
+        <div class="submit-section">
+          <button type="submit" class="submit-btn">ส่งแจ้งซ่อม</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+
+    <script>
+    // ฟังก์ชั่นเมื่อคลิกที่การ์ดประเภทการแจ้งซ่อม
+    function handleCardClick(type) {
+      const repairTypeField = document.querySelector('[name="repair_type"]');
+      
+      // กำหนดค่า repair_type ให้เป็นค่าที่เลือกโดยอัตโนมัติ
+      if (type === 'general') {
+        repairTypeField.value = 'General repair';  // ตั้งค่าเป็น "แจ้งซ่อมทั่วไป"
+      } else if (type === 'system') {
+        repairTypeField.value = 'System repair';  // ตั้งค่าเป็น "แจ้งซ่อมระบบ"
+      }
+
+      // ส่งฟอร์มไปยัง URL ที่เกี่ยวข้อง
+      document.getElementById('repairForm').submit();
+    }
+
+
+      (function(){
+    const btn = document.getElementById('userMenuBtn');
+    const dd  = document.getElementById('userDropdown');
+    if(!btn || !dd) return;
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const isHidden = dd.classList.contains('hidden');
+      dd.classList.toggle('hidden', !isHidden);
+      this.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', function(){
+      if(!dd.classList.contains('hidden')){
+        dd.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && !dd.classList.contains('hidden')){
+        dd.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

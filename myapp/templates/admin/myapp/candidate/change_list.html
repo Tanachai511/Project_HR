@@ -1,94 +1,127 @@
 {% extends "admin/change_list.html" %}
 
 {% block extrahead %}
-  {{ block.super }}
-  <style>
-    :root{
-      --sky:#cfe7eb; --card:#eaf6f8; --ink:#0f172a; --muted:#64748b;
-      --ok:#16a34a; --bad:#ef4444; --chip:#eef2ff; --chip-ink:#3730a3; --chip-bd:#e0e7ff;
-    }
-    .breadcrumbs{ display:none; }
+{{ block.super }}
+<style>
+:root{
+  --sky:#cfe7eb; --card:#eaf6f8; --ink:#0f172a; --muted:#64748b;
+  --ok:#16a34a; --bad:#ef4444; --chip:#eef2ff; --chip-ink:#3730a3; --chip-bd:#e0e7ff;
+}
+.breadcrumbs{ display:none; }
 
-    /* Toolbar */
-    .toolbar{ display:flex; gap:10px; justify-content:flex-end; margin-bottom:12px; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      font-weight:700; font-size:13px; padding:8px 12px; border-radius:10px;
-      border:1px solid transparent; cursor:pointer; text-decoration:none;
-    }
-    .btn-ghost{ background:#fff; border-color:#e5e7eb; color:#111827; }
-    .btn-danger{ background:var(--bad); color:#fff; }
-    .btn-danger:hover{ filter:brightness(0.95); }
-    .btn-ghost:hover{ background:#f9fafb; }
+/* ====== Toolbar ====== */
+.toolbar{
+  display:flex; gap:10px; justify-content:flex-end; margin-bottom:12px;
+}
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-weight:600; font-size:14px;
+  padding:8px 14px; border-radius:10px;
+  border:1px solid transparent; cursor:pointer; text-decoration:none;
+  transition:all .2s ease;
+}
+.btn-ghost{ background:#fff; border-color:#e5e7eb; color:#111827; }
+.btn-ghost:hover{ background:#f9fafb; }
+.btn-danger{ background:var(--bad); color:#fff; }
+.btn-danger:hover{ filter:brightness(0.95); }
 
-    /* Banner + cards */
-    .banner{ background:var(--sky); border-radius:18px; padding:18px 22px; margin-bottom:16px; }
-    .banner h1{ margin:0; font-size:22px; font-weight:800; color:#fff; text-shadow:0 1px 0 rgba(0,0,0,.05); }
-    .stats{ display:flex; gap:14px; flex-wrap:wrap; }
-    .stat{ flex:1 1 220px; background:var(--card); border-radius:14px; padding:14px 16px; display:flex; gap:12px; align-items:center; box-shadow:0 2px 6px rgba(0,0,0,.05); }
-    .bubble{ width:42px; height:42px; border-radius:999px; display:grid; place-items:center; background:#fff; color:#60a5fa; font-size:18px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04); }
-    .stat .big{ font-size:20px; font-weight:800; color:var(--ink); }
-    .stat .big .num{ color:#ef4444 !important; } /* 👉 เปลี่ยนตัวเลขให้เป็นสีแดง */
-    .stat .sub{ font-size:12px; color:var(--muted); }
-    .stat .more{ margin-left:auto; font-size:12px; font-weight:700; color:#0ea5e9; text-decoration:none; }
+/* ====== Banner ====== */
+.banner{
+  background:var(--sky);
+  border-radius:18px;
+  padding:18px 22px;
+  margin-bottom:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
+}
+.banner h1{
+  margin:0; font-size:24px; font-weight:800;
+  color:#0f172a;
+}
 
-    /* Sheet wrapper */
-    .sheet{ background:#fff; border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,.06); padding:10px 12px 2px; margin-top:14px; }
+/* ====== Summary Cards ====== */
+.stats{ display:flex; gap:14px; flex-wrap:wrap; }
+.stat{
+  flex:1 1 220px;
+  background:var(--card);
+  border-radius:14px;
+  padding:16px 18px;
+  display:flex; gap:12px; align-items:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.04);
+  transition:transform .2s ease;
+}
+.stat:hover{ transform:translateY(-3px); }
+.bubble{
+  width:42px; height:42px;
+  border-radius:999px;
+  display:grid; place-items:center;
+  background:#fff; color:#60a5fa;
+  font-size:18px;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
+}
+.stat .big{ font-size:20px; font-weight:800; color:var(--ink); }
+.stat .big .num{ color:#ef4444 !important; }
+.stat .sub{ font-size:13px; color:var(--muted); }
+.stat .more{ margin-left:auto; font-size:12px; font-weight:700; color:#0ea5e9; text-decoration:none; }
 
-    /* Table */
-    .change-list .results table{
-      table-layout:auto;
-      width:100%;
-      border-radius:12px;
-      overflow:hidden;
-      border-collapse:separate;
-      border-spacing:0;
-    }
-    .change-list .results th,
-    .change-list .results td{
-      vertical-align:middle;
-      font-size:13px;
-      padding-top:10px;
-      padding-bottom:10px;
-    }
-    .change-list .results thead th{
-      white-space:nowrap;
-      word-break:keep-all;
-    }
-    .change-list .results td{
-      overflow:visible;
-      text-overflow:ellipsis;
-    }
-    .change-list .results td a{ text-decoration:none; }
+/* ====== Table Container ====== */
+.sheet{
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  padding:12px 14px 6px;
+  margin-top:14px;
+}
 
-    /* column widths */
-    .change-list .results .column-full_name_display{ min-width:180px; }
-    .change-list .results .column-cdd_nickname{ width:90px; text-align:center; }
-    .change-list .results .column-cdd_position_display{ min-width:160px; }
-    .change-list .results .column-cdd_tel{ width:120px; white-space:nowrap; }
-    .change-list .results .column-cdd_email{ min-width:190px; white-space:nowrap; }
-    .change-list .results .column-cdd_province{ width:90px; text-align:center; }
-    .change-list .results .column-resume_link{ width:90px; text-align:center; }
-    .change-list .results .column-equipment_badges{ min-width:220px; white-space:normal; }
-    .change-list .results .column-start_date_available,
-    .change-list .results .column-start_date_display{ min-width:170px; white-space:nowrap; }
-    .change-list .results .column-status_badge{ min-width:125px; text-align:center; }
-    .change-list .results .column-pdf_button{ width:120px; text-align:center; }
+/* ====== Chips & Badges ====== */
+.chip{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.chip-soft{
+  background:var(--chip);
+  color:var(--chip-ink);
+  border:1px solid var(--chip-bd);
+}
 
-    .status-badge{ display:inline-block; white-space:nowrap; word-break:keep-all; }
-    .chip{ display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap; }
-    .chip-soft{ background:var(--chip); color:var(--chip-ink); border:1px solid var(--chip-bd); }
-    .badge{ display:inline-block; padding:5px 10px; border-radius:8px; font-weight:800; color:#fff; }
-    .badge-ok{ background:var(--ok); } .badge-no{ background:var(--bad); }
-  </style>
+.status-toggle-btn {
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+}
+.status-badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  line-height:1;
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+  transition:all 0.2s ease;
+}
+.badge-ok {
+  background:#d1fae5;
+  color:#065f46;
+  border:1px solid #a7f3d0;
+}
+.badge-no {
+  background:#fff7ed;
+  color:#b45309;
+  border:1px solid #fde1bf;
+}
+.status-badge:hover {
+  transform:scale(1.05);
+  filter:brightness(0.97);
+}
 
-  <script>
-    function confirmClear(formId){
-      const ok = confirm("คุณแน่ใจหรือไม่ว่าจะล้างข้อมูลทั้งหมด? การกระทำนี้ย้อนกลับไม่ได้!");
-      if(ok){ document.getElementById(formId).submit(); }
-      return false;
-    }
-  </script>
+</style>
 {% endblock %}
 
 {% block content_title %}
@@ -96,11 +129,9 @@
 {% endblock %}
 
 {% block content %}
-
-  <!-- Toolbar: ปุ่มล้างข้อมูลทั้งหมด -->
+  <!-- Toolbar -->
   <div class="toolbar">
     <a class="btn btn-ghost" href="{% url 'admin:myapp_candidate_add' %}">➕ เพิ่มผู้สมัคร</a>
-
     <form id="clear-all-form" method="post" action="{% url 'admin:myapp_candidate_clear_data' %}">
       {% csrf_token %}
       <button type="button" class="btn btn-danger" onclick="confirmClear('clear-all-form')">
@@ -123,6 +154,7 @@
     {% endfor %}
   </div>
 
+  <!-- ตาราง -->
   <div class="sheet">
     {{ block.super }}
   </div>
