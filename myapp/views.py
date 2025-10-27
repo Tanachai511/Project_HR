@@ -10,16 +10,31 @@ from myapp.models import new, job, candidate, repair
 from myapp.form import CandidateForm,RepairForm
 from django.contrib.auth.decorators import login_required
 from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-
+from django.utils import timezone
+from django.contrib.auth import logout
 
 def index(request):
     news = new.objects.all().order_by('-news_date')[:3]
     return render(request, 'index.html', {'news': news})
 
+def logout_view(request):
+    if request.method != "POST":
+        # ป้องกันการ logout ด้วย GET (ให้ใช้ปุ่ม/form POST เท่านั้น)
+        return redirect(reverse("login"))
+
+    logout(request)  # <-- สำคัญ! เคลียร์ session ออกจากระบบ
+    messages.success(request, "ออกจากระบบเรียบร้อย")
+    # รองรับ next (มาจาก hidden input ในฟอร์ม)
+    next_url = request.POST.get("next") or reverse("login")
+    return redirect(next_url)
+
 def All1(request):
     news = new.objects.all().order_by('-news_date')
     return render(request, 'All1.html', {'news': news})
+
+def All2(request):
+    news = new.objects.all().order_by('-news_date')
+    return render(request, 'All2.html', {'news': news})
 
 def aboutme(request):
     return render(request, "aboutme.html")
@@ -59,6 +74,10 @@ def login_view(request):
             messages.error(request, 'Invalid username or password')
 
     return render(request, 'login.html')
+
+def job_list(request):
+    fulltime_jobs = job.objects.exclude(job_type="INTERN")  # เฉพาะพนักงานประจำ
+    return render(request, 'jobs.html', {'jobs': fulltime_jobs})
 
 # ---------------- Job form flow ----------------
 
@@ -140,41 +159,159 @@ def jobform_pdf(request, pk):
             filename=f"jobform_{obj.pk}.pdf",
         )
     
+TYPE_MAP = {
+    # map ค่าที่มาจากพารามิเตอร์ -> ค่า choices จริงในโมเดล
+    "general": repair.RepairType.general_repair,
+    "system":  repair.RepairType.system_repair,
+}
+    
 @login_required
-def repair_create(request):
-    if not hasattr(request.user, "employee"):
-        messages.error(request, "บัญชีนี้ยังไม่ได้ผูกข้อมูลพนักงาน")
-        return redirect("admin:index")
+def repair_create(request, forced_type: str | None = None):
+    """
+    ฟอร์มแจ้งซ่อมตัวเดียว:
+    - ดึงข้อมูลพนักงาน (ของเก่า) -> ส่งไปให้ template: employee.emp_name
+    - รองรับล็อกประเภทงานซ่อมจากการเลือกหน้าเมนู (ของใหม่) ผ่าน:
+        1) forced_type จาก urls.py (เช่น path('repairs/new/system/', ... {'forced_type': 'system'}))
+        2) หรือ querystring ?type=system / ?type=general
+    """
+    # ----- ดึงข้อมูลพนักงาน (ของเก่า) -----
+    employee = getattr(request.user, "employee", None)
+    if not employee:
+        messages.error(request, "บัญชีนี้ยังไม่ได้ผูกกับข้อมูลพนักงาน")
+        return redirect("login")  # หรือเปลี่ยนปลายทางตามที่ต้องการ
+
+    # ----- อ่านชนิดงานซ่อมที่ต้องล็อก (ของใหม่) -----
+    # ลำดับความสำคัญ: forced_type จาก URL > ?type=... จาก querystring
+    type_param = (forced_type or request.GET.get("type") or "").lower()
+    locked_type = TYPE_MAP.get(type_param)  # None ถ้าไม่ล็อก
+
+    # ตั้งหัวข้อหน้าฟอร์มให้เข้ากับประเภท
+    if locked_type == repair.RepairType.general_repair:
+        page_title = "แจ้งซ่อมทั่วไปของบริษัท"
+    elif locked_type == repair.RepairType.system_repair:
+        page_title = "แจ้งซ่อมระบบ"
+    else:
+        page_title = "แจ้งซ่อม"
 
     if request.method == "POST":
         form = RepairForm(request.POST, request.FILES)
+        # กันผู้ใช้ดัดแปลง HTML: ถ้าถูกล็อกไว้ บังคับค่า server-side เสมอ
+        if locked_type:
+            form.instance.repair_type = locked_type
+
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.employee = request.user.employee
+            obj.employee = employee
+            if locked_type:
+                obj.repair_type = locked_type
+            # ถ้าอยากให้ default วันที่เป็นวันนี้ในกรณีฟอร์มไม่ส่งมา
+            if not obj.repair_date:
+                obj.repair_date = timezone.now().date()
             obj.save()
-            return redirect("repair_success")
+            messages.success(request, "ส่งแจ้งซ่อมเรียบร้อยแล้ว")
+            # กลับมาหน้าเดิม พร้อมล็อกประเภทเดิม เพื่อส่งต่อ workflow เดิม
+            next_qs = f"?type={type_param}" if type_param else ""
+            return redirect(f"{request.path}{next_qs}")
     else:
-        form = RepairForm()
+        initial = {"repair_date": timezone.now().date()}
+        if locked_type:
+            initial["repair_type"] = locked_type  # ให้ select มีค่าตรงกับที่ล็อก
+        form = RepairForm(initial=initial)
 
-    return render(request, "repaircom.html", {"form": form, "employee": request.user.employee})
+    # label ภาษาไทยของค่าที่ล็อก (ไว้โชว์เป็นช่อง readonly ใน template)
+    locked_type_label = dict(repair.RepairType.choices).get(locked_type, "")
 
+    return render(
+        request,
+        "repaircom.html",  # ใช้ template เดิมของคุณ
+        {
+            # ของเก่า: ส่ง employee ไปให้ template ใช้ {{ employee.emp_name }}
+            "employee": employee,
+
+            # ของใหม่: ใช้ล็อก/โชว์ประเภทงาน
+            "locked_type": locked_type,
+            "locked_type_label": locked_type_label,
+            "page_title": page_title,
+
+            # ฟอร์ม
+            "form": form,
+        },
+    )
+
+    
 @login_required
-def repair_create1(request):
-    if not hasattr(request.user, "employee"):
-        messages.error(request, "บัญชีนี้ยังไม่ได้ผูกข้อมูลพนักงาน")
-        return redirect("admin:index")
+def repair_create1(request, forced_type: str | None = None):
+    """
+    ฟอร์มแจ้งซ่อมตัวเดียว:
+    - ดึงข้อมูลพนักงาน (ของเก่า) -> ส่งไปให้ template: employee.emp_name
+    - รองรับล็อกประเภทงานซ่อมจากการเลือกหน้าเมนู (ของใหม่) ผ่าน:
+        1) forced_type จาก urls.py (เช่น path('repairs/new/system/', ... {'forced_type': 'system'}))
+        2) หรือ querystring ?type=system / ?type=general
+    """
+    # ----- ดึงข้อมูลพนักงาน (ของเก่า) -----
+    employee = getattr(request.user, "employee", None)
+    if not employee:
+        messages.error(request, "บัญชีนี้ยังไม่ได้ผูกกับข้อมูลพนักงาน")
+        return redirect("login")  # หรือเปลี่ยนปลายทางตามที่ต้องการ
+
+    # ----- อ่านชนิดงานซ่อมที่ต้องล็อก (ของใหม่) -----
+    # ลำดับความสำคัญ: forced_type จาก URL > ?type=... จาก querystring
+    type_param = (forced_type or request.GET.get("type") or "").lower()
+    locked_type = TYPE_MAP.get(type_param)  # None ถ้าไม่ล็อก
+
+    # ตั้งหัวข้อหน้าฟอร์มให้เข้ากับประเภท
+    if locked_type == repair.RepairType.general_repair:
+        page_title = "แจ้งซ่อมทั่วไปของบริษัท"
+    elif locked_type == repair.RepairType.system_repair:
+        page_title = "แจ้งซ่อมระบบ"
+    else:
+        page_title = "แจ้งซ่อม"
 
     if request.method == "POST":
         form = RepairForm(request.POST, request.FILES)
+        # กันผู้ใช้ดัดแปลง HTML: ถ้าถูกล็อกไว้ บังคับค่า server-side เสมอ
+        if locked_type:
+            form.instance.repair_type = locked_type
+
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.employee = request.user.employee
+            obj.employee = employee
+            if locked_type:
+                obj.repair_type = locked_type
+            # ถ้าอยากให้ default วันที่เป็นวันนี้ในกรณีฟอร์มไม่ส่งมา
+            if not obj.repair_date:
+                obj.repair_date = timezone.now().date()
             obj.save()
-            return redirect("repair_success")
+            messages.success(request, "ส่งแจ้งซ่อมเรียบร้อยแล้ว")
+            # กลับมาหน้าเดิม พร้อมล็อกประเภทเดิม เพื่อส่งต่อ workflow เดิม
+            next_qs = f"?type={type_param}" if type_param else ""
+            return redirect(f"{request.path}{next_qs}")
     else:
-        form = RepairForm()
+        initial = {"repair_date": timezone.now().date()}
+        if locked_type:
+            initial["repair_type"] = locked_type  # ให้ select มีค่าตรงกับที่ล็อก
+        form = RepairForm(initial=initial)
 
-    return render(request, "repairsystem.html", {"form": form, "employee": request.user.employee})
+    # label ภาษาไทยของค่าที่ล็อก (ไว้โชว์เป็นช่อง readonly ใน template)
+    locked_type_label = dict(repair.RepairType.choices).get(locked_type, "")
+
+    return render(
+        request,
+        "repairsystem.html",  # ใช้ template เดิมของคุณ
+        {
+            # ของเก่า: ส่ง employee ไปให้ template ใช้ {{ employee.emp_name }}
+            "employee": employee,
+
+            # ของใหม่: ใช้ล็อก/โชว์ประเภทงาน
+            "locked_type": locked_type,
+            "locked_type_label": locked_type_label,
+            "page_title": page_title,
+
+            # ฟอร์ม
+            "form": form,
+        },
+    )
+
 
 def repair_success(request):
     return render(request, "repair_success.html")

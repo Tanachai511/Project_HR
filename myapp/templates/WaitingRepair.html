@@ -9,198 +9,195 @@
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- ============ STYLE (แทนของเดิมทั้งบล็อก) ============ -->
 <style>
-
+/* ====== Base & Theme ====== */
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
+:root{
+  --bg: #f6fbf9;
+  --bg-2:#eef8f3;
+  --ink:#102a26;
+  --muted:#58706a;
+  --line:#e1eee8;
+
+  --brand:#1f6f54;     /* เขียวหลัก */
+  --brand-2:#43b38c;   /* มิ้นต์ */
+  --warn:#a45a00;
+  --ok:#0d7a4f;
+  --danger:#b71e1e;
+
+  --card:#ffffff;
+  --radius:18px;
+  --shadow:0 10px 28px rgba(16,40,32,.10);
+  --shadow-sm:0 6px 16px rgba(16,40,32,.08);
+  --shadow-lg:0 14px 34px rgba(16,40,32,.14);
+  --nav-h:64px; /* สูง navbar (อย่าแก้ถ้า header จริงต่างค่อยอัปเดตหน้านี้) */
+  --t1:#0e4b39;   /* พื้นหลัก */
+  --t2:#0d4332;   /* ไล่เฉด */
+  --ring:#77e6c4; /* วงแสง */
+  --icon-bg-1:#eafff7;
+  --icon-bg-2:#dff9f0;
+  --accent-general:#10b981; /* เขียวมิ้นต์ สำหรับงานทั่วไป */
+  --accent-system:#3b82f6;
+}
+
 body{
   margin:0;
   font-family:"Prompt",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans Thai",sans-serif;
-  color:#14231e;
+  color:var(--ink);
+  background:
+    radial-gradient(140% 120% at 50% -20%, var(--bg) 0%, var(--bg-2) 60%, #e6f4ee 100%);
+  padding-top: var(--nav-h); /* กันชน navbar fixed */
 }
 
-:root{ --nav-h: 64px; }   /* ปรับตามความจริงของ navbar */
+/* ====== Container ====== */
+.container{ max-width:1140px; margin:0 auto; padding:28px 22px 40px; }
 
-.header{
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: var(--nav-h);
-  background: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,.1);
-  z-index: 1000;
-
-  display:flex; align-items:center; 
-  padding: 0;                        
+/* ====== Page Head ====== */
+.page-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  margin-bottom:14px;
 }
-
-.header + .container{ margin-top: calc(var(--nav-h) + 12px); }
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
+.page-head .title{
+  font-size: clamp(20px, 2.6vw, 28px); font-weight:800; margin:0; color:var(--brand);
 }
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
+.page-head .desc{ margin:4px 0 0; color:var(--muted); }
+.page-head .legend{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
 }
-
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(45deg, #4a7c59, #6b8e5a);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    overflow: hidden;
+.legend .chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:999px; font-size:12.5px; font-weight:700;
+  border:1px solid var(--line); background:#fff; color:#2a4;
+  box-shadow: var(--shadow-sm);
 }
+.chip .dot{ width:8px; height:8px; border-radius:50%; background:#9ddcc6; }
 
-.logo-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    align-items: center;
-}
-
-.nav-menu li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.nav-menu li a:hover {
-    color: #4a7c59;
-}
-
-.nav-btn {
-    background-color: #6b8e5a !important;
-    color: white !important;
-    padding: 0.5rem 1.5rem !important;
-    border-radius: 25px !important;
-    text-decoration: none !important;
-    transition: all 0.3s ease !important;
-}
-
-.nav-btn:hover {
-    background-color: #4a7c59 !important;
-    transform: translateY(-2px) !important;
-}
-
-/* ——— layout ——— */
-.container{ max-width:1120px; margin:0 auto; padding:24px; position:relative; z-index:1; }
-.header{
-  height:64px; display:flex; align-items:center; justify-content:space-between;
-  color:#fff;
-}
-.brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px; }
-.brand svg{ width:34px; height:34px; }
-.nav{ display:flex; align-items:center; gap:24px; }
-.nav a{ color:#dff7ef; text-decoration:none; font-weight:500; font-size:15px; opacity:.92; }
-.nav a:hover{ opacity:1; text-decoration:underline; }
-.user{ display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#0a3e31; border:1px solid rgba(255,255,255,.15);}
-
-/* ——— summary strip ——— */
+/* ====== Summary Strip ====== */
 .summary-strip{
-  background:linear-gradient(180deg,#0f4d3a,#0f4636);
-  padding:18px; border-radius:20px; margin-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:18px; box-shadow:var(--shadow);
+  background: radial-gradient(120% 120% at 20% -40%, #17624b 0%, var(--t1) 30%, var(--t2) 100%);
+  padding:22px; border-radius:24px; display:grid; grid-template-columns:1fr 1fr; gap:18px;
+  box-shadow:0 18px 40px rgba(12,37,30,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+  position:relative; overflow:hidden;
 }
-.stat{
-  display:flex; align-items:center; gap:16px; background:#114e3b; border:1px solid rgba(255,255,255,.06);
-  color:#e9fff7; border-radius:16px; padding:16px 18px;
+.summary-strip::after{
+  /* แสงไลท์นุ่ม ๆ มุมขวา */
+  content:""; position:absolute; right:-120px; top:-120px; width:280px; height:280px;
+  background:radial-gradient(closest-side, rgba(119,230,196,.18), transparent 60%);
+  filter:blur(2px); pointer-events:none;
 }
-.stat .icon{ width:48px; height:48px; border-radius:50%; background:#eafff7; display:grid; place-items:center; }
-.stat .icon svg{ width:26px; height:26px; fill:#0f4d3a; }
-.stat h4{ margin:0 0 4px; font-size:14px; font-weight:500; color:#d6fff5;}
-.stat .num{ font-weight:700; font-size:18px; }
 
-/* ——— card (table wrapper) ——— */
+.stat{
+  display:flex; align-items:center; gap:16px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);
+  color:#eafff7; border-radius:18px; padding:16px 18px;
+  box-shadow:0 10px 24px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.04);
+  position:relative; isolation:isolate;
+}
+.stat .icon-box{
+  width:56px; height:56px; border-radius:14px;
+  display:grid; place-items:center;
+  background: radial-gradient(120% 120% at 30% 30%, #f7fffb, #eefaf5);
+  box-shadow:
+    inset 0 -4px 10px rgba(0,0,0,.05),
+    0 8px 18px rgba(0,0,0,.12);
+  border: 1px solid rgba(0,0,0,.05);
+}
+
+/* คุมสีด้วย currentColor ของ SVG */
+.stat.general .icon-box{ color: var(--accent-general); }
+.stat.system  .icon-box{ color: var(--accent-system); }
+
+.stat .icon-box svg{
+  width:28px; height:28px;
+  stroke: currentColor; fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+.stat.general .num{
+  color:#ffffff;                /* ขาวล้วน ชัดสุดบนพื้นเข้ม */
+  text-shadow:0 1px 0 rgba(0,0,0,.25); /* เพิ่มมิติอ่านง่าย */
+  letter-spacing:.2px;
+}
+
+/* ====== Card / Table Wrapper ====== */
 .card{
-  margin-top:20px; background:var(--card); border-radius:18px; box-shadow:var(--shadow);
-  overflow:hidden; border:1px solid #e6f1ed;
+  margin-top:18px; background:var(--card); border-radius:22px; box-shadow:var(--shadow);
+  overflow:hidden; border:1px solid var(--line);
 }
 .card-header{
-  padding:16px 18px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line);
+  padding:16px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#ffffff,#fbfffd);
 }
-.card-title{ font-weight:600; color:#1a2e27; }
+.card-title{ font-weight:800; color:#1a2e27; letter-spacing:.2px; }
+
+/* Header tools */
 .tools{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
 .search{ position:relative; }
 .search input{
-  width:260px; height:36px; padding:0 36px 0 34px; border-radius:10px; border:1px solid var(--line);
-  background:var(--mint-100);
-  outline:none; font-size:14px;
+  width:280px; height:38px; padding:0 40px 0 38px; border-radius:12px; border:1px solid var(--line);
+  background:#f7fbfa; outline:none; font-size:14px; transition:border-color .2s, box-shadow .2s;
 }
-.search .glass{ position:absolute; left:10px; top:8px; width:20px; height:20px; opacity:.6; }
+.search input:focus{ border-color:#cde7dc; box-shadow:0 0 0 3px #dff6ec; }
+.search .glass{ position:absolute; left:12px; top:8px; width:20px; height:20px; opacity:.6; }
+
 .select{
-  display:flex; align-items:center; gap:8px; font-size:13px; color:#3a5a52; background:#f7fbfa; border:1px solid var(--line);
-  padding:8px 12px; border-radius:10px;
+  display:flex; align-items:center; gap:8px; font-size:13px; color:#3a5a52;
+  background:#f7fbfa; border:1px solid var(--line);
+  padding:8px 12px; border-radius:12px;
 }
 .select select{
-  border:0; background:transparent; outline:none; font-size:13px; color:#21443a;
+  border:0; background:transparent; outline:none; font-size:13.5px; color:#21443a;
 }
 
-/* ——— table ——— */
+/* ====== Table ====== */
 .table{ width:100%; border-collapse:separate; border-spacing:0; }
 .table thead th{
-  background:#f7fbfa; color:#2b4a43; font-weight:600; font-size:13px; padding:12px 14px; border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:1;
+  background:#f5fbf8; color:#25463d; font-weight:700; font-size:13px; padding:12px 14px;
+  border-bottom:1px solid var(--line);
+  box-shadow: 0 1px 0 var(--line);
 }
 .table tbody td{
   padding:12px 14px; border-bottom:1px solid var(--line); font-size:14px; color:#1f2f2a;
 }
-.table tbody tr:hover{ background:#f9fffd; }
-.table .left{ display:flex; align-items:center; gap:6px; }
+
+/* Zebra + hover */
+.table tbody tr:nth-child(4n+1),
+.table tbody tr:nth-child(4n+2){ background:#ffffff; }
+.table tbody tr:nth-child(4n+3),
+.table tbody tr:nth-child(4n+4){ background:#fcfffd; }
+.table tbody tr:hover{ background:#f1fbf6; transition: background .15s; }
+
 .row-toggle{
-  width:22px; height:22px; display:grid; place-items:center; border-radius:6px; border:1px solid #e2efe9; cursor:pointer; user-select:none; background:#fff;
+  width:24px; height:24px; display:grid; place-items:center; border-radius:8px; border:1px solid #e2efe9; cursor:pointer; user-select:none; background:#fff;
 }
-.row-toggle span{ transition:.2s; display:inline-block; transform:rotate(0deg)}
+.row-toggle span{ transition:.18s; display:inline-block; transform:rotate(0deg)}
 .row-toggle.active span{ transform:rotate(90deg); }
-.subrow{ display:none; background:#fcfffd;}
-.subrow td{ padding:16px 18px; color:#3a554e; font-size:13.5px; }
 
-/* ——— badges ——— */
+.subrow{ display:none; background:#f9fffc;}
+.subrow td{ padding:16px 18px; color:#33534b; font-size:13.5px; }
+
+/* ====== Badges ====== */
 .badge{
-  display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600; letter-spacing:.2px;
+  display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:800; letter-spacing:.2px;
 }
-.badge.success{ background:#e7fbef; color:#0d7a4f; border:1px solid #b7efcf;}
-.badge.warn{ background:#fff7e6; color:#a45a00; border:1px solid #ffe2a9;}
-.badge.danger{ background:#ffe9e9; color:#b71e1e; border:1px solid #ffc4c4;}
 .badge .dot{ width:8px; height:8px; border-radius:50%; }
-.success .dot{ background:#14b86f;}
-.warn .dot{ background:#ff9800;}
-.danger .dot{ background:#ff3b30;}
 
-/* ——— pagination (dummy) ——— */
-.pager{
-  display:flex; justify-content:center; align-items:center; gap:8px; padding:14px 18px;
-}
-.pager button{
-  min-width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:#fff; cursor:pointer; font-size:13px;
-}
-.pager button.active{ background:#0f4d3a; color:#fff; border-color:#0f4d3a; }
-.pager button:hover{ filter:brightness(.97); }
+.badge.success{ background:#e6fbf1; color:var(--ok); border:1px solid #bfeedd;}
+.badge.success .dot{ background:#10b981; }
 
-/* ——— footer ——— */
-.footer{
-  margin-top:24px; background:#0e3f31; color:#eafff6; border-radius:18px; box-shadow:var(--shadow);
-}
+.badge.warn{ background:#fff7e8; color:var(--warn); border:1px solid #ffe1b5; }
+.badge.warn .dot{ background:#ff9800; }
+
+.badge.danger{ background:#ffecec; color:var(--danger); border:1px solid #ffc8c8; }
+.badge.danger .dot{ background:#ff3b30; }
+
+/* ====== Footer bits (ถ้ามี) ====== */
 .footer-inner{ display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:24px; padding:22px 24px; }
 .footer .brand{ color:#eafff6; }
 .footer small, .footer p{ color:#d5fff0; opacity:.9; }
@@ -209,148 +206,173 @@ body{
 .ft-col a:hover{ opacity:1; text-decoration:underline; }
 .footer .meta{ display:flex; gap:10px; align-items:center; margin-top:8px; opacity:.85; font-size:13px; }
 
-/* responsive */
-@media (max-width: 900px){
-  .summary-strip{ grid-template-columns:1fr; }
-  .tools{ flex-wrap:wrap; }
-  .search input{ width:220px; }
-  .footer-inner{ grid-template-columns:1fr; }
+/* =========================
+   RESPONSIVE LAYOUT
+   ========================= */
+
+/* 1) จอกว้างกลาง (<= 1024px) */
+@media (max-width: 1024px){
+  .container{ padding:24px 18px 36px; }
+  .page-head{ gap:12px; }
+  .page-head .title{ font-size: clamp(20px, 2.8vw, 26px); }
+  .summary-strip{ gap:14px; }
+  .stat{ padding:14px 16px; }
+  .stat .icon-box{ width:52px; height:52px; border-radius:12px; }
+  .stat .icon-box svg{ width:26px; height:26px; }
 }
 
-    .user-menu { position: relative; }
-    .user-button{
-      display:flex; align-items:center; gap:.5rem;
-      background: transparent; border:0; cursor:pointer; padding:.35rem .5rem;
-      border-radius: 999px;
-    }
-    .user-button:hover{ background: rgba(0,0,0,.06); }
-    .avatar{
-      width:28px; height:28px; border-radius:50%;
-      display:inline-flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, #4a7c59, #6b8e5a); color:#fff; font-weight:700;
-    }
-    .avatar.lg{ width:40px; height:40px; font-size:1rem; }
-    .user-name{ font-weight:600; color:#333; }
-    .chev{ opacity:.7; }
-    .dropdown{
-      position:absolute; right:0; top:110%;
-      width:280px; background:#fff; border-radius:14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.12);
-      overflow:hidden; z-index:9999;
-    }
-    .hidden{ display:none; }
-    .dropdown-header{
-      display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
-      background: linear-gradient(135deg, #f6faf8, #ffffff);
-      border-bottom:1px solid #eef2ef;
-    }
-    .dropdown-header .info .name{ font-weight:700; color:#1b2b21; line-height:1.2; }
-    .dropdown-header .info .email{ font-size:.9rem; color:#667; }
-    .dropdown-body{ padding:8px; }
-    .dropdown-body .item{
-      width:100%; display:flex; align-items:center; gap:.6rem;
-      padding:10px 10px; border-radius:10px; color:#233; text-decoration:none;
-      background:transparent; border:0;
-    }
-    .dropdown-body .item:hover{ background:#f3f7f5; }
-    .logout-btn{
-      width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
-      color:#b01d1d; font-weight:600;
-    }
+/* 2) แท็บเล็ต (<= 900px) */
+@media (max-width: 900px){
+  .summary-strip{
+    grid-template-columns:1fr;   /* วางเป็นคอลัมน์เดียว */
+    padding:18px;
+    border-radius:20px;
+  }
+  .stat{
+    gap:14px;
+    border-radius:16px;
+  }
+  .page-head{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .legend{ gap:8px; }
+  .legend .chip{ padding:7px 10px; font-size:12px; }
+}
 
+/* 3) มือถือแนวนอน/มือถือใหญ่ (<= 768px) */
+@media (max-width: 768px){
+  .container{ padding:20px 14px 28px; }
+  .page-head .title{ font-size: clamp(18px, 3.4vw, 24px); }
+  .page-head .desc{ font-size: 14px; }
+  .stat .num{ font-size:18px; }
+
+  /* ตาราง: เลื่อนในแนวนอน + sticky header */
+  .table-wrap{
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table{ min-width: 760px; } /* กันหัวข้อทับกัน */
+  .table thead th{ position: sticky; top: 0; }
+}
+
+/* 4) มือถือเล็ก (<= 560px) */
+@media (max-width: 560px){
+  .summary-strip{ padding:14px; border-radius:16px; }
+  .stat{ padding:12px 14px; }
+  .stat .icon-box{ width:48px; height:48px; border-radius:12px; }
+  .stat .icon-box svg{ width:24px; height:24px; }
+  .stat h4{ font-size:13px; margin-bottom:4px; }
+  .stat .num{ font-size:16px; }
+
+  /* ปรับ tools ให้ประหยัดพื้นที่ */
+  .card-header{ gap:10px; }
+  .tools{ width:100%; }
+  .search input{ width:100%; max-width:none; }
+  .select{ width:100%; justify-content:space-between; }
+  .select select{ font-size:14px; }
+}
+
+/* =========================
+   TABLE READABILITY (ทั่วไป)
+   ========================= */
+.table-wrap{ overflow-x:auto; }
+.table th, .table td{
+  white-space: nowrap;           /* กันตัดบรรทัดจนสูงมากเกินไป */
+}
+.subrow td{
+  white-space: normal;           /* รายละเอียดให้ตัดบรรทัดได้ */
+}
+
+/* =========================
+   MICRO INTERACTION (เล็กๆ)
+   ========================= */
+.stat:hover .icon-box{
+  box-shadow:
+    inset 0 -4px 10px rgba(0,0,0,.06),
+    0 12px 24px rgba(0,0,0,.15);
+  transform: translateY(-1px);
+  transition: all .18s ease;
+}
 </style>
+
 </head>
 
 <body>
 <div class="bg-shapes"></div>
-<header class="header">
-  <div class="nav-container">
-    <div class="logo">
-      <div class="logo-icon">
-        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
-      </div>
-      ASCENDER
-    </div>
-
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
-        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
-        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
-
-        {% if user.is_authenticated %}
-          <li class="user-menu">
-            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
-              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
-              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
-              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-
-            <div id="userDropdown" class="dropdown hidden" role="menu">
-              <div class="dropdown-header">
-                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
-                <div class="info">
-                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
-                  <div class="email">{{ user.email }}</div>
-                </div>
-              </div>
-              <div class="dropdown-body">
-
-                <form action="{% url 'logout' %}" method="post" class="item">
-                  {% csrf_token %}
-                  <input type="hidden" name="next" value="{{ request.path }}">
-                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
-                </form>
-              </div>
-            </div>
-          </li>
-        {% else %}
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </div>
-</header>
+{% include 'header_emp.html' %}
+<!-- ============ MAIN CONTENT (แทนเฉพาะใน .container ของเดิม) ============ -->
 <div class="container">
 
+  <!-- Page head -->
+  <header class="page-head">
+    <div>
+      <h1 class="title">สถานะแจ้งซ่อม</h1>
+      <p class="desc">ตรวจสอบความคืบหน้าและรายละเอียดงานแจ้งซ่อมของคุณแบบอ่านอย่างเดียว</p>
+    </div>
+    <div class="legend" aria-label="คำอธิบายสีสถานะ">
+      <span class="chip" style="color:#ff3b30"><span class="dot" style="background:#ff3b30"></span> กำลังดำเนินการ</span>
+      <span class="chip" style="color:#0d7a4f"><span class="dot" style="background:#10b981"></span> ดำเนินการเรียบร้อย</span>
+    </div>
+  </header>
 
   <!-- Summary strip -->
-  <section class="summary-strip">
-    <div class="stat">
-      <div class="icon">
-        <!-- wrench -->
-        <svg viewBox="0 0 24 24"><path d="M22 19.6 14.4 12A7 7 0 0 1 9 2a7 7 0 0 0 0 10l7.6 7.6a2 2 0 0 0 2.8 0l2.6-2.6a2 2 0 0 0 0-2.8zM5 22a3 3 0 1 1 4.24-4.24A3 3 0 0 1 5 22z"/></svg>
-      </div>
-      <div>
-        <h4>งานแจ้งซ่อมทั่วไปของบริษัท</h4>
-        <div class="num">รอดำเนินการ {{ general_pending_count }}</div>
-      </div>
+<section class="summary-strip">
+  <!-- งานทั่วไป -->
+  <div class="stat general">
+    <div class="icon-box" aria-hidden="true">
+      <!-- TOOLBOX (งานทั่วไป) -->
+      <svg viewBox="0 0 24 24" role="img" aria-label="กล่องเครื่องมือ">
+        <!-- ตัวกล่อง -->
+        <rect x="3" y="7" width="18" height="10" rx="2"></rect>
+        <!-- หูหิ้ว -->
+        <path d="M9 7V6a3 3 0 0 1 6 0v1"></path>
+        <!-- เส้นฝา -->
+        <path d="M3 11h18"></path>
+        <!-- ตัวล๊อคกลาง -->
+        <path d="M11.5 11v6M12.5 11v6"></path>
+      </svg>
     </div>
+    <div>
+      <h1>งานแจ้งซ่อมทั่วไปของบริษัท</h1>
+      <div class="num">รอดำเนินการ {{ general_pending_count }}</div>
+    </div>
+  </div>
 
-    <div class="stat">
-      <div class="icon">
-        <svg viewBox="0 0 24 24"><path d="M22 19.6 14.4 12A7 7 0 0 1 9 2a7 7 0 0 0 0 10l7.6 7.6a2 2 0 0 0 2.8 0l2.6-2.6a2 2 0 0 0 0-2.8zM5 22a3 3 0 1 1 4.24-4.24A3 3 0 0 1 5 22z"/></svg>
-      </div>
-      <div>
-        <h4>งานแจ้งซ่อมระบบ</h4>
-        <div class="num">รอดำเนินการ {{ system_pending_count }}</div>
-      </div>
+  <!-- งานระบบ -->
+  <div class="stat system">
+    <div class="icon-box" aria-hidden="true">
+      <!-- CPU / CHIP (งานระบบ) -->
+      <svg viewBox="0 0 24 24" role="img" aria-label="ชิปคอมพิวเตอร์">
+        <!-- ขอบชิป -->
+        <rect x="5" y="5" width="14" height="14" rx="2"></rect>
+        <!-- พินรอบ ๆ -->
+        <path d="M9 3v3M12 3v3M15 3v3
+                 M21 9h-3M21 12h-3M21 15h-3
+                 M9 21v-3M12 21v-3M15 21v-3
+                 M3 9h3M3 12h3M3 15h3"></path>
+        <!-- วงจรด้านใน (ลายกากบาทเล็ก ๆ ) -->
+        <path d="M12 9v6M9 12h6"></path>
+      </svg>
     </div>
-  </section>
+    <div>
+      <h1>งานแจ้งซ่อมระบบ</h1>
+      <div class="num">รอดำเนินการ {{ system_pending_count }}</div>
+    </div>
+  </div>
+</section>
+
 
   <!-- Table card -->
   <section class="card">
     <div class="card-header">
-      <div class="card-title">รายการแจ้งซ่อม (ดูอย่างเดียว)</div>
+      <div class="card-title">รายการแจ้งซ่อม</div>
       <div class="tools">
         <div class="search">
           <input id="searchBox" type="search" placeholder="ค้นหา: เลขที่, วัน, เบอร์, ประเภท, สถานะ, รายละเอียด..." oninput="filterRows(this.value)" />
           <svg class="glass" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79L20 21.5 21.5 20 15.5 14Zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14Z"/></svg>
         </div>
 
-        <!-- ฟิลเตอร์หน้าเดียว (JS) -->
         <div class="select">
           <span>สถานะ:</span>
           <select id="statusFilter" onchange="applyFilters()">
@@ -387,16 +409,7 @@ body{
         <tbody>
           {% if tickets %}
             {% for t in tickets %}
-              {% with status=t.get_repair_status_display type_label=t.get_repair_type_display %}
-                {% if "เรียบร้อย" in status %}
-                  {% with badge="success" %}{% endwith %}
-                {% elif "กำลัง" in status or "ตรวจสอบ" in status %}
-                  {% with badge="danger" %}{% endwith %}
-                {% else %}
-                  {% with badge="warn" %}{% endwith %}
-                {% endif %}
-              {% endwith %}
-
+              {% with status=t.get_repair_status_display type_label=t.get_repair_type_display %}{% endwith %}
               <tr
                 data-status="{{ t.get_repair_status_display }}"
                 data-type="{{ t.get_repair_type_display }}"
@@ -438,21 +451,10 @@ body{
         </tbody>
       </table>
     </div>
-
-    <!-- (optional) ตัวอย่างเพจเจอร์ dummy -->
-    <!--
-    <div class="pager">
-      <button>&laquo;</button>
-      <button class="active">1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-      <button>&raquo;</button>
-    </div>
-    -->
   </section>
 
 </div>
+
 {% include 'footer.html' %}
 
 <script>

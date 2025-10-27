@@ -4,203 +4,206 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>ASCENDER Co., Ltd</title>
+  <title>ASCENDER Co., Ltd | สมัครงาน</title>
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <style>
-    /* ===== NAVBAR BASE ===== */
+/* ===== RESET & TOKENS ===== */
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Prompt,Arial,sans-serif;}
-
-.header{
-  position:fixed; top:0; left:0; right:0;
-  background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08);
-  z-index:1000;
+html,body{margin:0;padding:0}
+body{font-family:"Prompt",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+:root{
+  --brand:#2E8B57; --brand2:#3FBF94;
+  --ink:#1f2937; --muted:#64748b;
+  --card:#fff; --rail:#E3EAE6;
+  --radius:16px; --shadow:0 10px 24px rgba(0,0,0,.10);
+  --nav-h:72px;
 }
-.nav-container{
-  max-width:1200px; margin:0 auto; padding:10px 20px;
-  display:flex; align-items:center; justify-content:space-between;
-}
-
-.logo{display:flex; align-items:center; gap:10px; font-weight:600; color:#1f2937;}
-.logo-icon{display:flex; align-items:center;}
-.logo-icon img{width:44px; height:44px; object-fit:contain; display:block;}
-
-.nav-menu{
-  list-style:none; margin:0; padding:0;
-  display:flex; align-items:center; gap:20px;
-}
-.nav-menu a{
-  text-decoration:none; color:#374151; font-weight:500;
-}
-.nav-btn{
-  padding:8px 14px; border:1px solid #10b981; border-radius:10px;
-  color:#065f46; font-weight:600;
+body{
+  padding-top:var(--nav-h);
+  background:linear-gradient(135deg,#e8f5ee 0%,#f9faf9 100%);
+  color:var(--ink);
 }
 
-/* ดันคอนเทนต์ลงให้ไม่โดนทับ */
-:root{ --nav-h:72px; }
-body{ padding-top:var(--nav-h); }
+/* ===== LAYOUT ===== */
+.container{max-width:1200px;margin:0 auto;padding:32px 20px 64px;}
 
-/* ===== HERO / SLIDES ===== */
-.hero{ position:relative; overflow:hidden; height:420px; }
-.slideshow-container{ position:relative; width:100%; height:100%; }
-.slide{ position:absolute; inset:0; opacity:0; transition:opacity 1.2s; }
-.slide.active{ opacity:1; }
-.slide img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-/* จุดบอกสไลด์ */
-.slide-indicators{
-  position:absolute; left:0; right:0; bottom:14px; display:flex; gap:8px; justify-content:center;
+/* ===== SECTION ===== */
+.job-section{margin-bottom:72px;}
+.section-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:22px;
 }
-.dot{ width:10px; height:10px; border-radius:50%; background:#e5e7eb; cursor:pointer; }
-.dot.active{ background:#10b981; }
+.section-head .dot{
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  box-shadow:0 2px 8px rgba(63,191,148,.25);
+}
+.section-head h2{
+  margin:0;font-size:1.8rem;font-weight:800;color:#1b4332;
+}
+
+/* ===== GRID ===== */
+.job-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:22px;
+}
+
+/* ===== CARD ===== */
+.job-card{
+  background:var(--card);
+  border:1px solid var(--rail);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.job-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,.12);}
+
+/* Poster */
+.job-image{
+  width:100%;aspect-ratio:3/4;
+  display:grid;place-items:center;
+  background:#edf5f0;cursor:zoom-in;border:0;
+}
+.job-image img{
+  width:100%;height:100%;object-fit:contain;object-position:center;
+  transition:transform .3s ease;
+}
+.job-card:hover .job-image img{transform:scale(1.02);}
+
+/* Info */
+.job-info{
+  padding:16px;text-align:center;
+  background:linear-gradient(180deg,#fff 0%,#f6faf8 100%);
+}
+.job-title{margin:0;font-weight:900;font-size:1.1rem;color:#083226;}
+.job-subtitle{margin:6px 0;color:var(--muted);}
+.job-salary{
+  display:inline-block;margin:8px 0 14px;padding:6px 12px;
+  background:#e6f4ea;color:#1f7a40;font-weight:800;border-radius:10px;
+}
+.job-apply{
+  display:inline-block;padding:9px 14px;border-radius:12px;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  color:#fff;text-decoration:none;font-weight:800;
+  transition:filter .2s ease,transform .2s ease;
+}
+.job-apply:hover{filter:brightness(.95);transform:translateY(-1px);}
+.job-meta{margin-top:12px;color:var(--muted);font-size:.95rem;}
+.job-meta .company{color:var(--brand);font-weight:800;}
+.job-meta .sep{margin:0 6px;opacity:.55;}
+
+/* View more */
+.view-more-btn{
+  display:inline-block;margin-top:28px;background:var(--brand);
+  color:#fff;text-decoration:none;padding:10px 18px;border-radius:10px;
+  font-weight:800;box-shadow:0 8px 18px rgba(46,139,87,.28);
+  transition:filter .2s ease,transform .2s ease;
+}
+.view-more-btn:hover{filter:brightness(.95);transform:translateY(-1px);}
+.jobs-actions{margin-top:30px;display:flex;justify-content:center;}
+
+/* Lightbox */
+.job-lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);
+  display:none;align-items:center;justify-content:center;
+  z-index:2000;padding:clamp(12px,3vw,32px);
+}
+.job-lightbox[aria-hidden="false"]{display:flex;}
+.job-lightbox__img{
+  max-width:min(100%,1100px);max-height:90vh;
+  width:auto;height:auto;object-fit:contain;
+  border-radius:12px;background:#fff;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.job-lightbox__close{
+  position:absolute;top:10px;right:12px;
+  background:rgba(255,255,255,.9);border:0;border-radius:999px;
+  width:40px;height:40px;display:grid;place-items:center;
+  font-size:18px;cursor:pointer;
+}
+
+/* Responsive */
+@media(max-width:600px){
+  .job-grid{grid-template-columns:1fr;gap:16px;}
+  .container{padding:24px 16px 40px;}
+}
   </style>
 </head>
 <body>
-  Header
-  <header class="header">
-    <div class="nav-container">
-      <div class="logo">
-        <div class="logo-icon">
-          <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
-        </div>
-        <a style="text-decoration:none;color:black;" href="">ASCENDER</a>
-      </div>
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-          <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-          <li><a href="#contact">ติดต่อ</a></li>
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        </ul>
-      </nav>
+{% include 'header.html' %}
+
+<div class="container">
+  <!-- ========== หมวด 1: พนักงานประจำ (จากฐานข้อมูล) ========== -->
+  <section class="job-section" id="fulltime">
+    <div class="section-head">
+      <span class="dot"></span>
+      <h2>ตำแหน่งพนักงานประจำ</h2>
     </div>
-  </header>
+    <div class="job-grid">
+      {% for j in jobs %}
+      <article class="job-card">
+        <button class="job-image" 
+                data-full="{% if j.job_image %}{{ j.job_image.url }}{% else %}{% static j.job_type|lower|add:'.jpg' %}{% endif %}">
+          <img src="{% if j.job_image %}{{ j.job_image.url }}{% else %}{% static j.job_type|lower|add:'.jpg' %}{% endif %}"
+              alt="{{ j.job_name }}">
+        </button>
 
-  <div class="container">
-    <!-- First Section: Full-time Jobs -->
-    <section>
-      <h2 class="section-title">สำหรับสมัครงานพนักงานประจำ</h2>
-      <!-- <div class="job-grid">
-        {% for j in jobs %}
-          <div class="job-card">
-            <div class="job-image">
-              <div class="job-overlay telesales-home">
-                <h3 class="job-title">{{ j.job_name }}</h3>
-                <p class="job-subtitle">{{ j.job_subhead }}</p>
-                <div class="job-salary">เงินเดือน: {{ j.job_salary }} บาท</div>
-              </div>
-            </div>
-            <div class="job-details">
-              <p class="job-company">ASCENDER</p>
-              <p class="job-location">{{ j.job_subhead }}</p>
-            </div>
+        <div class="job-info">
+          <h3 class="job-title">{{ j.job_name }}</h3>
+          <p class="job-subtitle">{{ j.job_subhead }}</p>
+          <div class="job-salary">
+            {% if j.job_salary %}รายได้ {{ j.job_salary|floatformat:0 }} บาท{% else %}-{% endif %}
           </div>
-        {% empty %}
-          <p>ยังไม่มีตำแหน่งงานเปิดรับ</p>
-        {% endfor %}
-      </div>
-    </section>
-
-    Second Section: Intern -->
-    <!-- <section>
-      <h2 class="section-title">สมัครฝึกงานสำหรับนักศึกษา</h2>
-      <div class="job-grid">
-        <div class="job-card">
-          <div class="job-image">
-            <div class="job-overlay technical-support">
-              <h3 class="job-title">เปิดรับสมัคร นักศึกษาฝึกงาน</h3>
-              <p class="job-subtitle">Intern</p>
-              <div class="job-salary">ตำแหน่ง: —</div>
-            </div>
-          </div>
-          <div class="job-details">
-            <p class="job-company">ASCENDER</p>
-            <p class="job-location">Intern</p>
+          <a class="job-apply" href="{% url 'jobform_new' %}">สมัครงาน</a>
+          <div class="job-meta">
+            <span class="company">ASCENDER</span><span class="sep">•</span>
+            <span class="location">{{ j.get_job_type_display }}</span>
           </div>
         </div>
-         เพิ่มการ์ดอื่น ๆ ได้ตามต้องการ -->
-      <!-- </div>
-      <a href="{% url 'Applywork' %}" class="view-more-btn">ดูเพิ่มเติม</a> --> 
-                  <div class="job-grid">
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay telesales-home">
-                            <h3 class="job-title">รับสมัคร Telesales</h3>
-                            <p class="job-subtitle">Work from home 100%</p>
-                            <div class="job-salary">รายได้ 20,000 - 50,000 บาท</div>
-                            <a href="{% url 'jobform_new' %}">สมัครงาน</a>
+      </article>
+      {% empty %}
+      <p style="text-align:center;color:#777;">ยังไม่มีตำแหน่งงานว่างในขณะนี้</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
 
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Telesales Work from home 100%</p>
-                    </div>
-                </div>
+<!-- Lightbox -->
+<div class="job-lightbox" id="jobLightbox" aria-hidden="true">
+  <button class="job-lightbox__close" aria-label="ปิด">✕</button>
+  <img class="job-lightbox__img" alt="">
+</div>
 
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay telesales-office">
-                            <h3 class="job-title">เปิดรับ Telesales</h3>
-                            <p class="job-subtitle">ทำงานที่ออฟฟิศ</p>
-                            <div class="job-salary">รายได้ดี</div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Telesales office</p>
-                    </div>
-                </div>
+{% include 'footer.html' %}
 
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay trainer">
-                            <h3 class="job-title">เปิดรับสมัคร Trainer</h3>
-                            <p class="job-subtitle">พนักงานขายอาหารเสริม</p>
-                            <div class="job-salary">รายได้ 25,000-30,000 บาท</div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Trainer พนักงานขายอาหารเสริม</p>
-                    </div>
-                </div>
+<script>
+/* Lightbox – เปิดภาพโปสเตอร์เต็มจอ */
+(function(){
+  const lb = document.getElementById('jobLightbox');
+  const lbImg = lb.querySelector('.job-lightbox__img');
+  const closeBtn = lb.querySelector('.job-lightbox__close');
 
-                <div class="job-card">
-                    <div class="job-image">
-                        <div class="job-overlay marketing-manager">
-                            <h3 class="job-title">เปิดรับสมัคร MANAGER MARKETING</h3>
-                            <p class="job-subtitle">รายได้ดี</p>
-                            <div class="job-salary">รายได้ 30,000 - 35,000 บาท</div>
-                        </div>
-                    </div>
-                    <div class="job-details">
-                        <p class="job-company">ASCENDER</p>
-                        <p class="job-location">Manager Marketing</p>
-                    </div>
-                </div>
-            </div>
-            <a href="Jobber.html" class="view-more-btn">ดูเพิ่มเติม</a>
-    </section>
-  </div>
-  {% include 'footer.html' %}
-
-  <script>
-    // ripple effect เล็ก ๆ เวลา click
-    document.querySelectorAll('.job-card').forEach(card => {
-      card.addEventListener('click', function(e){
-        const ripple = document.createElement('div');
-        ripple.style.cssText = 'position:absolute;background:rgba(255,255,255,.6);border-radius:50%;width:20px;height:20px;animation:ripple .6s ease-out;pointer-events:none;';
-        this.style.position='relative';
-        this.appendChild(ripple);
-        setTimeout(()=>ripple.remove(),600);
-      });
+  function open(src){
+    lbImg.src = src;
+    lb.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    lb.setAttribute('aria-hidden','true');
+    lbImg.src='';
+    document.body.style.overflow='';
+  }
+  document.querySelectorAll('.job-image').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const src=btn.dataset.full||btn.querySelector('img')?.src;
+      if(src)open(src);
     });
-    const style=document.createElement('style');
-    style.textContent='@keyframes ripple{0%{transform:scale(0);opacity:1}100%{transform:scale(20);opacity:0}}';
-    document.head.appendChild(style);
-  </script>
+  });
+  closeBtn.addEventListener('click',close);
+  lb.addEventListener('click',e=>{if(e.target===lb)close()});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+})();
+</script>
 </body>
 </html>

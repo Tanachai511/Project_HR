@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ASCENDER Co., Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+/* ================================
+   RESET & VARIABLES
+   ================================ */
+*{ box-sizing:border-box; }
+:root{ --header-h:72px; }
+@media (max-width:992px){ :root{ --header-h:64px; } }
+
+:root{
+  --brand:#2E8B57;
+  --brand-2:#3FBF94;
+  --ink:#2e3c35;
+  --rail:#E3EAE6;
+  --card:#FFFFFF;
+  --shadow:0 8px 22px rgba(40,80,60,.10);
+  --shadow-lg:0 12px 28px rgba(40,80,60,.15);
+}
+
+/* ================================
+   BASE
+   ================================ */
+html,body{ height:100%; overflow-x:hidden; font-family:"Prompt", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif; }
+body{
+  margin:0;
+  color:var(--ink);
+  padding-top:var(--header-h);
+  background: radial-gradient(140% 120% at 50% -20%, #F5F9F7 0%, #EFF4F1 55%, #E8F1EC 100%);
+}
+
+/* ================================
+   NAVBAR (เหมือนหน้า document)
+   ================================ */
+.header{
+  position:fixed; top:0; left:0; right:0; height:var(--header-h);
+  background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); z-index:1000;
+}
+.nav-container{
+  height:100%;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.5rem;
+}
+
+/* โลโก้ + ชื่อบริษัท (ให้เหมือนทุกหน้า) */
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-weight:700; font-size:1.5rem; color:#1a1a1a; letter-spacing:.2px;
+}
+.logo a{ color:inherit; text-decoration:none; font:inherit; letter-spacing:inherit; }
+.logo-icon{
+  width:44px; height:44px; border-radius:50%; overflow:hidden;
+  background:#6b8e5a; display:flex; align-items:center; justify-content:center;
+}
+.logo-icon img{ width:100%; height:100%; object-fit:cover; }
+
+/* เมนูหลัก (desktop) */
+.nav-menu{
+  display:flex; list-style:none; gap:2rem; align-items:center;
+  font-size:1.125rem; margin:0; padding:0;
+}
+.nav-menu li a{
+  text-decoration:none; color:#333; font-weight:600; transition:color .25s ease;
+}
+.nav-menu li a:hover{ color:#40e371; }
+
+/* ปุ่ม CTA */
+.nav-btn{
+  background-color:#6b8e5a; color:#fff !important;
+  padding:.65rem 1.6rem; border-radius:25px; text-decoration:none; font-weight:700;
+  transition:transform .2s ease, filter .2s ease;
+}
+.nav-btn:hover{ transform:translateY(-1px); filter:brightness(.95); }
+
+/* Hamburger (มือถือ) */
+.menu-toggle{
+  display:none; width:44px; height:44px; cursor:pointer;
+  background:none; border:1.5px solid #2f3b2f; border-radius:10px; font-size:1.4rem; line-height:1;
+}
+@media (max-width:992px){
+  .menu-toggle{ display:inline-block; }
+  .nav-menu{ display:none; }
+  .nav-menu.active{
+    display:flex; flex-direction:column;
+    position:fixed; top:var(--header-h); left:0; right:0;
+    height:calc(100dvh - var(--header-h));
+    background:#fff; border-top:1px solid #eee; z-index:1001;
+    padding:10px 14px 16px; gap:8px; overflow:auto; -webkit-overflow-scrolling:touch;
+  }
+  .nav-menu li a{
+    display:block; width:100%; padding:14px 10px; text-align:center;
+    font-size:1.15rem; line-height:1.55; word-break:break-word;
+  }
+  .nav-btn{ width:100%; border-radius:12px; font-size:1.15rem; padding:1rem 1.1rem; }
+  body.menu-open{ overflow:hidden; }
+}
+
+/* User dropdown */
+.user-menu{ position:relative; }
+.user-button{
+  display:flex; align-items:center; gap:.5rem; cursor:pointer;
+  background:transparent; border:0; padding:.35rem .5rem; border-radius:999px;
+}
+.user-button:hover{ background:rgba(0,0,0,.06); }
+.avatar{
+  width:28px; height:28px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; font-weight:700;
+}
+.avatar.lg{ width:40px; height:40px; font-size:1rem; }
+.user-name{ font-weight:600; color:#333; }
+.chev{ opacity:.7; }
+.dropdown{
+  position:absolute; right:0; top:calc(100% + 8px);
+  width:min(280px, 92vw); background:#fff; border-radius:14px;
+  border:1px solid #eef2ef; box-shadow:0 12px 30px rgba(0,0,0,.12);
+  overflow:hidden; z-index:1500;
+}
+.hidden{ display:none; }
+.dropdown-header{
+  display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
+  background:linear-gradient(135deg, #f6faf8, #ffffff); border-bottom:1px solid #eef2ef;
+}
+.dropdown-body{ padding:8px; }
+.dropdown-body .item{
+  width:100%; display:flex; align-items:center; gap:.6rem;
+  padding:10px; border-radius:10px; color:#233; text-decoration:none;
+  background:transparent; border:0;
+}
+.dropdown-body .item:hover{ background:#f3f7f5; }
+.logout-btn{
+  width:100%; text-align:left; background:transparent; border:0; color:#b01d1d;
+  font-weight:700; cursor:pointer;
+}
+
+/* ================================
+   REPAIR PAGE CONTENT
+   ================================ */
+.page{
+  max-width:1100px; margin: 24px auto 60px; padding: 0 18px;
+}
+.hero{
+  background:#fff; border:1px solid var(--rail); border-radius:18px;
+  box-shadow:var(--shadow); padding:28px; margin-bottom:18px;
+}
+.hero h1{
+  margin:0 0 8px; font-size: clamp(22px, 3.6vw, 32px); color:#24343a; font-weight:800;
+}
+.hero p{ margin:0; color:#566; line-height:1.7; }
+
+.grid{
+  display:grid; gap:18px; grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 768px){ .grid{ grid-template-columns:1fr; } }
+
+.card{
+  background:#fff; border:1px solid var(--rail); border-radius:18px;
+  box-shadow:var(--shadow); padding:26px; cursor:pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lg); background:#fff; }
+.card-number{
+  font-size: clamp(34px, 4.8vw, 48px); font-weight:800; color:var(--brand); margin-bottom:10px;
+}
+.card-title{ font-size: clamp(20px, 3vw, 24px); font-weight:800; color:#24343a; margin:0 0 8px; }
+.card-description{ margin:0; color:#555; line-height:1.65; text-wrap:pretty; }
+
+/* ปุ่มภายในการ์ด (ถ้าต้องการแสดง) */
+.card .go{
+  margin-top:16px; display:inline-block; font-weight:700; text-decoration:none;
+  padding:.55rem 1rem; border-radius:12px; border:1px solid var(--rail); color:#1f2b25;
+  transition: background .2s ease;
+}
+.card:hover .go{ background:#f6faf8; }
+</style>
+</head>
+<body>
+{% include 'header_emp.html' %}
+
+    <!-- Main Content -->
+    <main style="padding:20px;max-width:1200px;margin:0 auto;">
+        <h1 style="color:#2c5530;font-size:2.5rem;font-weight:bold;margin-bottom:30px;">ข่าวประชาสัมพันธ์</h1>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+        {% for item in news %}
+            <a href="{% url 'news_detail' item.pk %}" style="text-decoration:none;color:inherit;">
+            <div style="background:white;border-radius:15px;box-shadow:0 4px 15px rgba(0,0,0,0.1);overflow:hidden;">
+                <div style="height:200px;display:flex;align-items:center;justify-content:center;">
+                {% if item.news_img %}
+                    <img src="{{ item.news_img.url }}" alt="{{ item.news_head }}" width="100%" height="100%" style="object-fit:cover;">
+                {% else %}
+                    <img src="{% static 'default.jpg' %}" alt="no image" width="100%" height="100%" style="object-fit:cover;">
+                {% endif %}
+                </div>
+                <div style="padding:20px;">
+                <div style="color:#666;margin-bottom:10px; font-size: larger;">📅 วันที่: {{ item.news_date|date:"d M Y H:i:s" }}</div>
+                <div style="color:#2c5530;font-weight:bold; font-size: larger;">{{ item.news_head }} →</div>
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+        </div>
+    </main>
+
+{% include 'footer.html' %}
+
+<script>
+/* ไปหน้าฟอร์มแจ้งซ่อมตาม type */
+function handleCardClick(type){
+  window.location.href = "{% url 'repair-create' %}?type=" + encodeURIComponent(type);
+}
+
+/* เปิด/ปิดเมนูมือถือ */
+function toggleMenu(){
+  const menu = document.getElementById('nav-menu');
+  const open = !menu.classList.contains('active');
+  menu.classList.toggle('active', open);
+  document.body.classList.toggle('menu-open', open);
+}
+
+/* Dropdown ผู้ใช้ */
+(function(){
+  const btn = document.getElementById('userMenuBtn');
+  const dd  = document.getElementById('userDropdown');
+  if(!btn || !dd) return;
+
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    const hidden = dd.classList.contains('hidden');
+    dd.classList.toggle('hidden', !hidden);
+    this.setAttribute('aria-expanded', hidden ? 'true' : 'false');
+  });
+
+  document.addEventListener('click', function(){
+    if(!dd.classList.contains('hidden')){
+      dd.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && !dd.classList.contains('hidden')){
+      dd.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+</script>
+</body>
+</html>

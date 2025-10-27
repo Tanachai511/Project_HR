@@ -9,289 +9,378 @@
   <!-- ใช้ static -->
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <style>
-/* แก้ header ให้วางทับสไลด์อย่างพอดี */
-.header {
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  padding: 1rem 0;
+/* ====== HEADER (เหมือนหน้า About) ====== */
+*{box-sizing:border-box}
+body{margin:0;font-family:"Prompt",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+
+/* header */
+.header{
   position: fixed;
-  width: 100%;
-  top: 0;
+  top: 0; left: 0; right: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
   z-index: 1000;
 }
 
-/* ทำให้ hero เริ่มชิด header */
-.hero {
-  margin-top: 85px;
-  padding-top: 0;
-  position: relative;
-  overflow: hidden;
+/* กรอบภายใน header */
+.nav-container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:10px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-/* กล่องสไลด์ */
-.slideshow-container {
-  width: 100%;
-  height: 65vh; /* ปรับตามความสูงที่ต้องการ */
-  position: relative;
-  margin-top: 0;
+/* โลโก้ + ชื่อบริษัท */
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-weight:600; color:#1f2937; font-size:1.25rem;
+}
+.logo-icon img{width:44px; height:44px; object-fit:contain; display:block;}
+
+/* เมนูนำทาง */
+.nav-menu{
+  list-style:none; margin:0; padding:0;
+  display:flex; align-items:center; gap:20px;
+}
+.nav-menu a{
+  text-decoration:none; color:#374151; font-weight:500; transition:color .2s ease;
+}
+.nav-menu a:hover{ color:#10b981; }
+
+/* ปุ่มพนักงาน */
+.nav-btn{
+  padding:8px 14px; border:1px solid #10b981; border-radius:10px;
+  background:#ecfdf5; color:#065f46; font-weight:600; text-decoration:none;
+  transition:all .2s ease;
+}
+.nav-btn:hover{ background:#10b981; color:#fff; }
+
+/* ดันคอนเทนต์ลงไม่ให้ header ทับ */
+:root { --header-h: 72px; }          /* เดสก์ท็อป */
+@media (max-width: 992px){
+  :root { --header-h: 64px; }        /* มือถือ/แท็บเล็ต */
+}
+body { padding-top: var(--header-h); }
+
+/* Responsive header */
+@media (max-width:768px){
+  .nav-container{ flex-wrap:wrap; gap:10px; }
+  .nav-menu{ flex-wrap:wrap; justify-content:center; width:100%; gap:18px; }
+  .nav-btn{ width:100%; text-align:center; }
 }
 
-/* รูปภาพในสไลด์ */
-.slideshow-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* ครอบเต็มจอโดยไม่บิดภาพ */
-  display: block;
-  margin: 0;
-  padding: 0;
+/* ====== HERO / SLIDESHOW (ของคุณ — คงไว้) ====== */
+.hero{ position:relative; }
+
+.slideshow-container{
+  position:relative; width:100%;
+  /* ให้ JS มาควบคุมความสูงจริง; ใส่ fallback นิดหน่อย */
+  height: 48vw;                 /* fallback ตอนหน้าเพิ่งโหลด */
+  max-height: 78vh;
+  border-radius:18px; overflow:hidden;
+  background:#f1f5f9; box-shadow:0 10px 28px rgba(0,0,0,.10);
+}
+
+.slide{ position:absolute; inset:0; opacity:0; transition:opacity .6s ease; }
+.slide.active{ opacity:1; }
+
+/* ภาพหลัก: แสดงเต็มใบ (ไม่ตัด) */
+.slide img{
+  position:relative; z-index:1;
+  width:100%; height:100%;
+  object-fit: contain; object-position:center; display:block;
+}
+
+/* พื้นหลังเบลอ (เติมช่องว่าง) — set ผ่าน JS เป็น var(--bg) */
+.slide::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  background-image: var(--bg);
+  background-size: cover; background-position: center;
+  filter: blur(22px) brightness(.92);
+  transform: scale(1.06);        /* กันเห็นขอบ */
+}
+
+/* indicators */
+.slide-indicators{
+  position:absolute; left:50%; bottom:12px; transform:translateX(-50%);
+  display:flex; gap:8px; z-index:2;
+  padding:6px 10px; border-radius:999px;
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  backdrop-filter: blur(4px);
+}
+.dot{
+  width:10px; height:10px; border-radius:50%;
+  background:#cbd5e1; cursor:pointer; transition:transform .15s, background .15s;
+}
+.dot.active{ background:#16a34a; transform:scale(1.15); }
+
+@media (max-width:768px){
+  .slideshow-container{ border-radius:14px; }
+}
+@media (max-width:480px){
+  .slideshow-container{ border-radius:12px; }
 }
 
 /* ป้องกันขอบสีขาว */
+body { margin: 0; padding: 0; }
+
+/* ====== POSTER / NEWS (ของคุณ — คงไว้) ====== */
+.poster-card { display:flex; flex-direction:column; }
+.poster-image {
+  width: 100%;
+  position: relative;
+  aspect-ratio: 16 / 9;        /* อัตราส่วนแนวนอน */
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: transparent;  /* ✅ ไม่ให้มีพื้นหลังขาว */
+}
+.poster-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; object-position: center; display: block;
+}
+@media (max-width: 600px) {
+  .poster-image { aspect-ratio: 4 / 3; }    /* ให้สูงขึ้นสำหรับมือถือ */
+}
+
+/* ===== Section Frame & Titlebar ===== */
+.section-frame{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:18px;
+  padding:20px clamp(16px,2.5vw,28px);
+  box-shadow:0 10px 28px rgba(0,0,0,.06);
+  margin: clamp(20px, 3vw, 36px) auto;
+  max-width: 1200px;
+}
+.section-titlebar{
+  display:flex; align-items:center; gap:12px;
+  margin: 6px 4px 18px;
+  padding-bottom:10px;
+  border-bottom:1px dashed rgba(0,0,0,.08);
+}
+.section-titlebar .mark{
+  width:20px; height:20px; border-radius:6px;
+  background: linear-gradient(135deg,#2E8B57,#3FBF94);
+  box-shadow:0 2px 8px rgba(63,191,148,.25);
+}
+.section-titlebar h2{
+  margin:0; font-weight:800; letter-spacing:.2px;
+  font-size: clamp(18px, 2.4vw, 24px);
+  color:#1f2937;
+}
+.section-titlebar .subtitle{
+  margin-left:auto; font-size:.95rem; color:#6b7280;
+}
+
+/* ===== Tabs ===== */
+.section-tabs{
+  display:flex; flex-wrap:wrap; gap:10px;
+  margin:6px 0 18px;
+}
+.section-tabs .tab{
+  appearance:none; border:0; cursor:pointer;
+  padding:8px 14px; border-radius:999px;
+  background:#f3f6f5; color:#334155; font-weight:600;
+  transition:.2s;
+}
+.section-tabs .tab:hover{ background:#e7efec; }
+.section-tabs .tab.active{ background:#2E8B57; color:#fff; }
+
+/* ===== Poster grid ===== */
+.poster-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap:18px;
+}
+.poster-card{
+  background:#fff; border:1px solid rgba(0,0,0,.06);
+  border-radius:14px; overflow:hidden;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.poster-card:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(0,0,0,.09); }
+.poster-content{ padding:12px 14px 14px; }
+.poster-title{ font-weight:700; color:#1f2937; line-height:1.35; }
+.poster-date{ margin-top:6px; color:#6b7280; font-size:16px; }
+
+/* ===== Video grid (TikTok) ===== */
+.video-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap:18px;
+}
+.video-card{
+  position:relative; border-radius:14px; overflow:hidden;
+  border:1px solid rgba(0,0,0,.06);
+  background:#fff; box-shadow:0 8px 18px rgba(0,0,0,.06);
+}
+.video-placeholder{ aspect-ratio:16/9; background:#eef4f1; overflow:hidden; }
+.video-placeholder img{
+  width:100%; height:100%; object-fit:cover; object-position:center; display:block;
+}
+.play-button{
+  position:absolute; right:10px; bottom:10px;
+  width:44px; height:44px; border-radius:50%;
+  display:grid; place-items:center;
+  background:rgba(0,0,0,.55); color:#fff; font-weight:700;
+  backdrop-filter: blur(2px);
+}
+.video-title{ padding:10px 14px 14px; font-weight:700; color:#1f2937; }
+
+/* ===== View all button ===== */
+.view-all-btn{
+  margin-top:14px;
+  padding:10px 16px; border-radius:10px;
+  background:#2E8B57; color:#fff; text-decoration:none; font-weight:700;
+  box-shadow:0 6px 16px rgba(46,139,87,.2);
+}
+.view-all-btn:hover{ filter:brightness(.95); }
+
+/* ระยะขอบในมือถือ */
+@media (max-width: 600px){
+  .section-frame{ padding:16px; border-radius:16px; }
+}
+
+/* ระยะหายใจเหนือ hero (เลือกใช้แค่บรรทัดเดียว) */
+.hero { margin-top: 25px; }   /* ถ้าอยากชิด header มากขึ้น ปรับค่าตามต้องการ */
+
+
+/* ===== แก้ปัญหาเนื้อหาถูก navbar ทับ ===== */
+:root {
+  --header-h: 72px;   /* ความสูง header เดสก์ท็อป */
+}
+
+@media (max-width: 992px) {
+  :root {
+    --header-h: 64px; /* มือถือ */
+  }
+}
+
+/* ดันคอนเทนต์ลงเท่าความสูง header */
 body {
-  margin: 0;
-  padding: 0;
+  padding-top: var(--header-h) !important;
 }
 
-
-.footer {
-    background-color: #2f4f46; /* เขียวเข้ม */
-    color: white;
-    padding: 40px 80px;
-    display: flex;
-    justify-content: center;
-}
-
-.footer-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 1200px;
-    gap: 40px;
-}
-
-.footer-left {
-    flex: 2;
-}
-
-.footer-logo {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.footer-logo img {
-    width: 50px;
-    margin-right: 10px;
-}
-
-.footer-logo span {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.footer-left p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.footer-social {
-    margin-top: 15px;
-}
-
-.footer-social a {
-    color: white;
-    margin-right: 15px;
-    font-size: 20px;
-    transition: color 0.3s;
-}
-
-.footer-column {
-    flex: 1;
-}
-
-
-.footer-column ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-column ul li {
-    margin: 8px 0;
-}
-
-.footer-column ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s;
+/* กรณี hero ติดขอบมากไป ดันเพิ่มนิด */
+.hero {
+  margin-top: 15px !important;
 }
 
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="nav-container">
-      <div class="logo">
-        <div class="logo-icon">
-          <!-- ใช้ static -->
-          <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
-        </div>
-        ASCENDER
-      </div>
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-          <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-          <li><a href="#contact">ติดต่อ</a></li>
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+{% include 'header.html' %}
+
 
   <!-- Hero Section with Slideshow -->
-  <section class="hero">
-    <div class="slideshow-container">
-      <div class="slide slide1 active">
-        <img src="{% static 'SlidePage1.png' %}" alt="สไลด์ที่ 1">
-      </div>
-      <div class="slide slide2">
-        <img src="{% static 'SlidePage2.png' %}" alt="สไลด์ที่ 2">
-      </div>
-      <div class="slide slide3">
-        <img src="{% static 'SlidePage3.png' %}" alt="สไลด์ที่ 3">
-      </div>
+<section class="hero" aria-label="สไลด์ประชาสัมพันธ์">
+  <div class="slideshow-container" id="hero-slideshow">
+    <div class="slide active">
+      <img src="{% static 'SlidePage1.png' %}" alt="สไลด์ที่ 1" loading="eager">
     </div>
-    <!-- indicators วางใน hero ได้เลย ไม่ต้องปิด/เปิด section ซ้ำ -->
+    <div class="slide">
+      <img src="{% static 'SlidePage2.png' %}" alt="สไลด์ที่ 2" loading="lazy">
+    </div>
+    <div class="slide">
+      <img src="{% static 'SlidePage3.png' %}" alt="สไลด์ที่ 3" loading="lazy">
+    </div>
+
     <div class="slide-indicators">
-      <span class="dot active" onclick="currentSlide(1)"></span>
-      <span class="dot" onclick="currentSlide(2)"></span>
-      <span class="dot" onclick="currentSlide(3)"></span>
-    </div>
-  </section>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Poster Section -->
-        <section class="poster-section">
-            <div class="section-tabs">
-                <button class="tab active">ประกาศข่าว/poster</button>
-                <button class="tab">กิจกรรมบริษัท</button>
-                <button class="tab">ข่าวสาร</button>
-                <button class="tab">อื่นๆ</button>
-            </div>
-        <!-- Poster -->    
-        <div class="poster-grid">
-            {% for item in news %}
-                <div class="poster-card">
-                    <div class="poster-image">
-                        {% if item.news_img %}
-                            <img src="{{ item.news_img.url }}" alt="{{ item.news_head }}">
-                        {% else %}
-                            <img src="{% static 'default.jpg' %}" alt="no image">
-                        {% endif %}
-                    </div>
-                    <div class="poster-content">
-                        <div class="poster-title">
-                            {{ item.news_head }}<br>
-                        </div>
-                        <div class="poster-date">
-                            วันที่: {{ item.news_date|localtime|date:"j F Y เวลา H:i น." }}
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <p>ยังไม่มีข่าว</p>
-            {% endfor %}
-        </div>
-            
-            <a href="{% url 'All1' %}" class="view-all-btn">ดูทั้งหมด</a>
-        </section>
-
-        <!-- TikTok Section -->
-        <section class="tiktok-section">
-            <h2 class="section-title">HR Ascender TikTok</h2>
-            
-            <div class="video-grid">
-                <!-- วิดีโอ TikTok 1 -->
-                <div class="video-card">
-                    <div class="video-placeholder">
-                        <!-- ใส่วิดีโอ TikTok หรือรูปภาพได้ที่นี่ -->
-                         <img src="../static/Tiktok1.jpg" alt="TikTok Video 1"> 
-                    </div>
-                    <div class="play-button">▶</div>
-                    <div class="video-title">รับสมัครงาน Telesales</div>
-                </div>
-                
-                <!-- วิดีโอ TikTok 2 -->
-                <div class="video-card">
-                    <div class="video-placeholder">
-                        <!-- ใส่วิดีโอ TikTok หรือรูปภาพได้ที่นี่ -->
-                        <!-- <img src="tiktok-video2.jpg" alt="TikTok Video 2"> -->
-                         <img src="../static/Tiktok2.jpg" alt="TikTok Video 1"> 
-                    </div>
-                    <div class="play-button">▶</div>
-                    <div class="video-title">รับสมัครงาน Telesales</div>
-                </div>
-                
-                <!-- วิดีโอ TikTok 3 -->
-                <div class="video-card">
-                    <div class="video-placeholder">
-                        <!-- ใส่วิดีโอ TikTok หรือรูปภาพได้ที่นี่ -->
-                        <!-- <img src="tiktok-video3.jpg" alt="TikTok Video 3"> -->
-                         <img src="../static/Tiktok3.jpg" alt="TikTok Video 1"> 
-                    </div>
-                    <div class="play-button">▶</div>
-                    <div class="video-title">รับสมัครงาน Telesales</div>
-                </div>
-            </div>
-            
-            <a href="" class="view-all-btn">ดูทั้งหมด</a>
-        </section>
-    </main>
-    <footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-left">
-      <div class="footer-logo">
-        <img src="../static/logo.jpg" alt="ASCENDER Logo">
-        <span>ASCENDER</span>
-      </div>
-      <p>
-        388 อาคาร เอ็กซ์เชนจ์ทาวเวอร์ ชั้น 29 ยูนิต 2901-2904<br>
-        ถนน สุขุมวิท แขวงคลองเตย จังหวัด กรุงเทพมหานคร รหัสไปรษณี 10110<br>
-      </p>
-      <p>โทรศัพท์ : 062-732-5912</p>
-      <p>email : hrherboloid@gmail.com</p>
-      <div class="footer-social">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-      </div>
-    </div>
-
-    <!-- Company -->
-    <div class="footer-column">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">หน้าหลัก</a></li>
-        <li><a href="#">ข่าวประชาสัมพันธ์</a></li>
-        <li><a href="#">เกี่ยวกับเรา</a></li>
-        <li><a href="#">ติดต่อ</a></li>
-      </ul>
-    </div>
-
-    <!-- Our Class -->
-    <div class="footer-column">
-      <h4>Our Class</h4>
-      <ul>
-        <li><a href="#">สมัครงานสำหรับพนักงาน </a></li>
-        <li><a href="#">สมัครฝึกงานสำหรับนักศึกษา</a></li>
-      </ul>
+      <span class="dot active" data-goto="1" onclick="currentSlide(1)"></span>
+      <span class="dot" data-goto="2" onclick="currentSlide(2)"></span>
+      <span class="dot" data-goto="3" onclick="currentSlide(3)"></span>
     </div>
   </div>
-</footer>
+</section>
+
+    <!-- Main Content -->
+ <main class="main-content">
+
+  <!-- ข่าว/โปสเตอร์ -->
+  <section class="section-frame">
+    <div class="section-titlebar">
+      <span class="mark"></span>
+      <h2>ข่าวประชาสัมพันธ์ / Poster</h2>
+      <span class="subtitle">อัปเดตล่าสุด</span>
+    </div>
+
+    <div class="section-tabs">
+      <button class="tab active">ประกาศข่าว/poster</button>
+      <button class="tab">กิจกรรมบริษัท</button>
+      <button class="tab">ข่าวสาร</button>
+      <button class="tab">อื่นๆ</button>
+    </div>
+
+<div class="poster-grid">
+  {% for item in news %}
+    <a href="{% url 'news_detail' item.id %}" class="poster-card" style="text-decoration:none;color:inherit;">
+      <div class="poster-image">
+        {% if item.news_img %}
+          <img src="{{ item.news_img.url }}" alt="{{ item.news_head }}">
+        {% else %}
+          <img src="{% static 'default.jpg' %}" alt="no image">
+        {% endif %}
+      </div>
+      <div class="poster-content">
+        <div class="poster-title">{{ item.news_head }}</div>
+        <div class="poster-date">
+          วันที่: {{ item.news_date|localtime|date:"j F Y เวลา H:i น." }}
+        </div>
+      </div>
+    </a>
+  {% empty %}
+    <p>ยังไม่มีข่าว</p>
+  {% endfor %}
+</div>
+
+
+    <a href="{% url 'All1' %}" class="view-all-btn">ดูทั้งหมด</a>
+  </section>
+
+  <!-- วิดีโอ TikTok -->
+  <section class="section-frame">
+    <div class="section-titlebar">
+      <span class="mark"></span>
+      <h2>HR Ascender TikTok</h2>
+      <span class="subtitle">วิดีโอล่าสุด</span>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-placeholder">
+          <img src="{% static 'Tiktok1.jpg' %}" alt="TikTok Video 1">
+        </div>
+        <div class="play-button">▶</div>
+        <div class="video-title">รับสมัครงาน Telesales</div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">
+          <img src="{% static 'Tiktok2.png' %}" alt="TikTok Video 2">
+        </div>
+        <div class="play-button">▶</div>
+        <div class="video-title">รับสมัครงาน Telesales</div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">
+          <img src="{% static 'Tiktok3.jpg' %}" alt="TikTok Video 3">
+        </div>
+        <div class="play-button">▶</div>
+        <div class="video-title">รับสมัครงาน Telesales</div>
+      </div>
+    </div>
+
+    <a href="#" class="view-all-btn">ดูทั้งหมด</a>
+  </section>
+
+</main>
+
+{% include 'footer.html' %}
 
   <script>
     let slideIndex = 1;
@@ -309,6 +398,72 @@ body {
     function currentSlide(n){ slideIndex = n; showSlides(slideIndex); }
     function nextSlide(){ slideIndex++; showSlides(slideIndex); }
     setInterval(nextSlide, 5000);
+
+
+    (function(){
+      const wrap = document.getElementById('hero-slideshow');
+      const slides = Array.from(wrap.querySelectorAll('.slide'));
+      const dots = Array.from(wrap.querySelectorAll('.dot'));
+      let idx = slides.findIndex(s => s.classList.contains('active'));
+      if (idx < 0) idx = 0;
+      let timer = null;
+
+      // ตั้งพื้นหลังเบลอของแต่ละสไลด์จาก src ของรูป
+      slides.forEach(slide => {
+        const img = slide.querySelector('img');
+        if (img && img.src) slide.style.setProperty('--bg', `url('${img.src}')`);
+      });
+
+      // ปรับความสูงกรอบตามสัดส่วนของ "ภาพที่ active"
+      function fitHeight(){
+        const activeSlide = slides[idx];
+        if (!activeSlide) return;
+        const img = activeSlide.querySelector('img');
+        if (!img || !img.naturalWidth || !img.naturalHeight) return;
+
+        const w = wrap.clientWidth || window.innerWidth;
+        const ratio = img.naturalHeight / img.naturalWidth;      // สัดส่วนจริงของรูป
+        let h = Math.round(w * ratio);                           // ความสูงที่พอดีรูป
+
+        // จำกัดกรอบไม่ให้เตี้ย/สูงเกินไป
+        const minH = 280;                       // ขั้นต่ำ
+        const maxH = Math.round(window.innerHeight * 0.72); // ไม่เกิน 72% ของจอ
+        h = Math.max(minH, Math.min(h, maxH));
+
+        wrap.style.height = h + 'px';
+      }
+
+      function show(n){
+        idx = (n + slides.length) % slides.length;
+        slides.forEach((s,k)=>s.classList.toggle('active', k===idx));
+        dots.forEach((d,k)=>d.classList.toggle('active', k===idx));
+        // รอให้รูปโหลดก่อนค่อยฟิตความสูง
+        const img = slides[idx].querySelector('img');
+        if (img && !img.complete){
+          img.addEventListener('load', fitHeight, {once:true});
+        }else{
+          fitHeight();
+        }
+      }
+
+      function next(){ show(idx + 1); }
+      function start(){ timer = setInterval(next, 5000); }
+      function stop(){ if (timer){ clearInterval(timer); timer = null; } }
+
+      // dot คลิกสลับ
+      dots.forEach((d,k)=>d.addEventListener('click',()=>show(k)));
+
+      // ปรับเมื่อรีไซต์/หมุนจอ
+      window.addEventListener('resize', fitHeight);
+
+      // เริ่มทำงาน
+      show(idx);  // จะเรียก fitHeight ภายใน
+      start();
+
+      // หยุดเมื่อโฮเวอร์ (เดสก์ท็อป)
+      wrap.addEventListener('mouseenter', stop);
+      wrap.addEventListener('mouseleave', start);
+    })();
 
   </script>
 </body>

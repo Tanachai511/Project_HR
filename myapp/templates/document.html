@@ -5,342 +5,454 @@
   <meta charset="UTF-8">
   <title>ดาวน์โหลดเอกสาร</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
+<style>
+/* ================================
+   RESET & BASE SETUP
+   ================================ */
+*{ box-sizing:border-box; }
+html,body{ overflow-x:hidden; font-family:"Prompt", sans-serif; }
+:root{ --header-h:72px; }
+@media (max-width:992px){ :root{ --header-h:64px; } }
+
+body {
+  margin: 0;
+  padding: 0;
+    /* กัน header fixed ทับคอนเทนต์ */
+  padding-top: var(--header-h);
+  margin: 0;
+}
+
+.header{
+  position:fixed; top:0; left:0; right:0;
+  z-index:1000; background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+.nav-container{ height:var(--header-h); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; }
+
+/* Header height (desktop/mobile) */
+:root { --header-h: 72px; }
+@media (max-width: 992px) { :root { --header-h: 64px; } }
+
+/* ================================
+   HEADER (เหมือนหน้า Dashboard)
+   ================================ */
 .header {
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
-}
+/* โลโก้ ASCENDER */
+/* ===== LOGO ASCENDER (เหมือน Dashboard เป๊ะ) ===== */
+.logo{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.5rem; color:#1a1a1a; }
+.logo-icon{ width:44px; height:44px; border-radius:50%; overflow:hidden; background:#6b8e5a; display:flex; align-items:center; justify-content:center; }
+.logo-icon img{ width:100%; height:100%; object-fit:cover; }
 
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(45deg, #4a7c59, #6b8e5a);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    overflow: hidden;
-}
-
-.logo-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
+/* เมนูหลัก */
 .nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    align-items: center;
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1.125rem;
 }
-
 .nav-menu li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: color .3s ease;
 }
+.nav-menu li a:hover { color: #40e371; }
 
-.nav-menu li a:hover {
-    color: #4a7c59;
-}
-
+/* ปุ่ม Login / สำหรับพนักงาน */
 .nav-btn {
-    background-color: #6b8e5a !important;
-    color: white !important;
-    padding: 0.5rem 1.5rem !important;
-    border-radius: 25px !important;
-    text-decoration: none !important;
-    transition: all 0.3s ease !important;
+  background-color: #6b8e5a !important;
+  color: #fff !important;
+  padding: 0.65rem 1.6rem !important;
+  border-radius: 25px !important;
+  text-decoration: none !important;
+  font-weight: 700;
+  transition: all .3s ease !important;
 }
-
 .nav-btn:hover {
-    background-color: #4a7c59 !important;
-    transform: translateY(-2px) !important;
+  background-color: #4a7c59 !important;
+  transform: translateY(-2px) !important;
 }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0b3d2e 0%, #1a5f47 100%);
-      min-height: 100vh;
-      color: #333;
-    }
+/* ปุ่ม hamburger สำหรับมือถือ */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1.5px solid #2f3b2f;
+  border-radius: 10px;
+  width: 44px; height: 44px;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
 
-    .container {
-      background: white;
-      border-radius: 25px;
-      padding: 50px;
-      max-width: 1000px;
-      margin: 150px auto 50px auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    }
+/* ===== เมนูมือถือ ===== */
+@media (max-width: 992px) {
+  .menu-toggle { display: inline-block; }
 
-    .section-title {
-      color: #0b3d2e;
-      font-size: 32px;
-      font-weight: bold;
-      text-align: left;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 3px solid #e8f5f1;
-    }
+  .nav-menu { display: none; }
 
-    .document-list {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--header-h);
+    left: 0; right: 0; bottom: 0;
+    background: #fff;
+    padding: 8px 14px 12px;
+    gap: 6px;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+    z-index: 1001;
+  }
 
-    .document-item {
-      display: flex;
-      align-items: center;
-      padding: 20px;
-      background: #f8fdfc;
-      border-radius: 15px;
-      transition: all 0.3s ease;
-      border-left: 5px solid #0b3d2e;
-      text-decoration: none;
-      color: inherit;
-    }
+  .nav-menu li a {
+    display: block;
+    width: 100%;
+    padding: 14px 10px;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+  }
 
-    .document-item:hover {
-      background: #e8f5f1;
-      transform: translateX(10px);
-      box-shadow: 0 5px 20px rgba(11, 61, 46, 0.1);
-    }
+  .nav-btn {
+    width: 100% !important;
+    font-size: 1.25rem;
+    padding: 1rem 1.2rem !important;
+    border-radius: 12px !important;
+    text-align: center;
+  }
 
-    .document-icon {
-      width: 40px;
-      height: 40px;
-      margin-right: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0b3d2e;
-      border-radius: 8px;
-      color: white;
-      font-size: 18px;
-    }
+  body.menu-open { overflow: hidden; }
+}
 
-    .document-title {
-      font-size: 16px;
-      font-weight: 500;
-      color: #333;
-      line-height: 1.4;
-    }
+/* ===== เมนูผู้ใช้ (User dropdown) ===== */
+.user-menu { position: relative; }
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: .35rem .5rem;
+  border-radius: 999px;
+}
+.user-button:hover { background: rgba(0,0,0,.06); }
 
-    .download-icon {
-      margin-left: auto;
-      color: #0b3d2e;
-      font-size: 20px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+.avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4a7c59, #6b8e5a);
+  color: #fff;
+  font-weight: 700;
+}
+.avatar.lg { width: 40px; height: 40px; font-size: 1rem; }
 
-    .document-item:hover .download-icon {
-      opacity: 1;
-    }
+.user-name { font-weight: 600; color: #333; }
+.chev { opacity: .7; }
 
-    @media (max-width: 768px) {
-      .nav-menu {
-        display: none;
-      }
-      
-      .container {
-        margin: 120px 20px 50px;
-        padding: 30px 20px;
-      }
-      
-      .section-title {
-        font-size: 24px;
-      }
-      
-      .document-title {
-        font-size: 14px;
-      }
-    }
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  width: 280px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+  overflow: hidden;
+  z-index: 9999;
+}
+.hidden { display: none; }
+.dropdown-header {
+  display: flex;
+  gap: .8rem;
+  align-items: center;
+  padding: 14px 14px 10px;
+  background: linear-gradient(135deg, #f6faf8, #ffffff);
+  border-bottom: 1px solid #eef2ef;
+}
+.dropdown-header .info .name { font-weight: 700; color: #1b2b21; line-height: 1.2; }
+.dropdown-header .info .email { font-size: .9rem; color: #667; }
+.dropdown-body { padding: 8px; }
+.dropdown-body .item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 10px 10px;
+  border-radius: 10px;
+  color: #233;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+}
+.dropdown-body .item:hover { background: #f3f7f5; }
+.logout-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: #b01d1d;
+  font-weight: 600;
+}
 
-    
+/* ================================
+   DOCUMENT PAGE BODY
+   ================================ */
+/* ================================
+   DOCUMENT PAGE — LIST VIEW
+   ================================ */
+:root{
+  --brand:#2E8B57;
+  --brand-2:#3FBF94;
+  --ink:#2e3c35;
+  --rail:#E3EAE6;
+  --card:#fff;
+  --shadow:0 8px 22px rgba(40,80,60,.10);
+  --shadow-lg:0 12px 28px rgba(40,80,60,.15);
+}
 
-    .user-menu { position: relative; }
-    .user-button{
-      display:flex; align-items:center; gap:.5rem;
-      background: transparent; border:0; cursor:pointer; padding:.35rem .5rem;
-      border-radius: 999px;
-    }
-    .user-button:hover{ background: rgba(0,0,0,.06); }
-    .avatar{
-      width:28px; height:28px; border-radius:50%;
-      display:inline-flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, #4a7c59, #6b8e5a); color:#fff; font-weight:700;
-    }
-    .avatar.lg{ width:40px; height:40px; font-size:1rem; }
-    .user-name{ font-weight:600; color:#333; }
-    .chev{ opacity:.7; }
-    .dropdown{
-      position:absolute; right:0; top:110%;
-      width:280px; background:#fff; border-radius:14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.12);
-      overflow:hidden; z-index:9999;
-    }
-    .hidden{ display:none; }
-    .dropdown-header{
-      display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
-      background: linear-gradient(135deg, #f6faf8, #ffffff);
-      border-bottom:1px solid #eef2ef;
-    }
-    .dropdown-header .info .name{ font-weight:700; color:#1b2b21; line-height:1.2; }
-    .dropdown-header .info .email{ font-size:.9rem; color:#667; }
-    .dropdown-body{ padding:8px; }
-    .dropdown-body .item{
-      width:100%; display:flex; align-items:center; gap:.6rem;
-      padding:10px 10px; border-radius:10px; color:#233; text-decoration:none;
-      background:transparent; border:0;
-    }
-    .dropdown-body .item:hover{ background:#f3f7f5; }
-    .logout-btn{
-      width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
-      color:#b01d1d; font-weight:600;
-    }
-  </style>
+body{
+  background: radial-gradient(140% 120% at 50% -20%, #F5F9F7 0%, #EFF4F1 55%, #E8F1EC 100%);
+  color:#2e3c35;
+}
+
+/* กล่องหลัก */
+.container{
+  background: var(--card);
+  border:1px solid var(--rail);
+  border-radius: 20px;
+  max-width: 1000px;
+  margin: 1% auto 60px;
+  padding: clamp(22px,3.6vw,38px);
+  box-shadow: var(--shadow);
+}
+
+/* แถวหัวข้อ + ค้นหา */
+.section-header{
+  display:flex; align-items:center; gap:14px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.section-title{
+  margin:0;
+  color:#0b3d2e;
+  font-weight:800;
+  font-size: clamp(22px,3.4vw,30px);
+  letter-spacing:.2px;
+}
+.section-tools{
+  display:flex; align-items:center; gap:10px;
+  width: min(360px, 58%);
+}
+#doc-search{
+  flex:1;
+  appearance:none;
+  border:1px solid var(--rail);
+  border-radius: 12px;
+  padding: .7rem .9rem;
+  font: inherit;
+  color: var(--ink);
+  background:#fff;
+  outline: none;
+  box-shadow: 0 0 0 0 rgba(0,0,0,0);
+  transition: box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+#doc-search::placeholder{ color:#8aa29a; }
+#doc-search:focus{
+  border-color: color-mix(in srgb, var(--brand) 45%, #fff);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, #fff);
+}
+
+/* ==== LIST MODE (แนวตั้งแถวเดียว) ==== */
+.document-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.document-item{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:#fff;
+  border:1px solid var(--rail);
+  border-left:6px solid var(--brand);
+  border-radius:14px;
+  padding:16px 20px;
+  text-decoration:none;
+  color:inherit;
+  transition: all .25s ease;
+}
+.document-item:hover{
+  transform: translateX(8px);
+  background: color-mix(in srgb, var(--brand-2) 8%, #fff);
+  box-shadow: var(--shadow-lg);
+}
+.document-icon{
+  width:42px; height:42px;
+  border-radius:10px;
+  display:grid; place-items:center;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#fff; font-size:20px; flex-shrink:0;
+}
+.document-title{
+  flex:1;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ink);
+  word-break: break-word;
+}
+.download-icon{
+  color: var(--brand);
+  font-size: 20px;
+  opacity: .85;
+  transition: transform .2s ease;
+}
+.document-item:hover .download-icon{ transform: translateY(-2px); }
+
+.badge{
+  display:inline-block;
+  margin-left:8px;
+  padding:.15rem .55rem;
+  font-size:12px; font-weight:700;
+  border-radius:999px;
+  background:#F0FBF7; color:#157e57;
+  border:1px solid #cef0e2;
+}
+
+@media (max-width: 768px){
+  .container{ margin: 2% 16px 40px; padding: 22px 18px; }
+  .section-header{ flex-direction: column; align-items: stretch; gap:10px; }
+  .section-tools{ width:100%; }
+  .document-title{ font-size:14px; }
+}
+.page{
+  /* ให้ส่วนคอนเทนต์ยืดกินพื้นที่ที่เหลือ ดัน footer ลงล่าง */
+  flex: 1 0 auto;
+}
+footer{ margin-top: auto; }
+</style>
 </head>
 <body>
-<header class="header">
-  <div class="nav-container">
-    <div class="logo">
-      <div class="logo-icon">
-        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
-      </div>
-      ASCENDER
-    </div>
-
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
-        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
-        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
-
-        {% if user.is_authenticated %}
-          <li class="user-menu">
-            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
-              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
-              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
-              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-
-            <div id="userDropdown" class="dropdown hidden" role="menu">
-              <div class="dropdown-header">
-                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
-                <div class="info">
-                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
-                  <div class="email">{{ user.email }}</div>
-                </div>
-              </div>
-              <div class="dropdown-body">
-
-                <form action="{% url 'logout' %}" method="post" class="item">
-                  {% csrf_token %}
-                  <input type="hidden" name="next" value="{{ request.path }}">
-                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
-                </form>
-              </div>
-            </div>
-          </li>
-        {% else %}
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </div>
-</header>
+{% include 'header_emp.html' %}
+ <main class="page">
   <div class="container">
-    <h1 class="section-title">ดาวน์โหลดเอกสาร</h1>
-
-    <a href="{% static 'ACD001.doc' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_001_ใบสมัครงาน_บริษัท_แอสเซนเดอร์_จำกัด</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-
-       <a href="{% static 'ACD004.doc' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_004_เอกสารรักษาความลับของบริษัท_แอสเซนเดอร์_จำกัด</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-       <a href="{% static 'ACD006.doc' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_006_เอกสารตารางการเสียค่าปรับของพนักงานแก้ไขเพิ่มเติมลงวันที่</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-       <a href="{% static 'ACD007.doc' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_007_เอกสารข้อกำหนดในการทำงานของพนักงาน_Call_center_เหมาจ้างหัก3%</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-      <a href="{% static 'ACD007.1.doc' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_007_เอกสารข้อกำหนดในการทำงานของพนักงาน_Call_center_หักประกันสังคม</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-       <a href="{% static 'ACD014.docx' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_014_แบบฟอร์มใบเบิกเงินเดือนล่วงหน้า</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-       <a href="{% static 'ACD016.docx' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_016_แบบฟอร์มเบิก_ยืมทรัพย์สิน_อุปกรณ์บริษัทฯ</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-       <a href="{% static 'ACD017.docx' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_017_หนังสือชี้แจง_เรื่องข้อบังคับเกี่ยวกับการทำงานและข้อ</div>
-        <div class="download-icon">⬇️</div>
-      </a>
-
-      <a href="{% static 'ACD018.docx' %}" class="document-item" target="_blank">
-        <div class="document-icon">📄</div>
-        <div class="document-title">ACD_HR_018_หนังสือชี้แจง_เรื่องข้อบังคับเกี่ยวกับการทำงานและข้อ</div>
-        <div class="download-icon">⬇️</div>
-      </a>
+    <div class="section-header">
+      <h1 class="section-title">ดาวน์โหลดเอกสาร</h1>
+      <div class="section-tools">
+        <input id="doc-search" type="search" placeholder="พิมพ์เพื่อค้นหาเอกสาร…">
+      </div>
     </div>
-  </div>
+
+    <div class="document-list">
+
+      <a href="{% static 'ACD001.doc' %}" class="document-item" target="_blank" data-title="acd_hr_001 ใบสมัครงาน บริษัท แอสเซนเดอร์ จำกัด">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_001_ใบสมัครงาน_บริษัท_แอสเซนเดอร์_จำกัด
+          <span class="badge">DOC</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD004.doc' %}" class="document-item" target="_blank" data-title="acd_hr_004 เอกสารรักษาความลับของบริษัท แอสเซนเดอร์ จำกัด">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_004_เอกสารรักษาความลับของบริษัท_แอสเซนเดอร์_จำกัด
+          <span class="badge">DOC</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD006.doc' %}" class="document-item" target="_blank" data-title="acd_hr_006 ตารางค่าปรับ พนักงาน">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_006_เอกสารตารางการเสียค่าปรับของพนักงานแก้ไขเพิ่มเติมลงวันที่
+          <span class="badge">DOC</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD007.doc' %}" class="document-item" target="_blank" data-title="acd_hr_007 ข้อกำหนดพนักงาน call center เหมาจ้าง หัก 3%">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_007_เอกสารข้อกำหนดในการทำงานของพนักงาน_Call_center_เหมาจ้างหัก3%
+          <span class="badge">DOC</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD007.1.doc' %}" class="document-item" target="_blank" data-title="acd_hr_007 ข้อกำหนดพนักงาน call center หักประกันสังคม">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_007_เอกสารข้อกำหนดในการทำงานของพนักงาน_Call_center_หักประกันสังคม
+          <span class="badge">DOC</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD014.docx' %}" class="document-item" target="_blank" data-title="acd_hr_014 ใบเบิกเงินเดือนล่วงหน้า">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_014_แบบฟอร์มใบเบิกเงินเดือนล่วงหน้า
+          <span class="badge">DOCX</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD016.docx' %}" class="document-item" target="_blank" data-title="acd_hr_016 เบิก/ยืมทรัพย์สิน อุปกรณ์บริษัท">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_016_แบบฟอร์มเบิก_ยืมทรัพย์สิน_อุปกรณ์บริษัทฯ
+          <span class="badge">DOCX</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD017.docx' %}" class="document-item" target="_blank" data-title="acd_hr_017 หนังสือชี้แจง ข้อบังคับเกี่ยวกับการทำงาน">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_017_หนังสือชี้แจง_เรื่องข้อบังคับเกี่ยวกับการทำงานและข้อ
+          <span class="badge">DOCX</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+
+      <a href="{% static 'ACD018.docx' %}" class="document-item" target="_blank" data-title="acd_hr_018 หนังสือชี้แจง ข้อบังคับเกี่ยวกับการทำงาน">
+        <div class="document-icon">📄</div>
+        <div class="document-title">
+          ACD_HR_018_หนังสือชี้แจง_เรื่องข้อบังคับเกี่ยวกับการทำงานและข้อ
+          <span class="badge">DOCX</span>
+        </div>
+        <div class="download-icon">⬇️</div>
+      </a>
+      </div>
+      </div>
+      </main>
   {% include 'footer.html' %}
 
   <script>
@@ -370,6 +482,58 @@
       }
     });
   })();
+
+
+    function toggleMenu(){
+      const menu = document.getElementById('nav-menu');
+      const open = !menu.classList.contains('active');
+      menu.classList.toggle('active', open);
+      document.body.classList.toggle('menu-open', open);
+      }
+
+    (function(){
+      const input = document.getElementById('doc-search');
+      const items = Array.from(document.querySelectorAll('.document-item'));
+
+      if(!input || !items.length) return;
+
+      const norm = s => s.toLowerCase().trim();
+      input.addEventListener('input', () => {
+        const q = norm(input.value);
+        items.forEach(el => {
+          const title = norm(el.dataset.title || el.textContent || '');
+          el.style.display = title.includes(q) ? '' : 'none';
+        });
+      });
+    })();
+
+    (function(){
+  const input = document.getElementById('doc-search');
+  const items = Array.from(document.querySelectorAll('.document-item'));
+  const main = document.querySelector('main.page');
+
+  const norm = s => s.toLowerCase().trim();
+
+  function adjustPageHeight(){
+        // ดันความสูงขั้นต่ำของ main ให้เต็ม viewport
+        const vh = window.innerHeight - document.querySelector('.header').offsetHeight;
+        main.style.minHeight = vh + 'px';
+      }
+
+      if (input && items.length){
+        input.addEventListener('input', () => {
+          const q = norm(input.value);
+          items.forEach(el => {
+            const title = norm(el.dataset.title || el.textContent || '');
+            el.style.display = title.includes(q) ? '' : 'none';
+          });
+          adjustPageHeight();
+        });
+      }
+
+      window.addEventListener('resize', adjustPageHeight);
+      adjustPageHeight();
+    })();
   </script>
 
 </body>

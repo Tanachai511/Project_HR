@@ -1,411 +1,318 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to ASCENDER Co.,Ltd</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to ASCENDER Co.,Ltd</title>
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #aaffe5 0%, #aaffca 50%, #8fff94 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-container {
-            background: rgb(207, 255, 253);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 1200px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .welcome-section {
-            color: rgb(0, 0, 0);
-        }
-
-        .welcome-section h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 30px;
-            line-height: 1.2;
-        }
-
-        .welcome-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .contact-btn {
-            background: linear-gradient(45deg, #f59e0b, #fbbf24);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
-        }
-
-        .contact-btn::before {
-            content: "✈️";
-            font-size: 1.1rem;
-        }
-
-        .character-image {
-            position: relative;
-            text-align: center;
-            margin-top: 30px;
-        }
-        .character img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 15px;
-}
-
-        
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .login-form {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-form::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #ff0000, #ffee00, #00ff0d);
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-radius: 15px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-        .logo {
-    width: 40px;
-    height: 40px;
-    }   
-
-        .logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Prompt", Arial, sans-serif;
+      background: linear-gradient(135deg, #aaffe5 0%, #aaffca 50%, #8fff94 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 2vw, 20px);
     }
 
-        .company-name {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #1f2937;
-            margin: 0;
-        }
+    /* ===== Shell ===== */
+    .login-container{
+      background: rgba(207, 255, 253, .95);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 40px);
+      width: min(1200px, 100%);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(20px, 4vw, 60px);
+      align-items: center;
+    }
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+    /* ===== Left (Welcome) ===== */
+    .welcome-section { color: #0b1b13; }
+    .welcome-section h1{
+      font-size: clamp(1.6rem, 2.6vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: clamp(14px, 2vw, 30px);
+    }
+    .welcome-text{
+      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+      line-height: 1.7;
+      margin-bottom: clamp(16px, 2vw, 30px);
+      opacity: .9;
+    }
+    .contact-btn{
+      background: linear-gradient(45deg, #f59e0b, #fbbf24);
+      color: #fff;
+      padding: 12px 22px;
+      border: 0;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .contact-btn:hover{ transform: translateY(-2px); box-shadow: 0 10px 20px rgba(245, 158, 11, .35); }
+    .contact-btn::before{ content: "✈️"; font-size: 1.05rem; }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #374151;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
+    .character-image { margin-top: clamp(14px, 2vw, 30px); }
+    .character{
+      width: min(420px, 100%);
+      margin-inline: auto;
+      aspect-ratio: 4 / 3;         /* คุมอัตราส่วนให้สวยทุกจอ */
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+    .character img{
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-        .input-wrapper {
-            position: relative;
-        }
+    /* ===== Right (Form) ===== */
+    .login-form{
+      background: #fff;
+      padding: clamp(18px, 3.2vw, 40px);
+      border-radius: 20px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .login-form::before{
+      content: "";
+      position: absolute; inset: 0 0 auto 0; height: 4px;
+      background: linear-gradient(90deg, #ff0000, #ffee00, #00ff0d);
+    }
 
-        .form-input {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #f9fafb;
-        }
+    .logo-section{ text-align: center; margin-bottom: clamp(16px, 2.2vw, 30px); }
+    .logo{
+      width: clamp(44px, 5vw, 60px);
+      height: clamp(44px, 5vw, 60px);
+      border-radius: 14px;
+      margin: 0 auto 12px;
+      overflow: hidden;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    .logo img{ width: 100%; height: 100%; object-fit: contain; }
+    .company-name{ font-size: clamp(1.2rem, 1.8vw, 1.8rem); font-weight: 800; color: #1f2937; }
 
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
+    .form-group{ margin-bottom: clamp(14px, 1.8vw, 25px); }
+    .form-group label{
+      display: block; margin-bottom: 8px; color: #374151; font-weight: 700;
+      font-size: clamp(.9rem, 1.05vw, .95rem);
+    }
+    .input-wrapper{ position: relative; }
+    .form-input{
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #f9fafb;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .form-input:focus{
+      outline: none;
+      border-color: #3b82f6;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+    }
 
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #6b7280;
-            font-size: 1.1rem;
-        }
+    .forgot-password{ text-align: right; margin-bottom: 16px; }
+    .forgot-password a{
+      color: #6b7280; text-decoration: none; font-size: .92rem;
+    }
+    .forgot-password a:hover{ color: #3b82f6; }
 
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 25px;
-        }
+    .login-btn{
+      width: 100%;
+      background: linear-gradient(135deg, #00ffb3, #00f7ff);
+      color: #031b16;
+      padding: 14px 16px;
+      border: 0; border-radius: 12px;
+      font-size: 1.05rem; font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      margin-bottom: clamp(16px, 2vw, 30px);
+    }
+    .login-btn:hover{ transform: translateY(-1.5px); box-shadow: 0 10px 22px rgba(0, 200, 200, .35); }
 
-        .forgot-password a {
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
+    .social-section{ text-align: center; }
+    .social-title{ color: #6b7280; margin-bottom: 12px; font-size: 1rem; }
+    .social-links{ display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .social-link{
+      width: 48px; height: 48px; border-radius: 12px; overflow: hidden;
+      display: grid; place-items: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .social-link:hover{ transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 18px rgba(0,0,0,.25); }
+    .social-link img{ width: 100%; height: 100%; object-fit: contain; display: block; }
 
-        .forgot-password a:hover {
-            color: #3b82f6;
-        }
+    /* ===== Animations (respect motion) ===== */
+    @media (prefers-reduced-motion: no-preference){
+      .login-form { animation: slideInRight .5s ease-out both; }
+      .welcome-section { animation: slideInLeft .5s ease-out both; }
+    }
+    @keyframes slideInLeft { from{ opacity:0; transform: translateX(-28px);} to{ opacity:1; transform:none;} }
+    @keyframes slideInRight{ from{ opacity:0; transform: translateX(28px);}  to{ opacity:1; transform:none;} }
 
-        .login-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #00ffb3, #00f7ff);
-            color: rgb(0, 0, 0);
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 30px;
-        }
+    /* ===== Responsive ===== */
+    @media (max-width: 992px){
+      .login-container{ grid-template-columns: 1fr; padding: clamp(18px, 3vw, 30px); }
+      .welcome-section{ text-align: center; }
+      .character{ aspect-ratio: 3 / 2; }
+    }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-        }
+    @media (max-width: 480px){
+      .login-form{ padding: 22px 18px; border-radius: 16px; }
+      .contact-btn{ width: 100%; justify-content: center; }
+      .social-links{ gap: 10px; }
+      .social-link{ width: 44px; height: 44px; }
+    }
 
-        .social-section {
-            text-align: center;
-        }
+    /* --- กันล้นแนวนอนทั่วหน้า --- */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* กันสกรอลล์ X */
+}
 
-        .social-title {
-            color: #6b7280;
-            margin-bottom: 20px;
-            font-size: 1rem;
-        }
+/* รูป/สื่อทุกชนิดไม่ให้ดันกว้างเกินจอ */
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
+/* กล่องหลักไม่ให้กว้างเกิน + รวม padding แล้วไม่ล้น */
+.login-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(16px, 4vw, 40px);
+  box-sizing: border-box;
+}
 
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-ำท
+/* ตัดคำยาว ๆ (ไทย/อังกฤษ/URL) ไม่ให้ดันเลย์เอาต์ */
+.login-container, .welcome-section, .login-form, .welcome-text,
+.company-name {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
 
-        .social-link:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-       .social-link img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-        }
+/* รูปตัวละครคุมอัตราส่วนให้พอดีจอเล็ก */
+.character { width: 100%; max-width: 100%; }
+.character img { object-fit: cover; }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .login-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 30px 20px;
-            }
+/* ปรับสำหรับมือถือเล็กโดยเฉพาะ */
+@media (max-width: 600px) {
+  body { padding: 0; } /* กัน padding ของ body ทำให้กว้างเกิน */
+  .login-container {
+    border-radius: 0;
+    box-shadow: none;          /* ลดเงาไม่ให้เกิดสกรอลล์จาก blur ในบางเบราว์เซอร์ */
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr; /* ซ้อนคอลัมน์เดียว */
+    gap: 20px;
+  }
 
-            .welcome-section h1 {
-                font-size: 2rem;
-            }
+  .login-form { padding: 20px 16px; border-radius: 16px; }
+  .welcome-section { text-align: center; }
 
-            .character {
-                width: 200px;
-                height: 200px;
-            }
+  /* รูปให้เต็มความกว้าง ไม่ล้น */
+  .character { aspect-ratio: 16/9; }
+  .character img { width: 100%; height: 100%; }
 
-            .login-form {
-                padding: 30px 25px;
-            }
-        }
+  /* ไอคอนโซเชียลลดขนาด + ให้ wrap ได้ */
+  .social-links { gap: 10px; flex-wrap: wrap; }
+  .social-link { width: 44px; height: 44px; }
+}
 
-        /* Additional animations */
-        .login-form {
-            animation: slideInRight 0.6s ease-out;
-        }
-
-        .welcome-section {
-            animation: slideInLeft 0.6s ease-out;
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-    </style>
+  </style>
 </head>
+
 <body>
-    <div class="login-container">
-        <div class="welcome-section">
-            <h1>Welcome to ASCENDER Co.,Ltd</h1>
-            <p class="welcome-text">
-                ข้อมูลและประวัติหม่วงงาน<br><br>
-                บริษัท และสถานเศรษฐกิจ ประกอบกิจการงานหม่วยสินค้าและนำเสนอและสินค้า
-                และบริการกิจการบริษัทเพื่อและแบบออนไลน์, ผ่านทางเว็บไซต์ของบริษัท
-                ด้วยให้ดีระดับมายตรงและสถาตนในตัวเรา
-            </p>
-            <button class="contact-btn">สมัครงานได้ที่นี่</button>
-            <div class="character-image">
-                <div class="character">
-                    <img src="../static/Female.jpg" alt="Character"> 
-                </div>
-            </div>
+  <div class="login-container">
+    <!-- Left -->
+    <div class="welcome-section">
+      <h1>Welcome to ASCENDER Co.,Ltd</h1>
+      <p class="welcome-text">
+        ข้อมูลและประวัติหม่วงงาน<br><br>
+        บริษัท และสถานเศรษฐกิจ ประกอบกิจการงานหม่วยสินค้าและนำเสนอและสินค้า
+        และบริการกิจการบริษัทเพื่อและแบบออนไลน์, ผ่านทางเว็บไซต์ของบริษัท
+        ด้วยให้ดีระดับมายตรงและสถาตนในตัวเรา
+      </p>
+
+      <button class="contact-btn">สมัครงานได้ที่นี่</button>
+
+      <div class="character-image">
+        <div class="character">
+          <!-- ใช้ static ของ Django -->
+          <img src="{% static 'Female.jpg' %}" alt="Character">
         </div>
-
-        <div class="login-form">
-            <div class="logo-section">
-                <div class="logo">
-            <img src="../static/logo.jpg" alt="ASCENDER Logo">
-        </div>
-                <h2 class="company-name">ASCENDER</h2>
-            </div>
-
-                <form method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username" class="form-input" placeholder="Enter Username" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <div class="input-wrapper">
-                            <input type="password" id="password" name="password" class="form-input" placeholder="Enter Password" required>
-                        </div>
-                    </div>
-
-                    <div class="forgot-password">
-                        <a href="#">Forgot Password?</a>
-                    </div>
-
-
-                    <button type="submit" class="login-btn">Login</button>
-
-                    {% if messages %}
-                        <ul>
-                            {% for message in messages %}
-                                <li>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </form>
-
-            <div class="social-section">
-    <p class="social-title">Follow Us!</p>
-    <div class="social-links">
-        <a href="https://www.facebook.com/share/1ZLzRttViQ/" class="social-link facebook">
-    <img src="../static/facebook.png" alt="Facebook">
-</a>
-
-<a href="https://www.instagram.com/ascender_co?igsh=YzBrbGViNGVya3Nl" class="social-link instagram">
-    <img src="../static/instagram.png" alt="Instagram">
-</a>
-
-<a href="https://youtube.com/@ascender_co?si=0fmLXmS3B8kgXQRU" class="social-link youtube">
-    <img src="../static/youtube.png" alt="YouTube">
-</a>
-
-<a href="https://www.tiktok.com/@hr.ascender?_t=ZS-8zSzsxC6Klp&_r=1" class="social-link tiktok">
-    <img src="../static/tik-tok.png" alt="TikTok">
-</a>
-
-    </div>
-</div>
-        </div>
+      </div>
     </div>
 
+    <!-- Right -->
+    <div class="login-form">
+      <div class="logo-section">
+        <div class="logo">
+          <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
+        </div>
+        <h2 class="company-name">ASCENDER</h2>
+      </div>
+
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="username">ชื่อผู้ใช้</label>
+          <input id="username" name="username" type="text" class="form-input" placeholder="กรอกชื่อผู้ใช้" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">รหัสผ่าน</label>
+          <div class="input-wrapper">
+            <input id="password" name="password" type="password" class="form-input" placeholder="กรอกรหัสผ่าน" required>
+          </div>
+        </div>
+
+        <div class="forgot-password">
+          <a href="#">ลืมรหัสผ่าน?</a>
+        </div>
+
+        <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
+
+      </form>
+
+      <div class="social-section">
+        <p class="social-title">ติดตามเรา!</p>
+        <div class="social-links">
+          <a class="social-link" href="https://www.facebook.com/share/1ZLzRttViQ/">
+            <img src="{% static 'facebook.png' %}" alt="Facebook">
+          </a>
+          <a class="social-link" href="https://www.instagram.com/ascender_co?igsh=YzBrbGViNGVya3Nl">
+            <img src="{% static 'instagram.png' %}" alt="Instagram">
+          </a>
+          <a class="social-link" href="https://youtube.com/@ascender_co?si=0fmLXmS3B8kgXQRU">
+            <img src="{% static 'youtube.png' %}" alt="YouTube">
+          </a>
+          <a class="social-link" href="https://www.tiktok.com/@hr.ascender?_t=ZS-8zSzsxC6Klp&_r=1">
+            <img src="{% static 'tik-tok.png' %}" alt="TikTok">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

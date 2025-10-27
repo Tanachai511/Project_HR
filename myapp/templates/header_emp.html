@@ -1,0 +1,233 @@
+{% load static %}
+<style>
+/* ================================
+   RESET & VARIABLES
+   ================================ */
+*{ box-sizing:border-box; }
+:root{ --header-h:72px; }
+@media (max-width:992px){ :root{ --header-h:64px; } }
+
+:root{
+  --brand:#2E8B57;
+  --brand-2:#3FBF94;
+  --ink:#2e3c35;
+  --rail:#E3EAE6;
+  --card:#FFFFFF;
+  --shadow:0 8px 22px rgba(40,80,60,.10);
+  --shadow-lg:0 12px 28px rgba(40,80,60,.15);
+}
+
+/* ================================
+   BASE
+   ================================ */
+html,body{ height:100%; overflow-x:hidden; font-family:"Prompt", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif; }
+body{
+  margin:0;
+  color:var(--ink);
+  padding-top:var(--header-h);
+  background: radial-gradient(140% 120% at 50% -20%, #F5F9F7 0%, #EFF4F1 55%, #E8F1EC 100%);
+}
+
+/* ================================
+   NAVBAR (เหมือนหน้า document)
+   ================================ */
+.header{
+  position:fixed; top:0; left:0; right:0; height:var(--header-h);
+  background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); z-index:1000;
+}
+.nav-container{
+  height:100%;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.5rem;
+}
+
+/* โลโก้ + ชื่อบริษัท (ให้เหมือนทุกหน้า) */
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-weight:700; font-size:1.5rem; color:#1a1a1a; letter-spacing:.2px;
+}
+.logo a{ color:inherit; text-decoration:none; font:inherit; letter-spacing:inherit; }
+.logo-icon{
+  width:44px; height:44px; border-radius:50%; overflow:hidden;
+  background:#6b8e5a; display:flex; align-items:center; justify-content:center;
+}
+.logo-icon img{ width:100%; height:100%; object-fit:cover; }
+
+/* เมนูหลัก (desktop) */
+.nav-menu{
+  display:flex; list-style:none; gap:2rem; align-items:center;
+  font-size:1.125rem; margin:0; padding:0;
+}
+.nav-menu li a{
+  text-decoration:none; color:#333; font-weight:600; transition:color .25s ease;
+}
+.nav-menu li a:hover{ color:#40e371; }
+
+/* ปุ่ม CTA */
+.nav-btn{
+  background-color:#6b8e5a; color:#fff !important;
+  padding:.65rem 1.6rem; border-radius:25px; text-decoration:none; font-weight:700;
+  transition:transform .2s ease, filter .2s ease;
+}
+.nav-btn:hover{ transform:translateY(-1px); filter:brightness(.95); }
+
+/* Hamburger (มือถือ) */
+.menu-toggle{
+  display:none; width:44px; height:44px; cursor:pointer;
+  background:none; border:1.5px solid #2f3b2f; border-radius:10px; font-size:1.4rem; line-height:1;
+}
+@media (max-width:992px){
+  .menu-toggle{ display:inline-block; }
+  .nav-menu{ display:none; }
+  .nav-menu.active{
+    display:flex; flex-direction:column;
+    position:fixed; top:var(--header-h); left:0; right:0;
+    height:calc(100dvh - var(--header-h));
+    background:#fff; border-top:1px solid #eee; z-index:1001;
+    padding:10px 14px 16px; gap:8px; overflow:auto; -webkit-overflow-scrolling:touch;
+  }
+  .nav-menu li a{
+    display:block; width:100%; padding:14px 10px; text-align:center;
+    font-size:1.15rem; line-height:1.55; word-break:break-word;
+  }
+  .nav-btn{ width:100%; border-radius:12px; font-size:1.15rem; padding:1rem 1.1rem; }
+  body.menu-open{ overflow:hidden; }
+}
+
+/* User dropdown */
+.user-menu{ position:relative; }
+.user-button{
+  display:flex; align-items:center; gap:.5rem; cursor:pointer;
+  background:transparent; border:0; padding:.35rem .5rem; border-radius:999px;
+}
+.user-button:hover{ background:rgba(0,0,0,.06); }
+.avatar{
+  width:28px; height:28px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; font-weight:700;
+}
+.avatar.lg{ width:40px; height:40px; font-size:1rem; }
+.user-name{ font-weight:600; color:#333; }
+.chev{ opacity:.7; }
+.dropdown{
+  position:absolute; right:0; top:calc(100% + 8px);
+  width:min(280px, 92vw); background:#fff; border-radius:14px;
+  border:1px solid #eef2ef; box-shadow:0 12px 30px rgba(0,0,0,.12);
+  overflow:hidden; z-index:1500;
+}
+.hidden{ display:none; }
+.dropdown-header{
+  display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
+  background:linear-gradient(135deg, #f6faf8, #ffffff); border-bottom:1px solid #eef2ef;
+}
+.dropdown-body{ padding:8px; }
+.dropdown-body .item{
+  width:100%; display:flex; align-items:center; gap:.6rem;
+  padding:10px; border-radius:10px; color:#233; text-decoration:none;
+  background:transparent; border:0;
+}
+.dropdown-body .item:hover{ background:#f3f7f5; }
+.logout-btn{
+  width:100%; text-align:left; background:transparent; border:0; color:#b01d1d;
+  font-weight:700; cursor:pointer;
+}
+</style>
+<header class="header">
+  <div class="nav-container">
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
+      </div>
+      <a href="{% url 'dashboard' %}">ASCENDER</a>
+    </div>
+
+    <nav>
+      <button class="menu-toggle" type="button" data-menu-toggle>☰</button>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="{% url 'All2' %}">ข่าวประชาสัมพันธ์</a></li>
+        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
+        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
+
+        {% if user.is_authenticated %}
+        <li class="user-menu">
+          <button class="user-button" type="button" data-user-btn aria-haspopup="true" aria-expanded="false">
+            <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
+            <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
+            <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+
+          <div class="dropdown hidden" data-user-dd role="menu">
+            <div class="dropdown-header">
+              <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
+              <div class="info">
+                <div class="name">{{ user.get_full_name|default:user.username }}</div>
+                <div class="email">{{ user.email }}</div>
+              </div>
+            </div>
+            <div class="dropdown-body">
+              <form action="{% url 'logout' %}" method="post" class="item">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit" class="logout-btn">ออกจากระบบ</button>
+              </form>
+            </div>
+          </div>
+        </li>
+        {% else %}
+          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+(function(){
+  // ทำงานภายใน header นี้เท่านั้น (กันชนกับหน้าที่มีหลาย header)
+  const header = document.currentScript.previousElementSibling;
+  if(!header) return;
+
+  // เมนูมือถือ
+  const menuBtn = header.querySelector('[data-menu-toggle]');
+  const menu = header.querySelector('#nav-menu');
+  if(menuBtn && menu){
+    menuBtn.addEventListener('click', () => {
+      const open = !menu.classList.contains('active');
+      menu.classList.toggle('active', open);
+      document.body.classList.toggle('menu-open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // Dropdown ผู้ใช้ (ไม่ใช้ id เพื่อหลีกเลี่ยงชน)
+  const userBtn = header.querySelector('[data-user-btn]');
+  const userDd  = header.querySelector('[data-user-dd]');
+  if(userBtn && userDd){
+    userBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = userDd.classList.contains('hidden');
+      userDd.classList.toggle('hidden', !isHidden);
+      userBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    });
+
+    // ปิดเมื่อคลิกนอก header
+    document.addEventListener('click', (e) => {
+      if(!userDd.classList.contains('hidden') && !header.contains(e.target)){
+        userDd.classList.add('hidden');
+        userBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // ปิดด้วย Escape
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && !userDd.classList.contains('hidden')){
+        userDd.classList.add('hidden');
+        userBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+})();
+</script>

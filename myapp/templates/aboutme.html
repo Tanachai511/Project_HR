@@ -57,33 +57,14 @@ body{ padding-top:var(--nav-h); }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">
-                <div class="logo-icon">
-                    <img src="../static/logo.jpg" alt="ASCENDER Logo">
-                </div>
-                <a style="text-decoration: none; color: black;" href="index.html">ASCENDER</a>
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-                    <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-                    <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-                    <li><a href="{% url 'contact' %}">ติดต่อ</a></li>
-                    <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% include 'header.html' %}
 
 <main>
     <section class="hero-section">
         <div class="hero-image">
             <h2 class="hero-title"></h2>
             <div class="team-illustration">
-                <img src="../static/Aboutme.jpg" alt="Team Illustration" style="display: block; margin: 40px auto 0 auto; border-radius: 30px;" width="60%" height="40%">
+                <img src="../static/Aboutme.jpg" alt="Team Illustration" style="display: block; margin: 40px auto 0 auto; border-radius: 30px;" height="40%">
             </div>
         </div>
     </section>

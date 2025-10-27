@@ -2,337 +2,150 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ASCENDER Co., Ltd</title>
-    <link rel="stylesheet" href="../static/style.css">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
-            min-height: 100vh;
-        }
-        
-        .main-content {
-            max-width: 1200px;
-            margin: 120px auto 40px auto; /* ขยับลงมาให้ไม่ซ้อน header */
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        
-        .card {
-            background: linear-gradient(135deg, #f8f5e4 0%, #f0ebdd 100%);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-        
-        .card-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #2d6a4f;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .card-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        
-        .card-description {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #555;
-            text-align: justify;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 20px;
-                padding: 20px;
-            }
-            
-            .nav-menu {
-                gap: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .main-content {
-                margin: 30px auto;
-                padding: 0 15px;
-            }
-            
-            .card {
-                padding: 30px 25px;
-            }
-            
-            .card-number {
-                font-size: 36px;
-            }
-            
-            .card-title {
-                font-size: 20px;
-            }
-            
-            .card-description {
-                font-size: 15px;
-            }
-        }
+  <meta charset="UTF-8" />
+  <title>แจ้งซ่อม | ASCENDER Co., Ltd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+/* ================================ RESET & VARIABLES ================================ */
+*{ box-sizing:border-box; }
+:root{ --header-h:72px; }
+@media (max-width:992px){ :root{ --header-h:64px; } }
 
+:root{
+  --brand:#2E8B57;
+  --brand-2:#3FBF94;
+  --ink:#2e3c35;
+  --rail:#E3EAE6;
+  --card:#FFFFFF;
+  --shadow:0 8px 22px rgba(40,80,60,.10);
+  --shadow-lg:0 12px 28px rgba(40,80,60,.15);
+}
 
-            .user-menu { position: relative; }
-    .user-button{
-      display:flex; align-items:center; gap:.5rem;
-      background: transparent; border:0; cursor:pointer; padding:.35rem .5rem;
-      border-radius: 999px;
-    }
-    .user-button:hover{ background: rgba(0,0,0,.06); }
-    .avatar{
-      width:28px; height:28px; border-radius:50%;
-      display:inline-flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, #4a7c59, #6b8e5a); color:#fff; font-weight:700;
-    }
-    .avatar.lg{ width:40px; height:40px; font-size:1rem; }
-    .user-name{ font-weight:600; color:#333; }
-    .chev{ opacity:.7; }
-    .dropdown{
-      position:absolute; right:0; top:110%;
-      width:280px; background:#fff; border-radius:14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.12);
-      overflow:hidden; z-index:9999;
-    }
-    .hidden{ display:none; }
-    .dropdown-header{
-      display:flex; gap:.8rem; align-items:center; padding:14px 14px 10px;
-      background: linear-gradient(135deg, #f6faf8, #ffffff);
-      border-bottom:1px solid #eef2ef;
-    }
-    .dropdown-header .info .name{ font-weight:700; color:#1b2b21; line-height:1.2; }
-    .dropdown-header .info .email{ font-size:.9rem; color:#667; }
-    .dropdown-body{ padding:8px; }
-    .dropdown-body .item{
-      width:100%; display:flex; align-items:center; gap:.6rem;
-      padding:10px 10px; border-radius:10px; color:#233; text-decoration:none;
-      background:transparent; border:0;
-    }
-    .dropdown-body .item:hover{ background:#f3f7f5; }
-    .logout-btn{
-      width:100%; text-align:left; background:transparent; border:0; cursor:pointer;
-      color:#b01d1d; font-weight:600;
-    }
+/* ================================ BASE ================================ */
+html,body{ height:100%; overflow-x:hidden; font-family:"Prompt", system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif; }
+body{
+  margin:0;
+  color:var(--ink);
+  padding-top:var(--header-h);
+  background: radial-gradient(140% 120% at 50% -20%, #F5F9F7 0%, #EFF4F1 55%, #E8F1EC 100%);
+}
 
-    /* ===== NAVBAR BASE ===== */
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Prompt,Arial,sans-serif;}
-
+/* ================================ NAVBAR ================================ */
 .header{
-  position:fixed; top:0; left:0; right:0;
-  background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08);
-  z-index:1000;
+  position:fixed; top:0; left:0; right:0; height:var(--header-h);
+  background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.08); z-index:1000;
 }
 .nav-container{
-  max-width:1200px; margin:0 auto; padding:10px 20px;
+  height:100%;
   display:flex; align-items:center; justify-content:space-between;
+  padding:0 1.5rem;
 }
-
-.logo{display:flex; align-items:center; gap:10px; font-weight:600; color:#1f2937;}
-.logo-icon{display:flex; align-items:center;}
-.logo-icon img{width:44px; height:44px; object-fit:contain; display:block;}
-
+.logo{
+  display:flex; align-items:center; gap:10px;
+  font-weight:700; font-size:1.5rem; color:#1a1a1a; letter-spacing:.2px;
+}
+.logo a{ color:inherit; text-decoration:none; font:inherit; letter-spacing:inherit; }
+.logo-icon{
+  width:44px; height:44px; border-radius:50%; overflow:hidden;
+  background:#6b8e5a; display:flex; align-items:center; justify-content:center;
+}
+.logo-icon img{ width:100%; height:100%; object-fit:cover; }
 .nav-menu{
-  list-style:none; margin:0; padding:0;
-  display:flex; align-items:center; gap:20px;
+  display:flex; list-style:none; gap:2rem; align-items:center;
+  font-size:1.125rem; margin:0; padding:0;
 }
-.nav-menu a{
-  text-decoration:none; color:#374151; font-weight:500;
+.nav-menu li a{
+  text-decoration:none; color:#333; font-weight:600; transition:color .25s ease;
 }
+.nav-menu li a:hover{ color:#40e371; }
 .nav-btn{
-  padding:8px 14px; border:1px solid #10b981; border-radius:10px;
-  color:#065f46; font-weight:600;
+  background-color:#6b8e5a; color:#fff !important;
+  padding:.65rem 1.6rem; border-radius:25px; text-decoration:none; font-weight:700;
+  transition:transform .2s ease, filter .2s ease;
 }
+.nav-btn:hover{ transform:translateY(-1px); filter:brightness(.95); }
 
-/* ดันคอนเทนต์ลงให้ไม่โดนทับ */
-:root{ --nav-h:72px; }
-body{ padding-top:var(--nav-h); }
-
-/* ===== HERO / SLIDES ===== */
-.hero{ position:relative; overflow:hidden; height:420px; }
-.slideshow-container{ position:relative; width:100%; height:100%; }
-.slide{ position:absolute; inset:0; opacity:0; transition:opacity 1.2s; }
-.slide.active{ opacity:1; }
-.slide img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-/* จุดบอกสไลด์ */
-.slide-indicators{
-  position:absolute; left:0; right:0; bottom:14px; display:flex; gap:8px; justify-content:center;
+/* ================================ PAGE CONTENT ================================ */
+.page{
+  max-width:1100px; margin: 24px auto 60px; padding: 0 18px;
 }
-.dot{ width:10px; height:10px; border-radius:50%; background:#e5e7eb; cursor:pointer; }
-.dot.active{ background:#10b981; }
-    </style>
+.hero{
+  background:#fff; border:1px solid var(--rail); border-radius:18px;
+  box-shadow:var(--shadow); padding:28px; margin-bottom:18px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+}
+.hero h1{
+  margin:0 0 8px; font-size: clamp(22px, 3.6vw, 32px); color:#24343a; font-weight:800;
+}
+.hero p{ margin:0; color:#566; line-height:1.7; }
+.hero-content{ max-width:70%; }
+.hero-link{
+  background:linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#fff; padding:.8rem 1.6rem; border-radius:12px;
+  font-weight:700; text-decoration:none; box-shadow:0 8px 18px rgba(45,106,79,.18);
+  transition:transform .2s ease, filter .2s ease;
+}
+.hero-link:hover{ transform:translateY(-2px); filter:brightness(1.05); }
+
+.grid{
+  display:grid; gap:18px; grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 768px){ .grid{ grid-template-columns:1fr; } }
+.card{
+  background:#fff; border:1px solid var(--rail); border-radius:18px;
+  box-shadow:var(--shadow); padding:26px; cursor:pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lg); background:#fff; }
+.card-number{
+  font-size: clamp(34px, 4.8vw, 48px); font-weight:800; color:var(--brand); margin-bottom:10px;
+}
+.card-title{ font-size: clamp(20px, 3vw, 24px); font-weight:800; color:#24343a; margin:0 0 8px; }
+.card-description{ margin:0; color:#555; line-height:1.65; text-wrap:pretty; }
+.card .go{
+  margin-top:16px; display:inline-block; font-weight:700; text-decoration:none;
+  padding:.55rem 1rem; border-radius:12px; border:1px solid var(--rail); color:#1f2b25;
+  transition: background .2s ease;
+}
+.card:hover .go{ background:#f6faf8; }
+</style>
 </head>
 <body>
-<header class="header">
-  <div class="nav-container">
-    <div class="logo">
-      <div class="logo-icon">
-        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
-      </div>
-      ASCENDER
+{% include 'header_emp.html' %}
+
+<main class="page">
+  <section class="hero">
+    <div class="hero-content">
+      <h1>แจ้งซ่อม</h1>
+      <p>เลือกรูปแบบการแจ้งซ่อมให้ตรงประเภทงาน เพื่อให้ทีมงานดำเนินการได้รวดเร็วและแม่นยำ</p>
     </div>
+    <!-- ปุ่มลิงก์ไปยังหน้า waiting-repair -->
+    <a class="hero-link" href="{% url 'waiting_repair' %}">ดูสถานะการแจ้งซ่อม</a>
+  </section>
 
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
-        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
-        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
+  <section class="grid">
+    <article class="card" onclick="handleCardClick('general')" role="button" tabindex="0">
+      <div class="card-number">01</div>
+      <h2 class="card-title">แจ้งซ่อมทั่วไปของบริษัท</h2>
+      <p class="card-description">อุปกรณ์สำนักงาน สาธารณูปโภค เฟอร์นิเจอร์ และงานช่างทั่วไป</p>
+      <a class="go" href="javascript:void(0)">ไปต่อ</a>
+    </article>
 
-        {% if user.is_authenticated %}
-          <li class="user-menu">
-            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
-              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
-              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
-              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
+    <article class="card" onclick="handleCardClick('system')" role="button" tabindex="0">
+      <div class="card-number">02</div>
+      <h2 class="card-title">แจ้งซ่อมระบบ</h2>
+      <p class="card-description">ระบบคอมพิวเตอร์ อินเทอร์เน็ต อีเมล ซอฟต์แวร์ ฮาร์ดแวร์ และเครือข่าย</p>
+      <a class="go" href="javascript:void(0)">ไปต่อ</a>
+    </article>
+  </section>
+</main>
 
-            <div id="userDropdown" class="dropdown hidden" role="menu">
-              <div class="dropdown-header">
-                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
-                <div class="info">
-                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
-                  <div class="email">{{ user.email }}</div>
-                </div>
-              </div>
-              <div class="dropdown-body">
+{% include 'footer.html' %}
 
-                <form action="{% url 'logout' %}" method="post" class="item">
-                  {% csrf_token %}
-                  <input type="hidden" name="next" value="{{ request.path }}">
-                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
-                </form>
-              </div>
-            </div>
-          </li>
-        {% else %}
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </div>
-</header>
-    
-    <main class="main-content">
-        <div class="card" onclick="handleCardClick('general')">
-            <div class="card-number">01</div>
-            <h2 class="card-title">แจ้งซ่อมทั่วไปของบริษัท</h2>
-            <p class="card-description">
-                กรุณาเลือกประเภทของปัญหาที่ท่านต้องการแจ้งซ่อมและกรอกรายละเอียดที่เกี่ยวข้องให้ครบถ้วน
-            เพื่อให้เราสามารถตรวจสอบและดำเนินการแก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
-            </p>
-        </div>
-        
-        <div class="card" onclick="handleCardClick('system')">
-            <div class="card-number">02</div>
-            <h2 class="card-title">แจ้งซ่อมระบบ</h2>
-            <p class="card-description">
-                กรุณาเลือกประเภทของปัญหาที่ท่านต้องการแจ้งซ่อมและกรอกรายละเอียดที่เกี่ยวข้องให้ครบถ้วน  
-            เพื่อให้เราสามารถตรวจสอบและดำเนินการแก้ไขปัญหาของท่านได้อย่างรวดเร็วและมีประสิทธิภาพมากที่สุด
-            </p>
-        </div>
-    </main>
-    {% include 'footer.html' %}
-    
-    <script>
-        function handleCardClick(type) {
-            if (type === 'general') {
-                window.location.href = "{% url 'repair-create' %}";
-            } else if (type === 'system') {
-                window.location.href = "{% url 'repair-create1' %}";
-            }
-        }
-        
-        // Add smooth scroll behavior
-        document.querySelectorAll('.nav-menu a').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId.startsWith('#')) {
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-            });
-        });
-        
-        // Add loading animation for cards
-        window.addEventListener('load', function() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 100);
-                }, index * 200);
-            });
-        });
-
-
-      (function(){
-    const btn = document.getElementById('userMenuBtn');
-    const dd  = document.getElementById('userDropdown');
-    if(!btn || !dd) return;
-
-    btn.addEventListener('click', function(e){
-      e.stopPropagation();
-      const isHidden = dd.classList.contains('hidden');
-      dd.classList.toggle('hidden', !isHidden);
-      this.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
-    });
-
-    document.addEventListener('click', function(){
-      if(!dd.classList.contains('hidden')){
-        dd.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && !dd.classList.contains('hidden')){
-        dd.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-  })();
-    </script>
+<script>
+function handleCardClick(type){
+  window.location.href = "{% url 'repair-create' %}?type=" + encodeURIComponent(type);
+}
+</script>
 </body>
 </html>

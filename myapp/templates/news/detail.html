@@ -76,24 +76,7 @@ body{ padding-top:var(--nav-h); }
 </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="nav-container">
-      <div class="logo">
-        <div class="logo-icon"><img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo"></div>
-        ASCENDER
-      </div>
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="{% url 'Applywork' %}">สมัครงาน</a></li>
-          <li><a href="{% url 'All1' %}">ข่าวประชาสัมพันธ์</a></li>
-          <li><a href="{% url 'aboutme' %}">เกี่ยวกับเรา</a></li>
-          <li><a href="{% url 'contact' %}">ติดต่อ</a></li>
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  {% include 'header.html' %}
 
   <!-- Main -->
   <main class="content" style="max-width:1000px;margin:24px auto;padding:0 16px;">

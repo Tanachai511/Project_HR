@@ -112,12 +112,34 @@ class job(models.Model):
     job_benefit = models.TextField()
     job_description = models.TextField()
 
+    job_image = models.ImageField(
+        upload_to="jobs/",
+        blank=True, null=True,
+        verbose_name="โปสเตอร์/รูปประกอบ",
+        help_text="อัปโหลดภาพประกอบของตำแหน่งงาน (เช่น โปสเตอร์รับสมัคร)"
+    )
+
     def __str__(self):
         return f"{self.job_name} - {self.job_subhead} - {self.job_type} - {self.job_qualification} - {self.job_benefit} - {self.job_description}"
     
     class Meta:
         verbose_name = "รับสมัครงาน"
         verbose_name_plural = "รับสมัครงาน"
+
+    @property
+    def image_url(self):
+        if self.job_image:
+            return self.job_image.url
+        # fallback ตามประเภทงาน หรือใช้รูป no-image
+        mapping = {
+            "WFH": "wfh.jpg",
+            "OFFICE": "office.jpg",
+            "TRAINER": "trainer.jpg",
+            "MKT": "mkt.jpg",
+            "INTERN": "intern.jpg",
+        }
+        # คืน None ถ้าไม่มีไฟล์ fallback
+        return None
 
 
 class repair(models.Model):
@@ -136,9 +158,12 @@ class repair(models.Model):
     repair_cause = models.TextField(blank=True)
 
     class Location(models.TextChoices):
-        first_floor = "ชั้น 1", "ชั้น 1"
-        second_floor = "ชั้น 2", "ชั้น 2"
-        third_floor = "ชั้น 3", "ชั้น 3"
+        first_floor_r = "ชั้น 1 ห้องอาหาร", "ชั้น 1 ห้องอาหาร"
+        second_floor_r = "ชั้น 2 ห้อง HR", "ชั้น 2 ห้อง HR"
+        third_floor_r = "ชั้น 3 ห้องพนักงาน", "ชั้น 3 ห้องพนักงาน"
+        first_floor_l = "ชั้น 1 ห้องนักศึกษาฝึกงาน", "ชั้น 1 ห้องนักศึกษาฝึกงาน"
+        second_floor_l = "ชั้น 2 ห้องพักนักศึกษ", "ชั้น 2 ห้องพักนักศึกษา"
+        third_floor_l = "ชั้น 3 ห้องผู้บริหาร", "ชั้น 3 ห้องผู้บริหาร"
     repair_location = models.CharField(choices=Location.choices, max_length=64)
 
     repair_img = models.ImageField(upload_to="repair_report/", blank=True, null=True)

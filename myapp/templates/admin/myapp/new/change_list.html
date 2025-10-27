@@ -2,16 +2,103 @@
 
 {% block result_list %}
   <style>
-    .news-card { transition: transform .15s ease, box-shadow .15s ease; }
-    .news-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    /* ===== ปรับขนาดตัวอักษรและตกแต่งใหม่ ===== */
+    .news-card {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .news-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+    }
+
+    .thumb {
+      width: 100%;
+      height: 200px;
+      border-bottom: 1px solid #e5e7eb;
+      object-fit: cover;
+      background: #f3f6f8;
+    }
+
+    .card-body {
+      padding: 1.25rem 1.25rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 1.15rem;          /* เดิมเล็กไป เพิ่มให้ใหญ่ขึ้น */
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: .35rem;
+      line-height: 1.4;
+    }
+
+    .card-text {
+      font-size: 0.975rem;         /* อ่านง่ายขึ้น */
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    .text-muted {
+      font-size: 0.9rem;
+      color: #6b7280 !important;
+    }
+
     .line-clamp-3 {
       display: -webkit-box;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      -webkit-line-clamp: 3;
     }
-    .thumb {
-      width: 100%; height: 160px; border-radius: 10px; object-fit: cover; background:#f3f6f8;
+
+    /* ปุ่มสวยขึ้น */
+    .btn {
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: .4rem .75rem;
     }
+    .btn-primary {
+      background-color: #2E8B57;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #26724a;
+    }
+    .btn-outline-danger {
+      border-color: #dc2626;
+      color: #dc2626;
+    }
+    .btn-outline-danger:hover {
+      background-color: #dc2626;
+      color: #fff;
+    }
+
+    /* Layout */
+    .row.g-3 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .col-12.col-md-6.col-lg-4 {
+      flex: 1 1 calc(33.333% - 1rem);
+      min-width: 320px;
+    }
+
+    @media (max-width: 992px) {
+      .col-12.col-md-6.col-lg-4 { flex: 1 1 calc(50% - 1rem); }
+      .thumb { height: 180px; }
+    }
+    @media (max-width: 576px) {
+      .col-12.col-md-6.col-lg-4 { flex: 1 1 100%; }
+      .thumb { height: 160px; }
+      .card-title { font-size: 1.1rem; }
+      .card-text { font-size: 0.93rem; }
+    }
+
   </style>
 
   <div class="row g-3">
@@ -26,16 +113,16 @@
             <div class="thumb d-flex align-items-center justify-content-center text-muted">ไม่มีรูปภาพ</div>
           {% endif %}
 
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title mb-1">{{ obj.news_head }}</h5>
+          <div class="card-body">
+            <h5 class="card-title">{{ obj.news_head }}</h5>
             <div class="text-muted small mb-2">
-              {{ obj.news_date|date:"Y-m-d H:i" }}
+              🕓 {{ obj.news_date|date:"Y-m-d H:i" }}
             </div>
-            <p class="card-text line-clamp-3 mb-3">{{ obj.news_subhead }}</p>
+            <p class="card-text line-clamp-3 mb-3">{{ obj.news_subhead|default:"—" }}</p>
 
             <div class="mt-auto d-flex gap-2">
-              <a href="{% url 'admin:myapp_new_change' obj.pk %}" class="btn btn-sm btn-primary">แก้ไข</a>
-              <a href="{% url 'admin:myapp_new_delete' obj.pk %}" class="btn btn-sm btn-outline-danger">ลบ</a>
+              <a href="{% url 'admin:myapp_new_change' obj.pk %}" class="btn btn-sm btn-primary">✏️ แก้ไข</a>
+              <a href="{% url 'admin:myapp_new_delete' obj.pk %}" class="btn btn-sm btn-outline-danger">🗑 ลบ</a>
             </div>
           </div>
         </div>
@@ -46,7 +133,4 @@
       </div>
     {% endfor %}
   </div>
-
-  {# ใช้ pagination เดิมของแอดมิน #}
-  {% include "admin/pagination.html" %}
 {% endblock %}

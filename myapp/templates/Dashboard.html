@@ -3,224 +3,116 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-      <title>ASCENDER Co., Ltd</title>
+    <title>ASCENDER Co., Ltd</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <style>
-    /* Reset และ Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<style>
+/* Reset และ Base Styles */
+/* ===== Global Reset & Layout ===== */
+*{ box-sizing:border-box; }
+html,body{ overflow-x:hidden; font-family:"Prompt", sans-serif; }
+:root{ --header-h:72px; }
+@media (max-width:992px){ :root{ --header-h:64px; } }
 
 body {
-    font-family: 'Sarabun', 'Noto Sans Thai', Arial, sans-serif;
-    background-color: #f8f9fa;
-    line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  margin-top: 8px;
 }
 
-/* Header Styles */
-.header {
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+.header{
+  position:fixed; top:0; left:0; right:0;
+  z-index:1000; background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+.nav-container{ height:var(--header-h); display:flex; align-items:center; justify-content:space-between; padding:0 1.5rem; }
+
+main, .page-wrap, .content, body > :not(.header){ margin-top:1%; }
+
+/* ===== Logo ===== */
+.logo{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.5rem; color:#1a1a1a; }
+.logo-icon{ width:44px; height:44px; border-radius:50%; overflow:hidden; background:#6b8e5a; display:flex; align-items:center; justify-content:center; }
+.logo-icon img{ width:100%; height:100%; object-fit:cover; }
+
+/* ===== Desktop Menu ===== */
+.nav-menu{
+  display:flex; list-style:none; gap:2rem; align-items:center;
+  font-size:1.125rem;  /* ≈18px */
+}
+.nav-menu li a{
+  text-decoration:none; color:#333;
+  font-weight:600;
+  transition:color .3s ease;
+}
+.nav-menu li a:hover{ color:#40e371; }
+
+/* ===== Button (desktop + mobile) ===== */
+.nav-btn{
+  background-color:#6b8e5a !important;
+  color:#fff !important;
+  padding:0.65rem 1.6rem !important;
+  border-radius:25px !important;
+  text-decoration:none !important;
+  transition:all .3s ease !important;
+  font-weight:700;
+}
+.nav-btn:hover{ background-color:#4a7c59 !important; transform:translateY(-2px) !important; }
+
+/* ===== Hamburger ===== */
+.menu-toggle{
+  display:none;
+  background:none;
+  border:1.5px solid #2f3b2f;
+  border-radius:10px;
+  width:44px; height:44px;
+  font-size:1.5rem;
+  line-height:1;
+  cursor:pointer;
 }
 
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-}
+/* ===== Mobile Drawer ===== */
+@media (max-width:992px){
+  .menu-toggle{ display:inline-block; }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
-}
+  .nav-menu{ display:none; }
 
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(45deg, #4a7c59, #6b8e5a);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    overflow: hidden;
-}
+  .nav-menu.active{
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    margin:0 !important; 
+    top:var(--header-h); left:0; right:0; bottom:0;
+    width:100vw; max-width:100vw;
+    padding:8px 14px 12px;
+    gap:6px;
+    background:#fff;
+    overflow-y:auto;
+    border-top:1px solid #eee;
+    justify-content:flex-start;
+    z-index:1001;
+  }
 
-.logo-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
 
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    align-items: center;
-}
+  .nav-menu li a{
+    display:block;
+    width:100%;
+    padding:14px 10px;
+    font-size:1.25rem;      /* ≈20px */
+    line-height:1.6;
+    text-align:center;
+    white-space:normal;
+    word-break:break-word;
+  }
 
-.nav-menu li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
+  .nav-btn{
+    width:100% !important;
+    font-size:1.25rem;
+    padding:1rem 1.2rem !important;
+    border-radius:12px !important;
+    text-align:center;
+  }
 
-.nav-menu li a:hover {
-    color: #4a7c59;
-}
-
-.nav-btn {
-    background-color: #6b8e5a !important;
-    color: white !important;
-    padding: 0.5rem 1.5rem !important;
-    border-radius: 25px !important;
-    text-decoration: none !important;
-    transition: all 0.3s ease !important;
-}
-
-.nav-btn:hover {
-    background-color: #4a7c59 !important;
-    transform: translateY(-2px) !important;
-}
-
-/* Hero Section with Slideshow */
-.hero {
-    position: relative;
-    overflow: hidden;
-    margin-top: 1%;
-}
-
-.slide-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.slideshow-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.slide.active {
-    opacity: 1;
-}
-
-.slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.slide1 {
-    background: linear-gradient(135deg, #4a7c59, #6b8e5a);
-}
-
-.slide2 {
-    background: linear-gradient(135deg, #6b8e5a, #8db673);
-}
-
-.slide3 {
-    background: linear-gradient(135deg, #8db673, #b8d88b);
-}
-
-/* Hero Content Styles */
-.hero-section {
-    position: relative;
-    margin-top: 50px;
-    padding: 2rem 0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-}
-
-.hero-image {
-    text-align: center;
-    padding: 2rem;
-}
-
-.hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #2c5530;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-}
-
-.team-illustration {
-    margin-top: 2rem;
-}
-
-.team-illustration img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-/* Content Section */
-.content-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.content-text {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #333;
-    text-align: center;
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-}
-
-.hero-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-    z-index: 2;
-    background: rgba(0,0,0,0.5);
-    padding: 1.5rem 2rem;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
+  body.menu-open{ overflow:hidden; }
+  }
 
 .company-logo {
     width: 120px;
@@ -236,23 +128,18 @@ body {
     font-weight: bold;
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-    body {
-      font-family: sans-serif;
-      background-color: #0b3d2e;
-      color: #0b3d2e;
-      text-align: center;
     }
     .container {
       background: #fff;
       border-radius: 20px;
       padding: 40px;
       max-width: 900px;
-    margin: 120px auto 50px auto; /* ขยับลงมาให้ไม่ซ้อน header */
+      margin: 120px auto 50px auto; 
     }
     .section-header {
       position: relative;
-      margin: 40px 0 20px;
+      margin: 40px 0 20px;      
+      text-align: center;
     }
     h2 {
       color: #0b3d2e;
@@ -324,8 +211,6 @@ body {
       }
     }
 
-
-
     .user-menu { position: relative; }
     .user-button{
       display:flex; align-items:center; gap:.5rem;
@@ -367,65 +252,228 @@ body {
       color:#b01d1d; font-weight:600;
     }
 
+    /* ======== Employee Portal Theme: Green-Teal Professional ======== */
+:root {
+  --bg: #F1F5F2;
+  --surface: #FFFFFF;
+  --text: #2E3C35;
+  --text-muted: #5C6F63;
+  --brand: #3FBF94;
+  --brand-dark: #2E8B57;
+  --border: #D9E5DC;
+  --shadow: 0 6px 18px rgba(40, 80, 60, 0.15);
+}
+
+/* พื้นหลังและข้อความหลัก */
+body {
+  background-color: #E8F1EC; /* เขียวอมเทาอ่อน */
+}
+
+.container {
+  background: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border-radius: 18px;
+}
+
+.container:hover {
+  box-shadow: 0 10px 30px rgba(40, 80, 60, 0.18);
+}
+
+/* หัวข้อ section */
+h2 {
+  color: var(--brand-dark) !important;
+  letter-spacing: 0.5px;
+}
+
+/* ป้าย PDF */
+.pdf-label {
+  background: var(--brand-dark) !important;
+  color: white !important;
+  box-shadow: 0 2px 6px rgba(46,139,87,0.3);
+}
+
+/* ลูกศร */
+.arrow-indicator {
+  color: var(--brand) !important;
+}
+
+/* ภาพเอกสาร */
+.image-container img {
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(46, 139, 87, 0.15);
+  transition: transform 0.3s ease;
+}
+.image-container img:hover {
+  transform: scale(1.03);
+}
+
+/* กล่องแจ้งคลิก PDF */
+.click-hint {
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 10px rgba(46,139,87,0.2);
+}
+
+/* ปุ่มใน header */
+.nav-btn {
+  background-color: var(--brand) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(63,191,148,0.25);
+}
+.nav-btn:hover {
+  background-color: var(--brand-dark) !important;
+  transform: translateY(-2px);
+}
+
+/* dropdown พนักงาน */
+.dropdown {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(40, 80, 60, 0.12);
+}
+.dropdown-header {
+  background: linear-gradient(135deg, #EFFAF5, #FFFFFF);
+  border-bottom: 1px solid var(--border);
+}
+.user-name {
+  color: var(--text) !important;
+}
+.logout-btn {
+  color: #B03030 !important;
+}
+
+/* เงา avatar */
+.avatar {
+  background: linear-gradient(135deg, #3FBF94, #2E8B57) !important;
+}
+
+/* ปรับพื้นหลังส่วน hero ให้สดใส */
+.hero-section {
+  background: linear-gradient(135deg, #E6F8EE, #FFFFFF) !important;
+}
+.hero-content {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(63,191,148,0.15);
+}
+
+.footer a {
+  color: white;
+}
+.footer a:hover {
+  color: var(--brand) !important;
+}
+
+/* Hover effect soft */
+button, a, .nav-btn {
+  transition: all 0.25s ease;
+}
+
+/* ===== Theme แบบเรียบ โปร ไม่เข้มจัด ===== */
+:root{
+  --bg-top: #F5F9F7;        /* ไล่เฉดอ่อนมาก */
+  --bg-bottom: #EFF4F1;
+  --muted: #667A71;         /* ตัวหนังสือรอง */
+  --brand: #2E8B57;         /* เขียวหลัก */
+  --brand-2: #3FBF94;       /* เขียวรอง */
+  --rail: #E3EAE6;          /* เส้น/กรอบอ่อน */
+  --card: #FFFFFF;          /* สีการ์ด */
+  --radius: 18px;
+  --shadow: 0 6px 18px rgba(40,80,60,.10);
+  --shadow-lg: 0 12px 28px rgba(40,80,60,.15);
+}
+
+@media (max-width: 768px){
+  :root{ --header-h: 64px; }        /* มือถือ/แท็บเล็ต */
+}
+
+/* กล่องหลัก/การ์ดให้ดูสะอาด */
+.container, .card, .section, .box{
+  background: var(--card);
+  border: 1px solid var(--rail);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* ระยะหายใจของ section และ container */
+.container{ max-width: 1000px; margin: 0 auto 32px; padding: clamp(20px, 3vw, 40px); }
+.section{ padding: clamp(18px, 2.5vw, 28px); margin: 18px 0; }
+
+/* หัวข้อ section แบบเรียบ + แท่ง accent */
+.section-header{ margin: 32px 0 14px; text-align:center; }
+.section-header h2{
+  display:inline-flex; align-items:center; gap:12px;
+  font-weight: 800; letter-spacing:.2px;
+  color: var(--ink);
+}
+.section-header h2::before{
+  content:""; width:18px; height:18px; border-radius:4px;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  box-shadow: 0 2px 6px rgba(63,191,148,.25);
+}
+
+/* ป้าย PDF/ปุ่มเน้นให้เรียบขึ้น */
+.pdf-label{
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#fff; border:0; border-radius: 999px;
+  padding: .35rem .8rem; font-weight:700;
+  box-shadow: 0 4px 12px rgba(63,191,148,.22);
+}
+
+/* ภาพเอกสาร: มุมโค้ง + เงาเบา + ไม่ล้น */
+.image-container{ position:relative; }
+.image-container img{
+  display:block; width:100%; height:auto;
+  border-radius: 12px;
+  border: 1px solid var(--rail);
+  box-shadow: var(--shadow);
+}
+
+/* badge “คลิกดู PDF” เรียบ/คอนทราสต์ดี */
+.click-hint{
+  position:absolute; top:10px; right:10px;
+  background: #ff0000; color:#fff;
+  border-radius:999px; padding:.35rem .7rem;
+  font-weight:700; font-size:.85rem;
+  box-shadow: 0 4px 10px rgba(63,191,148,.22);
+}
+
+/* ข้อความ */
+small, .muted{ color: var(--muted); }
+
+/* โฟกัส/การเข้าถึง */
+a:focus-visible, button:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--brand) 55%, white);
+  outline-offset: 2px;
+}
+
+/* Hover เบา ๆ (ไม่เด้งเกิน) */
+.container:hover, .card:hover, .section:hover, .box:hover{
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+
+/* Responsive เล็กน้อย */
+@media (max-width: 768px){
+  .container{ padding: 18px; }
+  .section-header h2{ font-size: 1.15rem; }
+}
+
   </style>
 </head>
 <body>
-<header class="header">
-  <div class="nav-container">
-    <div class="logo">
-      <div class="logo-icon">
-        <img src="{% static 'logo.jpg' %}" alt="ASCENDER Logo">
-      </div>
-      ASCENDER
-    </div>
+{% include 'header_emp.html' %}
 
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="{% url 'All1' %}">ประชาสัมพันธ์</a></li>
-        <li><a href="{% url 'document' %}">ดาวน์โหลดเอกสาร</a></li>
-        <li><a href="{% url 'Jangsom' %}">แจ้งซ่อม</a></li>
-
-        {% if user.is_authenticated %}
-          <li class="user-menu">
-            <button id="userMenuBtn" class="user-button" aria-haspopup="true" aria-expanded="false">
-              <span class="avatar">{{ user.get_full_name|default:user.username|first|upper }}</span>
-              <span class="user-name">{{ user.get_full_name|default:user.username }}</span>
-              <svg class="chev" width="14" height="14" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-
-            <div id="userDropdown" class="dropdown hidden" role="menu">
-              <div class="dropdown-header">
-                <div class="avatar lg">{{ user.get_full_name|default:user.username|first|upper }}</div>
-                <div class="info">
-                  <div class="name">{{ user.get_full_name|default:user.username }}</div>
-                  <div class="email">{{ user.email }}</div>
-                </div>
-              </div>
-              <div class="dropdown-body">
-
-                <form action="{% url 'logout' %}" method="post" class="item">
-                  {% csrf_token %}
-                  <input type="hidden" name="next" value="{{ request.path }}">
-                  <button type="submit" class="logout-btn">ออกจากระบบ</button>
-                </form>
-              </div>
-            </div>
-          </li>
-        {% else %}
-          <li><a href="{% url 'login' %}" class="nav-btn">สำหรับพนักงานประจำ</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </div>
-</header>
-
-
+<div class="page-frame"></div>
   <div class="container">
     <div class="section-header">
       <h2>
-        โครงสร้างองค์กร 
+        ระเบียบข้อบังคับ
         <span class="arrow-indicator">↓</span>
         <span class="pdf-label">PDF</span>
       </h2>
@@ -439,7 +487,7 @@ body {
 
     <div class="section-header">
       <h2>
-        ระเบียบข้อบังคับ 
+        โครงสร้างองค์กร  
         <span class="arrow-indicator">↓</span>
         <span class="pdf-label">PDF</span>
       </h2>
@@ -465,8 +513,10 @@ body {
       </a>
     </div>
   </div>
+
   {% include 'footer.html' %}
   <script>
+
   (function(){
     const btn = document.getElementById('userMenuBtn');
     const dd  = document.getElementById('userDropdown');
@@ -493,6 +543,13 @@ body {
       }
     });
   })();
+
+    function toggleMenu(){
+      const menu = document.getElementById('nav-menu');
+      const open = !menu.classList.contains('active');
+      menu.classList.toggle('active', open);
+      document.body.classList.toggle('menu-open', open);
+    }
   </script>
 </body>
 </html>
